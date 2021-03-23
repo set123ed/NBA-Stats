@@ -1,28 +1,25 @@
-﻿using System;
+﻿using Prism;
+using Prism.Ioc;
+using Prism.Unity;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace NBAStats
 {
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
-        public App()
+        public App(IPlatformInitializer platformInitializer = null) : base(platformInitializer) { }
+        
+        protected override void OnInitialized()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
         }
 
-        protected override void OnStart()
+        protected override void RegisterType(IContainerRegistry containerRegistry)
         {
+
         }
 
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
-        }
     }
 }
