@@ -16,10 +16,9 @@ namespace NBAStats
             InitializeComponent();
         }
 
-        protected override void RegisterType(IContainerRegistry containerRegistry)
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            
         }
-
     }
 }
