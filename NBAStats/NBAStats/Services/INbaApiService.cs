@@ -1,4 +1,5 @@
-﻿using NBAStats.Models.PlayersModel;
+﻿using NBAStats.Models.CoachModels;
+using NBAStats.Models.PlayersModel;
 using NBAStats.Models.TeamsModels;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace NBAStats.Services
     {
         Task<PlayerList> GetNbaPlayers();
         Task<TeamsList> GetTeamsInformation();
+        Task<Coach> GetCoachList();
     }
 }

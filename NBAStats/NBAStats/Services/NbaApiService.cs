@@ -8,12 +8,28 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using System.Text.Json;
+using NBAStats.Models.CoachModels;
 
 namespace NBAStats.Services
 {
     public class NbaApiService : INbaApiService
     {
         public Config Url;
+
+        public async Task<Coach> GetCoachList()
+        {
+            Coach retVal = null;
+            HttpClient client = new HttpClient();
+
+            var coachResponse = await client.GetAsync(Url.GetCoachUrl());
+            if (coachResponse.IsSuccessStatusCode)
+            {
+                var jsonPayload = await coachResponse.Content.ReadAsStringAsync();
+                retVal = System.Text.Json.JsonSerializer.Deserialize<Coach>(jsonPayload);
+            }
+            return retVal;
+
+        }
 
         public async Task<PlayerList> GetNbaPlayers()
         {
@@ -54,6 +70,8 @@ namespace NBAStats.Services
             }
             return retuncalender;
         }
+
+        
     }
     
 }
