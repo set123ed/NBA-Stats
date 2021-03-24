@@ -6,6 +6,6 @@ namespace NBAStats.Services
 {
     public interface INbaApiService
     {
-
+        
     }
 }

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace NBAStats.ViewModels
 {
-    class RegisterViewModel : BaseViewModel
+    class AccountSettingsViewModel : BaseViewModel
     {
-        public RegisterViewModel(INbaApiService nbaApiService) : base(nbaApiService)
+        public AccountSettingsViewModel(INbaApiService nbaApiService) : base(nbaApiService)
         {
 
         }

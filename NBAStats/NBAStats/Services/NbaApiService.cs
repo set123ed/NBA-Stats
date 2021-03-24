@@ -6,5 +6,6 @@ namespace NBAStats.Services
 {
     public class NbaApiService : INbaApiService
     {
+
     }
 }

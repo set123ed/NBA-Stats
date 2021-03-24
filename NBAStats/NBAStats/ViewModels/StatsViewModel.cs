@@ -1,10 +1,15 @@
-﻿using System;
+﻿using NBAStats.Services;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace NBAStats.ViewModels
 {
-    class StatsViewModel
+    class StatsViewModel : BaseViewModel
     {
+        public StatsViewModel(INbaApiService nbaApiService) : base(nbaApiService)
+        {
+
+        }
     }
 }
