@@ -1,4 +1,6 @@
-﻿using Prism;
+﻿using NBAStats.ViewModels;
+using NBAStats.Views;
+using Prism;
 using Prism.Ioc;
 using Prism.Unity;
 using System;
@@ -11,14 +13,15 @@ namespace NBAStats
     {
         public App(IPlatformInitializer platformInitializer = null) : base(platformInitializer) { }
         
-        protected override void OnInitialized()
+        protected override async void OnInitialized()
         {
             InitializeComponent();
+            await NavigationService.NavigateAsync("NavegationPage/TeamPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            
+            //containerRegistry.RegisterForNavigation<TeamPage, TeamViewModel>();
         }
     }
 }
