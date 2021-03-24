@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NBAStats.Views.PlayersPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame Padding="3" CornerRadius="25" BackgroundColor="LightBlue" Margin="10" IsVisible="{Binding InternetConnection}">
+                <StackLayout Orientation="Horizontal" >
+                    <SearchBar Placeholder="Search a player" Text="{Binding PlayersFilter}" SearchCommand="{Binding SearcherCommand}" SearchCommandParameter="{Binding}" Keyboard="Text" HorizontalOptions="Fill" VerticalOptions="Center" />
+                    <Button Text="Search"  VerticalOptions="Center" Command="{Binding SearcherCommand}"/>
+                    <Button Text="Clear"  VerticalOptions="Center"  Command="{Binding ClearCommand}"/>
+                </StackLayout>
+            </Frame>
+
+            <Label Text="There is no Internet conection" TextColor="Red" VerticalOptions="Center" HorizontalOptions="Center" FontSize="35" FontAttributes="Bold" IsVisible="{Binding ShowError}"/>
+
+            <ListView ItemsSource="{Binding ActivePlayers}" SelectedItem="{Binding SelectedPlayerCommand}" HasUnevenRows="True" IsVisible="{Binding InternetConnection}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" Margin="5">
+                                <Frame  Margin="10,2" BackgroundColor="LightGray" CornerRadius="360" HeightRequest="25" WidthRequest="25">
+                                    <Label  Text="{Binding Jersey}" FontSize="18" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
+                                </Frame>
+                                <StackLayout Orientation="Vertical">
+                                    <Label Text="{Binding TemporaryDisplayName}" FontSize="20" TextColor="Black" Margin="5"/>
+                                    <Label Text="{Binding TeamSitesOnly.PosFull}" FontSize="17" Margin="5,0"/>
+                                </StackLayout>
+                            </StackLayout>
+
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="More info" Command="{Binding Source={x:Reference playerList}, Path=BindingContext.SelectedPlayerCommand}" CommandParameter="{Binding}"/>
+                            </ViewCell.ContextActions>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

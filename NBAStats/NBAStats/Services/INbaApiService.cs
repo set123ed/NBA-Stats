@@ -1,4 +1,5 @@
-﻿using NBAStats.Models.TeamsModels;
+﻿using NBAStats.Models.PlayersModel;
+using NBAStats.Models.TeamsModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,7 @@ namespace NBAStats.Services
 {
     public interface INbaApiService
     {
+        Task<PlayerList> GetNbaPlayers();
         Task<TeamsList> GetTeamsInformation();
     }
 }

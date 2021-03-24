@@ -6,6 +6,7 @@ namespace NBAStats.Services
 {
     public class Config
     {
+        public const string NavigationPage = "NavPage";
         public const string HomePage = "Home";
         public const string LoginPage = "Login";
         public const string RegisterPage = "Register";
@@ -17,10 +18,12 @@ namespace NBAStats.Services
         public const string FavoriteTeamPage = "FavoriteTeam";
         public const string FavoritePlayerPage = "FavoritePlayer";
         public const string PlayerProfilePage = "PlayerProfile";
+        public const string PlayersPage = "Players";
+        public const string PlayerInfoDetailPage = "PlayerInfoDetail";
 
 
         public static string date = DateTime.Today.ToString("yyyyMMdd");
-        public static string year = DateTime.Today.ToString("yyyy");
+        public static string year = DateTime.Today.AddYears(-1).ToString("yyyy");
 
         public const string DataNbaApi = "http://data.nba.net";
 
