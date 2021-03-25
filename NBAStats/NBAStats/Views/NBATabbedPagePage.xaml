@@ -6,5 +6,6 @@
     <TabbedPage.Children>
         <view:PlayersPage Title="Players"/>
         <view:TeamPage Title="Teams"/>
+        <view:CoachPage Title="Coach"/>
     </TabbedPage.Children>
 </TabbedPage>

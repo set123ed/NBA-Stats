@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
     prism:ViewModelLocator.AutowireViewModel="True"  
-    x:Class="NBAStats.Views.CoachPage" >
+    x:Class="NBAStats.Views.CoachPage">
 
         <ContentPage.ToolbarItems>
             <ToolbarItem Text="Show Coach" Command="{Binding AddCommand}"/>
