@@ -60,7 +60,7 @@ namespace NBAStats.Services
         {
             TeamsList retuncalender = null;
             HttpClient client = new HttpClient();
-            var CalenderInfo = await client.GetAsync("http://data.nba.net/data/10s/prod/v1/2020/teams.json");
+            var CalenderInfo = await client.GetAsync(Url.GetTeamsUrl());
 
             if (CalenderInfo.IsSuccessStatusCode)
             {
