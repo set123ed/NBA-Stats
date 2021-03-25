@@ -27,7 +27,7 @@ namespace NBAStats.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        public class AndroidInitializer : IPlataformInitializer
+        public class AndroidInitializer : IPlatformInitializer
         {
             public void RegisterTypes(IContainerRegistry containerRegistry)
             {

@@ -1,6 +1,7 @@
 ﻿using NBAStats.Models.PlayersModel;
 using NBAStats.Models.TeamsModels;
 using NBAStats.Services;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,14 +18,14 @@ namespace NBAStats.ViewModels
         public ObservableCollection<Player> ActivePlayers { get; set; }
         public ObservableCollection<Player> AllActivePlayers { get; set; }
         public string PlayersFilter { get; set; }
-        public bool InternetConnection { get; set; }
+        public bool InternetConnection { get; set; } = true;
         public bool ShowError => !InternetConnection;
         public ICommand SelectedPlayerCommand { get; }
         public ICommand SearcherCommand { get; }
         public ICommand ClearCommand { get; }
 
 
-        public PlayersViewModel(INbaApiService nbaApiServices) : base(nbaApiServices)
+        public PlayersViewModel(INbaApiService nbaApiServices, INavigationService navigationService) : base(navigationService, nbaApiServices)
         {
             GetActivePlayers();
             GetActiveTeams();
@@ -36,7 +37,7 @@ namespace NBAStats.ViewModels
 
         private async void GetActiveTeams()
         {
-            var teams = await NbaApiService.GetTeamsInformation();
+            TeamsList teams = await NbaApiService.GetTeamsInformation();
 
             if (teams.GetType().Name == "TeamsList")
             {
@@ -55,7 +56,12 @@ namespace NBAStats.ViewModels
         private async void OnSelectecPlayer(Player player)
         {
             Standard team = TeamList.First(t => t.TeamId == player.TeamId);
-            //await NavigationServices.NonModalPush(new PlayerInfoDetailPage(player, team));
+
+            var parameter = new NavigationParameters();
+            parameter.Add("team", team);
+            parameter.Add("player", player);
+
+            await NavigationServie.NavigateAsync($"{Config.PlayerInfoDetailPage}", parameter);//(new PlayerInfoDetailPage(player, team));
         }
 
         private void OnClear()
@@ -89,8 +95,8 @@ namespace NBAStats.ViewModels
 
         private async void GetActivePlayers()
         {
-            var players = await NbaApiService.GetNbaPlayers();
-            if (players.GetType().Name == "Players")
+            PlayerList players = await NbaApiService.GetNbaPlayers();
+            if (players.GetType().Name == "PlayerList")
             {
                 if (players != null)
                 {
