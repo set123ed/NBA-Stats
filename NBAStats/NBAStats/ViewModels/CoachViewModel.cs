@@ -1,4 +1,5 @@
 ﻿using NBAStats.Services;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,9 +14,13 @@ namespace NBAStats.ViewModels
 {
     class CoachViewModel : BaseViewModel
     {
+<<<<<<< HEAD
         public ObservableCollection<Standard> CoachList { get; set; }
         public NbaApiService coachApiService = new NbaApiService();
         public CoachViewModel(INbaApiService nbaApiService) : base(nbaApiService)
+=======
+        public CoachViewModel(INbaApiService nbaApiServices, INavigationService navigationService) : base(navigationService, nbaApiServices)
+>>>>>>> bb84f7f9b3f497fcaf878d88b4310e9e344b9433
         {
             GetCoachData();
         }

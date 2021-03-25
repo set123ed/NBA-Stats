@@ -1,4 +1,5 @@
 ﻿using NBAStats.Services;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,10 +11,12 @@ namespace NBAStats.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public INbaApiService NbaApiService { get; set; }
-        protected BaseViewModel(INbaApiService nbaApiService)
+        protected INbaApiService NbaApiService { get;}
+        protected INavigationService NavigationServie { get; }
+        protected BaseViewModel(INavigationService navigationService, INbaApiService nbaApiService)
         {
             NbaApiService = nbaApiService;
+            NavigationServie = navigationService;
         }
     }
 }

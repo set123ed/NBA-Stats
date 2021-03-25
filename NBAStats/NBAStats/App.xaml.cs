@@ -23,8 +23,8 @@ namespace NBAStats
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.Register<INbaApiService, NbaApiService>();
             containerRegistry.RegisterForNavigation<NavigationPage>(Config.NavigationPage);
-            //containerRegistry.RegisterForNavigation<TeamPage, TeamViewModel>();
             containerRegistry.RegisterForNavigation<PlayersPage, PlayersViewModel>(Config.PlayersPage);
             containerRegistry.RegisterForNavigation<PlayerInfoDetailPage, PlayerInfoDetailViewModel>(Config.PlayerInfoDetailPage);
             containerRegistry.RegisterForNavigation<CoachPage, CoachViewModel>(Config.CoachPage);
