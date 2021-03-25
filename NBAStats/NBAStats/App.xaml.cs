@@ -28,7 +28,17 @@ namespace NBAStats
             containerRegistry.RegisterForNavigation<NavigationPage>(Config.NavigationPage);
             containerRegistry.RegisterForNavigation<PlayersPage, PlayersViewModel>(Config.PlayersPage);
             containerRegistry.RegisterForNavigation<PlayerInfoDetailPage, PlayerInfoDetailViewModel>(Config.PlayerInfoDetailPage);
+
             containerRegistry.RegisterForNavigation<TeamPage, TeamViewModel>(Config.TeamPage);
+
+            containerRegistry.RegisterForNavigation<CoachPage, CoachViewModel>(Config.CoachPage);
+
         }
+        //protected async override void OnStart()
+        //{
+        //    var coachService = new NbaApiService();
+        //    var coachInfo = await coachService.GetNbaPlayers();
+
+        //}
     }
 }

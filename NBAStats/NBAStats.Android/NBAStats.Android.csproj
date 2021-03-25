@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="Prism.Unity.Forms, Version=8.0.0.1909, Culture=neutral, PublicKeyToken=null" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Prism.Unity.Forms">

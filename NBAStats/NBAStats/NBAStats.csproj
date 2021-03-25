@@ -36,4 +36,9 @@
   <ItemGroup>
     <Folder Include="Models\CoachModels\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\CoachPage.xaml.cs">
+      <DependentUpon>CoachPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
