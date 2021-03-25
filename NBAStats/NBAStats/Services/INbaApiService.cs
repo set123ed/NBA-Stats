@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using static NBAStats.Models.CoachModels.Coach;
 
 namespace NBAStats.Services
 {
@@ -12,6 +13,6 @@ namespace NBAStats.Services
     {
         Task<PlayerList> GetNbaPlayers();
         Task<TeamsList> GetTeamsInformation();
-        Task<Coach> GetCoachList();
+        Task<CoachInfo> GetCoachList();
     }
 }

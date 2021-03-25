@@ -18,7 +18,7 @@ namespace NBAStats
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            await NavigationService.NavigateAsync($"NavegationPage/{Config.PlayersPage}");
+            await NavigationService.NavigateAsync($"{Config.NavigationPage}/{Config.PlayersPage}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -27,6 +27,13 @@ namespace NBAStats
             //containerRegistry.RegisterForNavigation<TeamPage, TeamViewModel>();
             containerRegistry.RegisterForNavigation<PlayersPage, PlayersViewModel>(Config.PlayersPage);
             containerRegistry.RegisterForNavigation<PlayerInfoDetailPage, PlayerInfoDetailViewModel>(Config.PlayerInfoDetailPage);
+            containerRegistry.RegisterForNavigation<CoachPage, CoachViewModel>(Config.CoachPage);
         }
+        //protected async override void OnStart()
+        //{
+        //    var coachService = new NbaApiService();
+        //    var coachInfo = await coachService.GetNbaPlayers();
+
+        //}
     }
 }

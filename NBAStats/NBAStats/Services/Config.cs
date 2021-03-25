@@ -20,7 +20,7 @@ namespace NBAStats.Services
         public const string PlayerProfilePage = "PlayerProfile";
         public const string PlayersPage = "Players";
         public const string PlayerInfoDetailPage = "PlayerInfoDetail";
-
+        //public const string NbaTabbedPage = "TabbedPage";
 
         public static string date = DateTime.Today.ToString("yyyyMMdd");
         public static string year = DateTime.Today.AddYears(-1).ToString("yyyy");
