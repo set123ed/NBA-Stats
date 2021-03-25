@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace NBAStats.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TeamPage : ContentPage
+    public partial class NBATabbedPage : TabbedPage
     {
-        public TeamPage()
+        public NBATabbedPage()
         {
             InitializeComponent();
         }
