@@ -21,6 +21,8 @@ namespace NBAStats.Models.CoachModels
             public static implicit operator ObservableCollection<object>(CoachInfo v)
             {
                 throw new NotImplementedException();
+
+
             }
 
         }
