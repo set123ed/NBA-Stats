@@ -61,7 +61,7 @@ namespace NBAStats.ViewModels
             parameter.Add("team", team);
             parameter.Add("player", player);
 
-            await NavigationServie.NavigateAsync($"{Config.PlayerInfoDetailPage}", parameter);//(new PlayerInfoDetailPage(player, team));
+            await NavigationServie.NavigateAsync($"{Config.PlayerInfoDetailPage}", parameter);
         }
 
         private void OnClear()

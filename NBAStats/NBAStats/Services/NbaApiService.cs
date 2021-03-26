@@ -15,14 +15,14 @@ namespace NBAStats.Services
 {
     public class NbaApiService : INbaApiService
     {
-        public Config Url;
+        private Config url = new Config();
 
         public async Task<CoachInfo> GetCoachList()
         {
             CoachInfo retVal = null;
             HttpClient client = new HttpClient();
 
-            var coachResponse = await client.GetAsync("http://data.nba.net/data/10s/prod/v1/2020/coaches.json");
+            var coachResponse = await client.GetAsync(url.GetCoachUrl());
             if (coachResponse.IsSuccessStatusCode)
             {
                 var jsonPayload = await coachResponse.Content.ReadAsStringAsync();
@@ -40,7 +40,7 @@ namespace NBAStats.Services
 
                 HttpClient client = new HttpClient();
 
-                var playersResponse = await client.GetAsync("http://data.nba.net/data/10s/prod/v1/2020/players.json"); ;
+                var playersResponse = await client.GetAsync(url.GetPlayersUrl());
 
                 if (playersResponse.IsSuccessStatusCode)
                 {
@@ -59,17 +59,17 @@ namespace NBAStats.Services
 
         public async Task<TeamsList> GetTeamsInformation()
         {
-            TeamsList retuncalender = null;
+            TeamsList teamList = null;
             HttpClient client = new HttpClient();
-            var CalenderInfo = await client.GetAsync("http://data.nba.net/data/10s/prod/v1/2020/teams.json");
+            var teamListInfo = await client.GetAsync(url.GetTeamsUrl());
 
-            if (CalenderInfo.IsSuccessStatusCode)
+            if (teamListInfo.IsSuccessStatusCode)
             {
-                var teams = await CalenderInfo.Content.ReadAsStringAsync();
-                retuncalender = JsonConvert.DeserializeObject<TeamsList>(teams);
+                var teams = await teamListInfo.Content.ReadAsStringAsync();
+                teamList = JsonConvert.DeserializeObject<TeamsList>(teams);
 
             }
-            return retuncalender;
+            return teamList;
         }
 
         

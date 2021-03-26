@@ -10,28 +10,28 @@ namespace NBAStats.Models.CoachModels
         {
 
             [JsonPropertyName("firstName")]
-            public string firstName { get; set; }
+            public string FirstName { get; set; }
 
             [JsonPropertyName("lastName")]
-            public string lastName { get; set; }
+            public string LastName { get; set; }
 
             [JsonPropertyName("isAssistant")]
-            public bool isAssistant { get; set; }
+            public bool IsAssistant { get; set; }
 
             [JsonPropertyName("personId")]
-            public string personId { get; set; }
+            public string PersonId { get; set; }
 
             [JsonPropertyName("teamId")]
-            public string teamId { get; set; }
+            public string TeamId { get; set; }
 
             [JsonPropertyName("sortSequence")]
-            public string sortSequence { get; set; }
+            public string SortSequence { get; set; }
 
             [JsonPropertyName("college")]
-            public string college { get; set; }
+            public string College { get; set; }
 
             [JsonPropertyName("teamSitesOnly")]
-            public TeamSitesOnly teamSitesOnly { get; set; }
+            public TeamSitesOnly TeamSitesOnly { get; set; }
         }
 
     

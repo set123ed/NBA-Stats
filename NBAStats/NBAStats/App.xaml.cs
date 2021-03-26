@@ -12,13 +12,13 @@ namespace NBAStats
 {
     public partial class App : PrismApplication
     {
-        public Config Constants = new Config();
+        public Config constants = new Config();
         public App(IPlatformInitializer platformInitializer = null) : base(platformInitializer) { }
         
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            await NavigationService.NavigateAsync($"{Config.NavigationPage}/{Config.TabbedPage}/{Config.PlayersPage}");
+            await NavigationService.NavigateAsync($"{Config.NavigationPage}/{Config.TabbedPage}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

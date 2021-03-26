@@ -1,6 +1,7 @@
 ﻿using NBAStats.Models.TeamsModels;
 using NBAStats.Services;
 using Prism.Navigation;
+using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,12 +15,14 @@ namespace NBAStats.ViewModels
     {
         public ObservableCollection<String> Teams { get; } = new ObservableCollection<String>();
         public String Selected { get; set; }
+        private IPageDialogService AlertService { get; }
 
         public bool IsBusy { get; set; }
         public bool IsNotBusy => !IsBusy;
 
-        public TeamViewModel(INbaApiService nbaApiServices, INavigationService navigationService) : base(navigationService, nbaApiServices)
+        public TeamViewModel(IPageDialogService alertService, INbaApiService nbaApiServices, INavigationService navigationService) : base(navigationService, nbaApiServices)
         {
+            AlertService = alertService;
             LoadTeams();
         }
 
@@ -28,14 +31,14 @@ namespace NBAStats.ViewModels
             IsBusy = true;
 
             var teamsinformation = await NbaApiService.GetTeamsInformation();
-            var Info = teamsinformation.League.Standard;
+            var info = teamsinformation.League.Standard;
 
             if ((Connectivity.NetworkAccess == NetworkAccess.Internet))
             {
                 if (teamsinformation != null)
                 {
 
-                    foreach (Standard team in Info)
+                    foreach (Standard team in info)
                     {
 
                         Teams.Add(team.FullName.ToString());
@@ -48,7 +51,7 @@ namespace NBAStats.ViewModels
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert("Error", "No tiene Acceso a internet", "cancel");
+                await AlertService.DisplayAlertAsync("Error", "No tiene Acceso a internet", "cancel");
             }
 
 

@@ -17,9 +17,9 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Text="{Binding firstName}" Grid.Row="0" Grid.Column="0"/>
-                                <Label Text="{Binding lastName}" Grid.Row="1" Grid.Column="0" />
-                                <Label Text="{Binding teamSitesOnly.teamTricode}" Grid.Row="2" Grid.Column="0" />
+                                <Label Text="{Binding FirstName}" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="{Binding LastName}" Grid.Row="1" Grid.Column="0" />
+                                <Label Text="{Binding TeamSitesOnly.TeamTricode}" Grid.Row="2" Grid.Column="0" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

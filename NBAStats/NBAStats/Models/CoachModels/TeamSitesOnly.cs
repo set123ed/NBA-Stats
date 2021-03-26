@@ -9,19 +9,19 @@ namespace NBAStats.Models.CoachModels
     {
 
         [JsonPropertyName("displayName")]
-        public string displayName { get; set; }
+        public string DisplayName { get; set; }
 
         [JsonPropertyName("coachCode")]
-        public string coachCode { get; set; }
+        public string CoachCode { get; set; }
 
         [JsonPropertyName("coachRole")]
-        public string coachRole { get; set; }
+        public string CoachRole { get; set; }
 
         [JsonPropertyName("teamCode")]
-        public string teamCode { get; set; }
+        public string TeamCode { get; set; }
 
         [JsonPropertyName("teamTricode")]
-        public string teamTricode { get; set; }
+        public string TeamTricode { get; set; }
     }
 
 }
