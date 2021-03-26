@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using System.Text.Json;
 using NBAStats.Models.CoachModels;
+using static NBAStats.Models.CoachModels.Coach;
 
 namespace NBAStats.Services
 {
@@ -16,16 +17,16 @@ namespace NBAStats.Services
     {
         public Config Url;
 
-        public async Task<Coach> GetCoachList()
+        public async Task<CoachInfo> GetCoachList()
         {
-            Coach retVal = null;
+            CoachInfo retVal = null;
             HttpClient client = new HttpClient();
 
-            var coachResponse = await client.GetAsync(Url.GetCoachUrl());
+            var coachResponse = await client.GetAsync("http://data.nba.net/data/10s/prod/v1/2020/coaches.json");
             if (coachResponse.IsSuccessStatusCode)
             {
                 var jsonPayload = await coachResponse.Content.ReadAsStringAsync();
-                retVal = System.Text.Json.JsonSerializer.Deserialize<Coach>(jsonPayload);
+                retVal = System.Text.Json.JsonSerializer.Deserialize<CoachInfo>(jsonPayload);
             }
             return retVal;
 

@@ -13,7 +13,6 @@ namespace NBAStats.Models.CoachModels
 
         public class CoachInfo : INotifyPropertyChanged
         {
-
             [JsonPropertyName("league")]
             public League League { get; set; }
             public event PropertyChangedEventHandler PropertyChanged;
@@ -21,10 +20,7 @@ namespace NBAStats.Models.CoachModels
             public static implicit operator ObservableCollection<object>(CoachInfo v)
             {
                 throw new NotImplementedException();
-
-
             }
-
         }
     }
 }

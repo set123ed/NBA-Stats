@@ -29,6 +29,7 @@ namespace NBAStats
             containerRegistry.RegisterForNavigation<PlayersPage, PlayersViewModel>(Config.PlayersPage);
             containerRegistry.RegisterForNavigation<PlayerInfoDetailPage, PlayerInfoDetailViewModel>(Config.PlayerInfoDetailPage);
             containerRegistry.RegisterForNavigation<TeamPage, TeamViewModel>(Config.TeamPage);
+            containerRegistry.RegisterForNavigation<CoachPage, CoachViewModel>(Config.CoachPage);
         }
     }
 }
