@@ -16,6 +16,7 @@ namespace NBAStats.ViewModels
     {
         public ObservableCollection<Standard> CoachList { get; set; }
         public NbaApiService coachApiService = new NbaApiService();
+        public bool Internet = true;
 
         public CoachViewModel(INbaApiService nbaApiServices, INavigationService navigationService) : base(navigationService, nbaApiServices)
         {
@@ -30,11 +31,13 @@ namespace NBAStats.ViewModels
                 var coachInfo = await coachApiService.GetCoachList();
                 //await App.Current.MainPage.DisplayAlert("Coach League 2020", "There's the Coach List of 2020", "Ok");
                 CoachList = new ObservableCollection<Standard>(coachInfo.League.Standard);
+                Internet = true;
 
 
             }
             else
             {
+                Internet = false;
                 await App.Current.MainPage.DisplayAlert("No Network", "Please connect to network", "Ok");
             }
 

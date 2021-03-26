@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NBAStats.CoachPage">
     <StackLayout>
-            <ListView ItemsSource="{Binding CoachList}" HasUnevenRows="True" Grid.Row="1" Margin="10,0,10,0">
+            <ListView ItemsSource="{Binding CoachList}" HasUnevenRows="True" Grid.Row="1" Margin="10,0,10,0" IsVisible="{Binding Internet}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
