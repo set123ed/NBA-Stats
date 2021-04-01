@@ -1,18 +1,22 @@
-﻿using NBAStats.Models.CoachModels;
-using NBAStats.Models.PlayersModel;
-using NBAStats.Models.TeamsModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using static NBAStats.Models.CoachModels.Coach;
+using NBAStats.Models;
 
 namespace NBAStats.Services
 {
     public interface INbaApiService
     {
-        Task<PlayerList> GetNbaPlayers();
-        Task<TeamsList> GetTeamsInformation();
-        Task<CoachInfo> GetCoachList();
+        Task<SeasonRange> GetSeasonRange();
+        Task<GameOfDay> GetGamesOfDay(string date);
+        Task<Teams> GetTeams();
+        Task<TeamLeaders> GetTeamLeaders(string year, string team);
+        Task<PlayerStatsLeaders> GetPlayerStatsLeaders();
+        Task<Standing> GetStanding();
+        Task<TeamStatsClass> GetTeamStats();
+        Task<BoxScore> GetBoxScore(string date, string gameId);
+        Task<Players> GetNbaPlayers();
+        Task<PlayerProfile> GetPlayerProfile(string personId);
     }
 }

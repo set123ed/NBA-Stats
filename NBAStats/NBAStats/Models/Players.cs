@@ -1,14 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace NBAStats.Models.PlayersModel
+namespace NBAStats.Models
 {
-    public class Player
+    public class TeamSitesOnlyPlayers
     {
 
+        [JsonPropertyName("playerCode")]
+        public string PlayerCode { get; set; }
+
+        [JsonPropertyName("posFull")]
+        public string PosFull { get; set; }
+
+        [JsonPropertyName("displayAffiliation")]
+        public string DisplayAffiliation { get; set; }
+
+        [JsonPropertyName("freeAgentCode")]
+        public string FreeAgentCode { get; set; }
+    }
+
+    public class PlayerTeam
+    {
+
+        [JsonPropertyName("teamId")]
+        public string TeamId { get; set; }
+
+        [JsonPropertyName("seasonStart")]
+        public string SeasonStart { get; set; }
+
+        [JsonPropertyName("seasonEnd")]
+        public string SeasonEnd { get; set; }
+    }
+
+    public class Draft
+    {
+
+        [JsonPropertyName("teamId")]
+        public string TeamId { get; set; }
+
+        [JsonPropertyName("pickNum")]
+        public string PickNum { get; set; }
+
+        [JsonPropertyName("roundNum")]
+        public string RoundNum { get; set; }
+
+        [JsonPropertyName("seasonYear")]
+        public string SeasonYear { get; set; }
+    }
+
+    public class Player
+    {
+        public string FullName { get; set; }
         [JsonPropertyName("firstName")]
         public string FirstName { get; set; }
 
@@ -52,10 +97,10 @@ namespace NBAStats.Models.PlayersModel
         public string DateOfBirthUTC { get; set; }
 
         [JsonPropertyName("teamSitesOnly")]
-        public TeamSitesOnly TeamSitesOnly { get; set; }
+        public TeamSitesOnlyPlayers TeamSitesOnly { get; set; }
 
         [JsonPropertyName("teams")]
-        public ObservableCollection<PlayerTeam> Teams { get; set; }
+        public IList<PlayerTeam> Teams { get; set; }
 
         [JsonPropertyName("draft")]
         public Draft Draft { get; set; }
@@ -77,5 +122,23 @@ namespace NBAStats.Models.PlayersModel
 
         [JsonPropertyName("isallStar")]
         public bool? IsallStar { get; set; }
+    }
+
+    public class LeaguePlayer
+    {
+
+        [JsonPropertyName("standard")]
+        public IList<Player> Standard { get; set; }
+
+    }
+
+    public class Players : INotifyPropertyChanged
+    {
+
+
+        [JsonPropertyName("league")]
+        public LeaguePlayer League { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

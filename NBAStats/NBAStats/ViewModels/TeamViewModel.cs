@@ -1,4 +1,4 @@
-﻿using NBAStats.Models.TeamsModels;
+﻿//using NBAStats.Models.TeamsModels;
 using NBAStats.Services;
 using Prism.Navigation;
 using Prism.Services;
@@ -28,31 +28,31 @@ namespace NBAStats.ViewModels
 
         public async Task LoadTeams()
         {
-            IsBusy = true;
+            //IsBusy = true;
 
-            var teamsinformation = await NbaApiService.GetTeamsInformation();
-            var info = teamsinformation.League.Standard;
+            //var teamsinformation = await NbaApiService.GetTeamsInformation();
+            //var info = teamsinformation.League.Standard;
 
-            if ((Connectivity.NetworkAccess == NetworkAccess.Internet))
-            {
-                if (teamsinformation != null)
-                {
+            //if ((Connectivity.NetworkAccess == NetworkAccess.Internet))
+            //{
+            //    if (teamsinformation != null)
+            //    {
 
-                    foreach (Standard team in info)
-                    {
+            //        foreach (Standard team in info)
+            //        {
 
-                        Teams.Add(team.FullName.ToString());
+            //            Teams.Add(team.FullName.ToString());
 
-                    }
-                    Selected = Teams[0];
-                }
-                IsBusy = false;
+            //        }
+            //        Selected = Teams[0];
+            //    }
+            //    IsBusy = false;
 
-            }
-            else
-            {
-                await AlertService.DisplayAlertAsync("Error", "No tiene Acceso a internet", "cancel");
-            }
+            //}
+            //else
+            //{
+            //    await AlertService.DisplayAlertAsync("Error", "No tiene Acceso a internet", "cancel");
+            //}
 
 
         }

@@ -12,11 +12,11 @@ namespace NBAStats.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected INbaApiService NbaApiService { get;}
-        protected INavigationService NavigationServie { get; }
+        protected INavigationService NavigationService { get; }
         protected BaseViewModel(INavigationService navigationService, INbaApiService nbaApiService)
         {
             NbaApiService = nbaApiService;
-            NavigationServie = navigationService;
+            NavigationService = navigationService;
         }
     }
 }

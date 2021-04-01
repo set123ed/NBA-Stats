@@ -1,11 +1,11 @@
-﻿using NBAStats.Models.CoachModels;
+﻿//using NBAStats.Models.CoachModels;
 using NBAStats.Services;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
-using static NBAStats.Models.CoachModels.Coach;
+//using static NBAStats.Models.CoachModels.Coach;
 using Xamarin.Essentials;
 using Prism.Services;
 
@@ -13,7 +13,7 @@ namespace NBAStats.ViewModels
 {
     class CoachViewModel : BaseViewModel
     {
-        public ObservableCollection<Standard> CoachList { get; set; }
+        //public ObservableCollection<Standard> CoachList { get; set; }
         private IPageDialogService AlertService { get; }
         public bool Internet { get; set; } = true;
 
@@ -27,9 +27,9 @@ namespace NBAStats.ViewModels
 
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                var coachInfo = await NbaApiService.GetCoachList();
-                CoachList = new ObservableCollection<Standard>(coachInfo.League.Standard);
-                Internet = true;
+                //var coachInfo = await NbaApiService.GetCoachList();
+                //CoachList = new ObservableCollection<Standard>(coachInfo.League.Standard);
+                //Internet = true;
 
 
             }

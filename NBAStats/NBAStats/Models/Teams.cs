@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace NBAStats.Models.TeamsModels
+namespace NBAStats.Models
 {
-    public class Standard
+    public class Team
     {
+
         [JsonPropertyName("isNBAFranchise")]
         public bool IsNBAFranchise { get; set; }
 
@@ -43,4 +44,26 @@ namespace NBAStats.Models.TeamsModels
         [JsonPropertyName("divName")]
         public string DivName { get; set; }
     }
+
+    public class TeamLeague
+    {
+
+        [JsonPropertyName("standard")]
+        public List<Team> Standard { get; set; }
+    }
+
+    public class Teams
+    {
+
+        [JsonPropertyName("league")]
+        public TeamLeague League { get; set; }
+    }
+
+    public class BetterTeams
+    {
+        public TeamStanding TeamStanding { get; set; }
+        
+        public TeamStats TeamStats { get; set; }
+    }
+
 }

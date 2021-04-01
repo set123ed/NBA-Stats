@@ -18,13 +18,18 @@ namespace NBAStats
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            await NavigationService.NavigateAsync($"{Config.NavigationPage}/{Config.TabbedPage}");
+            await NavigationService.NavigateAsync($"{Config.NavigationPage}/{Config.HomePage}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NBATabbedPage>(Config.TabbedPage);
             containerRegistry.Register<INbaApiService, NbaApiService>();
+
+            containerRegistry.RegisterForNavigation<HomePage, HomeViewModel>(Config.HomePage);
+            containerRegistry.RegisterForNavigation<BoxScorePage, BoxScoreViewModel>(Config.BoxScorePage);
+            containerRegistry.RegisterForNavigation<PlayerProfilePage, PlayerProfileViewModel>(Config.PlayerProfilePage);
+
             containerRegistry.RegisterForNavigation<NavigationPage>(Config.NavigationPage);
             containerRegistry.RegisterForNavigation<PlayersPage, PlayersViewModel>(Config.PlayersPage);
             containerRegistry.RegisterForNavigation<PlayerInfoDetailPage, PlayerInfoDetailViewModel>(Config.PlayerInfoDetailPage);
