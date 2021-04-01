@@ -83,15 +83,13 @@ namespace NBAStats.Services
                     var jsonGames = await gamesOfDayResponse.Content.ReadAsStringAsync();
                     gamesOfDay = JsonSerializer.Deserialize<GameOfDay>(jsonGames);
                 }
-
+                return gamesOfDay;
 
             }
-
-            return gamesOfDay;
-            //else
-            //{
-            //    throw new NotImplementedException();
-            //}
+            else
+            {
+                throw new NotImplementedException();
+            }
 
         }
 

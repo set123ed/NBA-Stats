@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NBAStats.Views.StandingPage">
+    <ContentPage.Content>
+        <Grid RowDefinitions="0.4*,0.4*,5*">
+            <StackLayout Orientation="Horizontal" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
+                <Button Text="Conference" Command="{Binding ShowConferenceCommand}" />
+                <Button Text="All League" Command="{Binding ShowAllLeagueCommand}" />
+            </StackLayout>
+
+            <Label Text="{Binding SeasonStage}" TextColor="Black" FontSize="30" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Start"/>
+
+            <ScrollView Orientation="Horizontal" Grid.Row="2" IsVisible="{Binding ShowConference}">
+                <StackLayout Orientation="Horizontal">
+
+
+                    <ListView  ItemsSource="{Binding StandingPerConference}" IsGroupingEnabled="True" GroupDisplayBinding="{Binding Conference}" HasUnevenRows="True" WidthRequest="1000">
+                        <ListView.Header>
+                            <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*">
+                                <Label Text="RANK" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="TEAM" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="WINS" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="LOSS" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="WIN%" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="GB" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="STREAK" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="HOME" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="ROAD" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="L10" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*">
+                                        <Label Text="{Binding ConfRank}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding FullName}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Win}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Loss}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding WinPctV2}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding GamesBehind}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding TeamSitesOnly.StreakText}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Home}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Road}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding L10}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </ScrollView>
+
+            <ScrollView Orientation="Horizontal" Grid.Row="2" IsVisible="{Binding ShowAllLeague}">
+                <StackLayout Orientation="Horizontal">
+
+
+                    <ListView  ItemsSource="{Binding StandingAllLeague}" HasUnevenRows="True" WidthRequest="1000">
+                        <ListView.Header>
+                            <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*">
+                                <Label Text="RANK" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="TEAM" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="WINS" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="LOSS" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="WIN%" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="GB" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="STREAK" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="HOME" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="ROAD" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="L10" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*">
+                                        <Label Text="{Binding Rank}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding FullName}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Win}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Loss}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding WinPctV2}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding GamesBehind}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding TeamSitesOnly.StreakText}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Home}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Road}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding L10}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </ScrollView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -18,7 +18,7 @@ namespace NBAStats
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            await NavigationService.NavigateAsync($"{Config.NavigationPage}/{Config.HomePage}");
+            await NavigationService.NavigateAsync($"{Config.NavigationPage}/{Config.StandingPage}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -29,6 +29,7 @@ namespace NBAStats
             containerRegistry.RegisterForNavigation<HomePage, HomeViewModel>(Config.HomePage);
             containerRegistry.RegisterForNavigation<BoxScorePage, BoxScoreViewModel>(Config.BoxScorePage);
             containerRegistry.RegisterForNavigation<PlayerProfilePage, PlayerProfileViewModel>(Config.PlayerProfilePage);
+            containerRegistry.RegisterForNavigation<StandingPage, StandingViewModel>(Config.StandingPage);
 
             containerRegistry.RegisterForNavigation<NavigationPage>(Config.NavigationPage);
             containerRegistry.RegisterForNavigation<PlayersPage, PlayersViewModel>(Config.PlayersPage);

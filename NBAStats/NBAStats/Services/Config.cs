@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NBAStats.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -21,11 +22,22 @@ namespace NBAStats.Services
         public const string PlayersPage = "Players";
         public const string PlayerInfoDetailPage = "PlayerInfoDetail";
         public const string TabbedPage = "tab";
+        public const string StandingPage = "Standing";
+
 
         public static string date = DateTime.Today.ToString("yyyyMMdd");
         public static string year = DateTime.Today.AddYears(-1).ToString("yyyy");
 
         public const string DataNbaApi = "http://data.nba.net";
+
+        public static List<SeasonStage> SeasonStages = new List<SeasonStage>
+        {
+                new SeasonStage(1,"Pre-Season"),
+                new SeasonStage(2,"Regular Season"),
+                new SeasonStage(3, "All Star"),
+                new SeasonStage(4, "Playoff"),
+                new SeasonStage(5, "Play-In")
+        };
 
         public string GetScoreboardUrl()
         {

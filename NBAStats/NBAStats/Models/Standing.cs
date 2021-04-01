@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -80,6 +81,8 @@ namespace NBAStats.Models
 
     public class TeamStanding
     {
+        public int Rank { get; set; }
+        public string FullName { get; set; }
 
         [JsonPropertyName("teamId")]
         public string TeamId { get; set; }
@@ -162,8 +165,10 @@ namespace NBAStats.Models
         [JsonPropertyName("tieBreakerPts")]
         public string TieBreakerPts { get; set; }
 
-        //[JsonPropertyName("sortKey")]
-        //public SortKey SortKey { get; set; }
+        public string L10 { get; set; }
+        public string Home { get; set; }
+        public string Road { get; set; }
+
     }
 
     public class Standard
@@ -176,31 +181,35 @@ namespace NBAStats.Models
         public int SeasonStageId { get; set; }
 
         [JsonPropertyName("teams")]
-        public IList<TeamStanding> Teams { get; set; }
+        public ObservableCollection<TeamStanding> Teams { get; set; }
     }
 
+    public class StandingPerConference : ObservableCollection<TeamStanding>
+    {
+        public StandingPerConference(string conference)
+        {
+            Conference = conference;
+        }
+
+        public string Conference { get; }
+
+    }
+
+    public class League
+    {
+
+        [JsonPropertyName("standard")]
+        public Standard Standard { get; set; }
+
+    }
+
+    public class Standing
+    {
 
 
-
-
-
-
-
-public class League
-{
-
-    [JsonPropertyName("standard")]
-    public Standard Standard { get; set; }
-
-}
-
-public class Standing
-{
-
-
-    [JsonPropertyName("league")]
-    public League League { get; set; }
-}
+        [JsonPropertyName("league")]
+        public League League { get; set; }
+    }
 
 
 }
