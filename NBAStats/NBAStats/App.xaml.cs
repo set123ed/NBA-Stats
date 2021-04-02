@@ -17,8 +17,11 @@ namespace NBAStats
         
         protected override async void OnInitialized()
         {
+            //var api = new NbaApiService();
+            //var obj = await api.GetTeamStats();
+
             InitializeComponent();
-            await NavigationService.NavigateAsync($"{Config.NavigationPage}/{Config.StandingPage}");
+            await NavigationService.NavigateAsync($"{Config.NavigationPage}/{Config.StatsPage}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -30,6 +33,7 @@ namespace NBAStats
             containerRegistry.RegisterForNavigation<BoxScorePage, BoxScoreViewModel>(Config.BoxScorePage);
             containerRegistry.RegisterForNavigation<PlayerProfilePage, PlayerProfileViewModel>(Config.PlayerProfilePage);
             containerRegistry.RegisterForNavigation<StandingPage, StandingViewModel>(Config.StandingPage);
+            containerRegistry.RegisterForNavigation<StatsPage, StatsViewModel>(Config.StatsPage);
 
             containerRegistry.RegisterForNavigation<NavigationPage>(Config.NavigationPage);
             containerRegistry.RegisterForNavigation<PlayersPage, PlayersViewModel>(Config.PlayersPage);

@@ -46,4 +46,14 @@ namespace NBAStats.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
     }
+
+    public class LeadersStatsPlayer
+    {
+        public int Pos { get; set; }
+        public string PlayerId { get; set; }
+        public string FullName { get; set; }
+        public string Team { get; set; }
+        public string AverageStats { get; set; }
+        public string TotalStat { get; set; }
+    }
 }

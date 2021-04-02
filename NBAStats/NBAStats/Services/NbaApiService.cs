@@ -120,7 +120,7 @@ namespace NBAStats.Services
             }
         }
 
-        public async Task<PlayerStatsLeaders> GetPlayerStatsLeaders()
+        public async Task<PlayerStatsLeaders> GetPlayerStatsLeaders(string season, string stat)
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
@@ -130,7 +130,7 @@ namespace NBAStats.Services
 
                 //string urlApi = $"http://data.nba.net/data/10s/prod/v1/{year}/teams/{team}/leaders.json";
 
-                var playerStatsLeaderResponse = await client.GetAsync("https://stats.nba.com/stats/leagueleaders?LeagueID=00&PerMode=PerGame&Scope=S&Season=2020-21&SeasonType=Regular+Season&StatCategory=PTS");
+                var playerStatsLeaderResponse = await client.GetAsync($"https://stats.nba.com/stats/leagueleaders?LeagueID=00&PerMode=PerGame&Scope=S&Season={season}&SeasonType=Regular+Season&StatCategory={stat}");
 
                 if (playerStatsLeaderResponse.IsSuccessStatusCode)
                 {
@@ -182,9 +182,7 @@ namespace NBAStats.Services
 
                 HttpClient client = new HttpClient();
 
-                //string urlApi = $"http://data.nba.net/data/10s/prod/v1/{year}/teams/{team}/leaders.json";
-
-                var teamStatsResponse = await client.GetAsync("http://data.nba.net/data/10s/prod/v1/2020/team_stats_rankings.json");
+                var teamStatsResponse = await client.GetAsync("https://data.nba.net/data/10s/prod/v1/2020/team_stats_rankings.json");
 
                 if (teamStatsResponse.IsSuccessStatusCode)
                 {

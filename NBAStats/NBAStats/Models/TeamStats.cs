@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -225,14 +226,14 @@ namespace NBAStats.Models
     {
 
         [JsonPropertyName("teams")]
-        public IList<TeamStats> Teams { get; set; }
+        public ObservableCollection<TeamStats> Teams { get; set; }
     }
 
     public class RegularSeason
     {
 
         [JsonPropertyName("teams")]
-        public IList<TeamStats> Teams { get; set; }
+        public ObservableCollection<TeamStats> Teams { get; set; }
     }
 
 
@@ -243,14 +244,14 @@ namespace NBAStats.Models
         public string SeriesId { get; set; }
 
         [JsonPropertyName("teams")]
-        public IList<TeamStats> Teams { get; set; }
+        public ObservableCollection<TeamStats> Teams { get; set; }
     }
 
     public class Playoffs
     {
 
         [JsonPropertyName("series")]
-        public IList<Series> Series { get; set; }
+        public ObservableCollection<Series> Series { get; set; }
     }
 
     public class SeasonType
@@ -278,11 +279,16 @@ namespace NBAStats.Models
 
     public class TeamStatsClass
     {
-
-
         [JsonPropertyName("league")]
         public LeagueTeamStats LeagueTeamStats { get; set; }
     }
 
+    public class LeadersStatsTeam
+    {
+        public string Pos { get; set; }
+        public string TeamId { get; set; }
+        public string FullName { get; set; }
+        public string AverageStats { get; set; }
+    }
 }
 

@@ -228,7 +228,7 @@ namespace NBAStats.ViewModels
             }
             else
             {
-                PlayerStatsLeaders playerStatsLeaders = await NbaApiService.GetPlayerStatsLeaders();
+                PlayerStatsLeaders playerStatsLeaders = await NbaApiService.GetPlayerStatsLeaders("2020-21","PTS");
                 ObservableCollection<PlayerRegularStats> listPlayerRegularStats = new ObservableCollection<PlayerRegularStats>();
 
                 for (int i = 0; i < 6; i++)
@@ -302,14 +302,8 @@ namespace NBAStats.ViewModels
             {
                 if (players != null)
                 {
-                    foreach (Player player in players.League.Standard)
-                    {
-                        if (player.Teams == null)
-                        {
-                            players.League.Standard.Remove(player);
-                        }
-                    }
-                    playersList = new List<Player>(players.League.Standard);
+
+                    playersList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
                 }
             }
         }

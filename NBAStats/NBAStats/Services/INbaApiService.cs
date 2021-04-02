@@ -12,7 +12,7 @@ namespace NBAStats.Services
         Task<GameOfDay> GetGamesOfDay(string date);
         Task<Teams> GetTeams();
         Task<TeamLeaders> GetTeamLeaders(string year, string team);
-        Task<PlayerStatsLeaders> GetPlayerStatsLeaders();
+        Task<PlayerStatsLeaders> GetPlayerStatsLeaders(string season, string stat);
         Task<Standing> GetStanding();
         Task<TeamStatsClass> GetTeamStats();
         Task<BoxScore> GetBoxScore(string date, string gameId);
