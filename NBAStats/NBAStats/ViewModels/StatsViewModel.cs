@@ -128,9 +128,15 @@ namespace NBAStats.ViewModels
             }
         }
 
-        private void OnSelectedTeam(string teamId)
+        private async void OnSelectedTeam(string teamId)
         {
+            Team teamSelected = fullTeamList.First(team => team.TeamId == teamId);
 
+            var parameters = new NavigationParameters();
+            parameters.Add("team", teamSelected);
+            parameters.Add("players", new List<Player>(fullPlayerList));
+
+            await NavigationService.NavigateAsync(Config.TeamProfilePage ,parameters);
         }
 
         private async void OnSelectedPlayer(string playerId)

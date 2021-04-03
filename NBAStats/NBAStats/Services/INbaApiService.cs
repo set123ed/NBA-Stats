@@ -18,5 +18,6 @@ namespace NBAStats.Services
         Task<BoxScore> GetBoxScore(string date, string gameId);
         Task<Players> GetNbaPlayers();
         Task<PlayerProfile> GetPlayerProfile(string personId);
+        Task<TeamSchedule> GetTeamSchedule(string year, string teamName);
     }
 }

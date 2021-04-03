@@ -13,6 +13,7 @@ namespace NBAStats.Services
         public const string RegisterPage = "Register";
         public const string StatsPage = "Stats";
         public const string TeamPage = "Team";
+        public const string TeamProfilePage = "TeamProfile";
         public const string BoxScorePage = "BoxScore";
         public const string CalendarPage = "Calendar";
         public const string CoachPage = "Coach";

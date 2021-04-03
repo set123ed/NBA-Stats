@@ -273,5 +273,29 @@ namespace NBAStats.Services
                 throw new Exception();
             }
         }
+
+        public async Task<TeamSchedule> GetTeamSchedule(string year, string teamName)
+        {
+            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+            {
+                TeamSchedule teamSchedule = null;
+                HttpClient client = new HttpClient();
+
+                var teamScheduleResponse = await client.GetAsync($"http://data.nba.net/data/10s/prod/v1/{year}/teams/{teamName}/schedule.json");
+
+                if (teamScheduleResponse.IsSuccessStatusCode)
+                {
+                    var jsonTeamSchedule = await teamScheduleResponse.Content.ReadAsStringAsync();
+                    teamSchedule = JsonSerializer.Deserialize<TeamSchedule>(jsonTeamSchedule);
+                }
+
+                return teamSchedule;
+
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
     }
 }

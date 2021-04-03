@@ -159,5 +159,11 @@ namespace NBAStats.Models
         public LeagueTeamLeaders LeagueTeamLeaders { get; set; }
     }
 
-
+    public class TeamLeadersPlayers
+    {
+        public string PlayerId { get; set; }
+        public string FullName { get; set; }
+        public string StatName { get; set; }
+        public string StatAvg { get; set; }
+    }
 }
