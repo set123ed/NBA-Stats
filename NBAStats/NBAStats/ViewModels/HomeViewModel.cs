@@ -307,5 +307,7 @@ namespace NBAStats.ViewModels
                 }
             }
         }
+
+
     }
 }
