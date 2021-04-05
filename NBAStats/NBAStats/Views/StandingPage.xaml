@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NBAStats.Views.StandingPage">
+             x:Class="NBAStats.Views.StandingPage"
+             x:Name="standingPage">
     <ContentPage.Content>
         <Grid RowDefinitions="0.4*,0.4*,5*">
             <StackLayout Orientation="Horizontal" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
@@ -35,7 +36,12 @@
                                 <ViewCell>
                                     <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*">
                                         <Label Text="{Binding ConfRank}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                        <Label Text="{Binding FullName}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding FullName}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1">
+
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={x:Reference standingPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
                                         <Label Text="{Binding Win}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="{Binding Loss}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="{Binding WinPctV2}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
@@ -76,7 +82,11 @@
                                 <ViewCell>
                                     <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*">
                                         <Label Text="{Binding Rank}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                        <Label Text="{Binding FullName}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding FullName}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={x:Reference standingPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
                                         <Label Text="{Binding Win}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="{Binding Loss}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="{Binding WinPctV2}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>

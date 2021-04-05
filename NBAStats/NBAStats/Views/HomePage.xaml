@@ -13,7 +13,7 @@
                     <StackLayout HeightRequest="250" WidthRequest="175" Margin="15" >
 
 
-                        <CarouselView BackgroundColor="Azure" ItemsSource="{Binding GamesOfDay}" CurrentItem="">
+                        <CarouselView BackgroundColor="Azure" ItemsSource="{Binding GamesOfDay}"><!---->
                             <CarouselView.ItemTemplate>
                                 <DataTemplate>
 
@@ -60,7 +60,7 @@
 
                     <StackLayout HeightRequest="250" WidthRequest="175" Margin="15" >
 
-                        <CarouselView BackgroundColor="Azure" ItemsSource="{Binding ScoringLeaders}" >
+                        <CarouselView BackgroundColor="Azure" ItemsSource="{Binding ScoringLeaders}" ><!---->
                             <CarouselView.ItemTemplate>
                                 <DataTemplate>
 
@@ -107,7 +107,7 @@
 
                     <StackLayout HeightRequest="250" WidthRequest="175" Margin="15" >
 
-                        <CarouselView BackgroundColor="Azure" ItemsSource="{Binding BetterTeams}" >
+                        <CarouselView BackgroundColor="Azure" ItemsSource="{Binding BetterTeams}" ><!---->
                             <CarouselView.ItemTemplate>
                                 <DataTemplate>
 
@@ -151,6 +151,9 @@
                                             <Label Text="RBS" VerticalOptions="Center" HorizontalOptions="Center"/>
                                         </StackLayout>
 
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.TeamSelectedCommand}" CommandParameter="{Binding TeamStanding.TeamId}"/>
+                                        </Grid.GestureRecognizers>
                                     </Grid>
 
 

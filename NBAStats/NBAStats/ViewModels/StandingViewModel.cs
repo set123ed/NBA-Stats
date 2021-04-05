@@ -1,4 +1,5 @@
-﻿using NBAStats.Models;
+﻿using NBAStats.Constants;
+using NBAStats.Models;
 using NBAStats.Services;
 using Prism.Navigation;
 using System;
@@ -15,12 +16,14 @@ namespace NBAStats.ViewModels
     public class StandingViewModel : BaseViewModel, IInitialize
     {
         private List<Team> teamList = new List<Team>();
+        private List<Player> playerList = new List<Player>();
         public ObservableCollection<StandingPerConference> StandingPerConference { get; set; } = new ObservableCollection<StandingPerConference>();
         public ObservableCollection<TeamStanding> StandingAllLeague { get; set; } = new ObservableCollection<TeamStanding>();
         public bool ShowConference { get; set; } = true;
         public bool ShowAllLeague => !ShowConference;
         public ICommand ShowAllLeagueCommand { get; }
         public ICommand ShowConferenceCommand { get; }
+        public ICommand SelectedTeamCommand { get; }
 
         public string SeasonStage { get; set; }
         public StandingViewModel(INavigationService navigationService, INbaApiService nbaApiService) : base(navigationService, nbaApiService)
@@ -29,6 +32,19 @@ namespace NBAStats.ViewModels
 
             ShowAllLeagueCommand = new Command(OnShowAllLeague);
             ShowConferenceCommand = new Command(OnShowConference);
+            SelectedTeamCommand = new Command<string>(OnSelectedTeam);
+        }
+
+        private async void OnSelectedTeam(string teamId)
+        {
+            Team teamSelected = teamList.First(team => team.TeamId == teamId);
+
+            var parameters = new NavigationParameters();
+            parameters.Add(ParametersConstants.Team, teamSelected);
+            parameters.Add(ParametersConstants.PlayerList, new List<Player>(playerList));
+            parameters.Add(ParametersConstants.TeamList, new List<Team>(teamList));
+
+            await NavigationService.NavigateAsync(NavigationConstants.TeamProfilePage, parameters);
         }
 
         private void OnShowConference()
@@ -50,6 +66,7 @@ namespace NBAStats.ViewModels
         private async void GetData()
         {
             await GetTeams();
+            await GetPlayers();
             await GetStanding();
         }
 
@@ -101,21 +118,45 @@ namespace NBAStats.ViewModels
 
         public async Task GetTeams()
         {
-
-            var teams = await NbaApiService.GetTeams();
-
-            if (teams.GetType().Name == "Teams")
+            if (teamList.Count == 0)
             {
-                if (teams != null)
+                var teams = await NbaApiService.GetTeams();
+
+                if (teams.GetType().Name == "Teams")
                 {
-                    teamList = teams.League.Standard;
+                    if (teams != null)
+                    {
+                        teamList = teams.League.Standard;
+                    }
+                }
+            }
+
+        }
+
+        private async Task GetPlayers()
+        {
+            if (playerList.Count == 0)
+            {
+                var players = await NbaApiService.GetNbaPlayers();
+
+                if (players.GetType().Name == "Players")
+                {
+                    if (players != null)
+                    {
+
+                        playerList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
+                    }
                 }
             }
         }
 
         public void Initialize(INavigationParameters parameters)
         {
-            
+            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teams) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> players))
+            {
+                teamList = teams;
+                playerList = players;
+            }
         }
     }
 }

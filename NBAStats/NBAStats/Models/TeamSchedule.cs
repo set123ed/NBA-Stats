@@ -81,6 +81,8 @@ namespace NBAStats.Models
         public string ScoreOrTime { get; set; }
 
         public string SeasonStage { get; set; }
+        
+        public string Result { get; set; }
     }
 
     public class GameScheduleCollection : ObservableCollection<GameTeamSchedule>

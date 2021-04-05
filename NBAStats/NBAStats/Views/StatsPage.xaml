@@ -18,6 +18,7 @@
 
             <Grid IsVisible="{Binding ShowPlayers}" Grid.Row="1" ColumnDefinitions="*,*" RowDefinitions="0.1*,auto,*,auto,*,auto,*" ColumnSpacing="20" RowSpacing="10">
 
+                <Label Text="Points per game" Grid.Row="1" Grid.Column="0"/>
                 <ListView ItemsSource="{Binding PointsLeaders}" Grid.Column="0" Grid.Row="2" HasUnevenRows="True">
                     <ListView.Header>
                         <Grid ColumnDefinitions="1.5*,0.3*">
@@ -43,7 +44,6 @@
                                     </StackLayout>
                                     <StackLayout Grid.Column="1">
                                         <Label Text="{Binding AverageStats}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                        <Label Text="{Binding TotalStat}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                     </StackLayout>
                                 </Grid>
                                 
@@ -52,6 +52,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
+                <Label Text="Assists per game" Grid.Row="1" Grid.Column="1"/>
                 <ListView ItemsSource="{Binding AssistsLeaders}" Grid.Column="1" Grid.Row="2" HasUnevenRows="True">
                     <ListView.Header>
                         <Grid ColumnDefinitions="1.5*,0.3*">
@@ -77,7 +78,6 @@
                                     </StackLayout>
                                     <StackLayout Grid.Column="1">
                                         <Label Text="{Binding AverageStats}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                        <Label Text="{Binding TotalStat}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                     </StackLayout>
                                 </Grid>
 
@@ -86,6 +86,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
+                <Label Text="Rebounds per game" Grid.Row="3" Grid.Column="0"/>
                 <ListView ItemsSource="{Binding ReboundsLeaders}" Grid.Column="0" Grid.Row="4" HasUnevenRows="True">
                     <ListView.Header>
                         <Grid ColumnDefinitions="1.5*,0.3*">
@@ -110,7 +111,6 @@
                                     </StackLayout>
                                     <StackLayout Grid.Column="1">
                                         <Label Text="{Binding AverageStats}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                        <Label Text="{Binding TotalStat}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                     </StackLayout>
                                 </Grid>
 
@@ -119,6 +119,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
+                <Label Text="Steals per game" Grid.Row="3" Grid.Column="1"/>
                 <ListView ItemsSource="{Binding StealsLeaders}" Grid.Column="1" Grid.Row="4" HasUnevenRows="True">
                     <ListView.Header>
                         <Grid ColumnDefinitions="1.5*,0.3*">
@@ -143,7 +144,6 @@
                                     </StackLayout>
                                     <StackLayout Grid.Column="1">
                                         <Label Text="{Binding AverageStats}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                        <Label Text="{Binding TotalStat}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                     </StackLayout>
                                 </Grid>
 
@@ -152,7 +152,9 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-            <ListView ItemsSource="{Binding BlocksLeaders}" Grid.Column="0" Grid.Row="6" HasUnevenRows="True">
+                <Label Text="Blocks per game" Grid.Row="5" Grid.Column="0"/>
+
+                <ListView ItemsSource="{Binding BlocksLeaders}" Grid.Column="0" Grid.Row="6" HasUnevenRows="True">
                 <ListView.Header>
                     <Grid ColumnDefinitions="1.5*,0.3*">
                     </Grid>
@@ -176,7 +178,6 @@
                                 </StackLayout>
                                 <StackLayout Grid.Column="1">
                                     <Label Text="{Binding AverageStats}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding TotalStat}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                 </StackLayout>
                             </Grid>
 
@@ -185,7 +186,9 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <ListView ItemsSource="{Binding ThreesLeaders}" Grid.Column="1" Grid.Row="6" HasUnevenRows="True">
+                <Label Text="Three points made per game" Grid.Row="5" Grid.Column="1"/>
+
+                <ListView ItemsSource="{Binding ThreesLeaders}" Grid.Column="1" Grid.Row="6" HasUnevenRows="True">
                 <ListView.Header>
                     <Grid ColumnDefinitions="1.5*,0.3*">
                     </Grid>
@@ -209,7 +212,6 @@
                                 </StackLayout>
                                 <StackLayout Grid.Column="1">
                                     <Label Text="{Binding AverageStats}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding TotalStat}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                 </StackLayout>
                             </Grid>
 
@@ -221,6 +223,8 @@
         </Grid>
 
             <Grid IsVisible="{Binding ShowTeams}" Grid.Row="1" ColumnDefinitions="*,*" RowDefinitions="0.1*,auto,*,auto,*,auto,*" ColumnSpacing="20" RowSpacing="10">
+
+                <Label Text="Points per game" Grid.Row="1" Grid.Column="0"/>
 
                 <ListView ItemsSource="{Binding TeamPointsLeaders}" Grid.Column="0" Grid.Row="2" HasUnevenRows="True">
                     <ListView.Header>
@@ -254,6 +258,8 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
+                <Label Text="Assists per game" Grid.Row="1" Grid.Column="1"/>
+
                 <ListView ItemsSource="{Binding TeamAssistsLeaders}" Grid.Column="1" Grid.Row="2" HasUnevenRows="True">
                     <ListView.Header>
                         <Grid ColumnDefinitions="1.5*,0.3*">
@@ -286,6 +292,8 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
+                <Label Text="Rebounds per game" Grid.Row="3" Grid.Column="0"/>
+
                 <ListView ItemsSource="{Binding TeamReboundsLeaders}" Grid.Column="0" Grid.Row="4" HasUnevenRows="True">
                     <ListView.Header>
                         <Grid ColumnDefinitions="1.5*,0.3*">
@@ -317,6 +325,8 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
+                <Label Text="Steals per game" Grid.Row="3" Grid.Column="1"/>
+
                 <ListView ItemsSource="{Binding TeamStealsLeaders}" Grid.Column="1" Grid.Row="4" HasUnevenRows="True">
                     <ListView.Header>
                         <Grid ColumnDefinitions="1.5*,0.3*">
@@ -346,6 +356,8 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+
+                <Label Text="Blockss per game" Grid.Row="5" Grid.Column="0"/>
 
                 <ListView ItemsSource="{Binding TeamBlocksLeaders}" Grid.Column="0" Grid.Row="6" HasUnevenRows="True">
                     <ListView.Header>
@@ -377,6 +389,8 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+
+                <Label Text="Three points made per game" Grid.Row="5" Grid.Column="1"/>
 
                 <ListView ItemsSource="{Binding TeamThreesLeaders}" Grid.Column="1" Grid.Row="6" HasUnevenRows="True">
                     <ListView.Header>

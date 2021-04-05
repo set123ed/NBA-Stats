@@ -1,4 +1,5 @@
-﻿using NBAStats.Models;
+﻿using NBAStats.Constants;
+using NBAStats.Models;
 using NBAStats.Services;
 using Prism.Navigation;
 using System;
@@ -7,35 +8,104 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace NBAStats.ViewModels
 {
-    class TeamProfileViewModel : BaseViewModel,IInitialize
+    public class TeamProfileViewModel : BaseViewModel,IInitialize
     {
         public ObservableCollection<GameScheduleCollection> GameSchedule { get; set; } = new ObservableCollection<GameScheduleCollection>();
         public ObservableCollection<Player> Roster { get; set; }
+        public TeamStats TeamRegularStats { get; set; }
+
+
+        public string ConferencePlace { get; set; }
+        public string TeamRecord { get; set; }
+        public string GamesBehindFirstPlace { get; set; }
+        public bool GamesBehindShow { get; set; } = false;
+
+        public TeamStanding TeamStanding { get; set; }
         public ObservableCollection<TeamLeadersPlayers> TeamLeaders { get; set; } = new ObservableCollection<TeamLeadersPlayers>();
 
         public Team Team { get; set; }
 
         private List<Player> playersList = new List<Player>();
+        private List<Team> teamList = new List<Team>();
+
+        public ICommand GameSelectedCommand { get; }
+        public ICommand SelectedPlayerCommand { get; }
 
         public TeamProfileViewModel(INavigationService navigationService, INbaApiService nbaApiService) : base(navigationService, nbaApiService)
         {
+            GameSelectedCommand = new Command<GameTeamSchedule>(OnGameSelected);
+            SelectedPlayerCommand = new Command<string>(OnSelectedPlayer);
+        }
+
+        private async void OnGameSelected(GameTeamSchedule game)
+        {
+            var parameters = new NavigationParameters();
+            parameters.Add(ParametersConstants.GameId, game.GameId);
+            parameters.Add(ParametersConstants.DateGame, game.StartDateEastern);
+            parameters.Add(ParametersConstants.PlayerList, playersList);
+            parameters.Add(ParametersConstants.TeamList, teamList);
+
+            await NavigationService.NavigateAsync(NavigationConstants.BoxScorePage, parameters);
+        }
+
+        private async void OnSelectedPlayer(string playerId)
+        {
+            var parameters = new NavigationParameters();
+            parameters.Add(ParametersConstants.TeamList, new List<Team>(teamList));
+            parameters.Add(ParametersConstants.PlayerId, playerId);
+            parameters.Add(ParametersConstants.PlayerList, new List<Player>(playersList));
+
+            await NavigationService.NavigateAsync(NavigationConstants.PlayerProfilePage, parameters);
         }
 
         public async void Initialize(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue("team", out Team team) && parameters.TryGetValue("players", out List<Player> players))
+            if (parameters.TryGetValue(ParametersConstants.Team, out Team team) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> players) && parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teams))
             {
                 Team = team;
+
+                teamList = teams;
+
                 playersList = players;
 
                 await GetTeamInfo();
                 await GetTeamLeaders();
+                await GetTeamStats();
+                await GetTeamStanding();
             }
 
 
+        }
+
+        private async Task GetTeamStanding()
+        {
+            var standingApi = await NbaApiService.GetStanding();
+
+            if (standingApi.GetType().Name == "Standing")
+            {
+                if (standingApi != null)
+                {
+                    TeamStanding = standingApi.League.Standard.Teams.First(team => team.TeamId == Team.TeamId);
+
+                    if (TeamStanding.ConfRank != "1")
+                    {
+                        GamesBehindFirstPlace = $"{TeamStanding.GamesBehind} games behind of {Team.ConfName}'s first place";
+                        GamesBehindShow = true;
+                    }
+                    else
+                    {
+                        GamesBehindShow = false;
+                    }
+
+                    ConferencePlace = $"{TeamStanding.ConfRank} place of {Team.ConfName} conference";
+                    TeamRecord = $"{TeamStanding.Win} - {TeamStanding.Loss}";
+                }
+            }
         }
 
         private async Task GetTeamInfo()
@@ -48,14 +118,10 @@ namespace NBAStats.ViewModels
                     ObservableCollection<Player> roster = new ObservableCollection<Player>(playersList.Where(player => player.TeamId == Team.TeamId));
 
 
-                    foreach (Player player in playersList)
+                    foreach (Player player in roster)
                     {
-                        if (player.TeamId == Team.TeamId)
-                        {
                             player.FullName = $"{player.FirstName} {player.LastName}";
 
-                            roster.Add(player);
-                        }
                     }
 
                     Roster = roster;
@@ -92,9 +158,36 @@ namespace NBAStats.ViewModels
                         else
                         {
                             game.ScoreOrTime = $"{game.VTeam.Score} - {game.HTeam.Score}";
+
+                            if (game.IsHomeTeam)
+                            {
+                                if (Convert.ToDecimal(game.HTeam.Score) > Convert.ToDecimal(game.VTeam.Score))
+                                {
+                                    game.Result = "WIN";
+                                }
+                                else
+                                {
+                                    game.Result = "LOSS";
+                                }
+                            }
+                            else
+                            {
+                                if (Convert.ToDecimal(game.VTeam.Score) > Convert.ToDecimal(game.HTeam.Score))
+                                {
+                                    game.Result = "WIN";
+                                }
+                                else
+                                {
+                                    game.Result = "LOSS";
+                                }
+                            }
                         }
 
                         game.SeasonStage = Config.SeasonStages.First(stage => stage.Id == game.SeasonStageId).Stage;
+
+
+
+
 
                         lastGamesPlayed.Add(game);
                     }
@@ -233,6 +326,24 @@ namespace NBAStats.ViewModels
             }
         }
 
-        
+        private async Task GetTeamStats()
+        {
+            var teamStat = await NbaApiService.GetTeamStats();
+
+            if (teamStat.GetType().Name == "TeamStatsClass")
+            {
+                if (teamStat != null)
+                {
+                    TeamStats teamRegularStats = teamStat.LeagueTeamStats.Seasons.RegularSeason.Teams.First(team => team.TeamId == Team.TeamId);
+
+                    teamRegularStats.Fgp.Avg = Math.Round(Convert.ToDecimal(teamRegularStats.Fgp.Avg) * 100, 1).ToString();
+                    teamRegularStats.Tpp.Avg = Math.Round(Convert.ToDecimal(teamRegularStats.Tpp.Avg) * 100, 1).ToString();
+                    teamRegularStats.Ftp.Avg = Math.Round(Convert.ToDecimal(teamRegularStats.Ftp.Avg) * 100, 1).ToString();
+
+                    TeamRegularStats = teamRegularStats;
+
+                }
+            }
+        }
     }
 }

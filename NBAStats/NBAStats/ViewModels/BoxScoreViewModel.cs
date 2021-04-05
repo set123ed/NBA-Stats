@@ -1,4 +1,5 @@
-﻿using NBAStats.Models;
+﻿using NBAStats.Constants;
+using NBAStats.Models;
 using NBAStats.Services;
 using Prism.Navigation;
 using System;
@@ -13,7 +14,9 @@ namespace NBAStats.ViewModels
 {
     public class BoxScoreViewModel : BaseViewModel, IInitialize
     {
-        private Game gameBoxScore = new Game();
+        private string _gameId;
+        private string _dateGame;
+
         private List<Player> playersList = new List<Player>();
         private List<Team> teamList = new List<Team>();
         public ObservableCollection<ActivePlayerBoxScore> HTeamPlayerStats { get; set; }
@@ -51,11 +54,11 @@ namespace NBAStats.ViewModels
             }
 
             var parameters = new NavigationParameters();
-            parameters.Add("teams", teamList);
-            parameters.Add("personId", playerSelected.PersonId);
-            parameters.Add("players", playersList);
+            parameters.Add(ParametersConstants.TeamList, teamList);
+            parameters.Add(ParametersConstants.PlayerId, playerSelected.PersonId);
+            parameters.Add(ParametersConstants.PlayerList, playersList);
 
-            await NavigationService.NavigateAsync(Config.PlayerProfilePage, parameters);
+            await NavigationService.NavigateAsync(NavigationConstants.PlayerProfilePage, parameters);
         }
 
         private void OnVTeamSelected()
@@ -80,7 +83,7 @@ namespace NBAStats.ViewModels
 
         public async void GetBoxScore()
         {
-            var boxScore = await NbaApiService.GetBoxScore(gameBoxScore.StartDateEastern, gameBoxScore.GameId);
+            var boxScore = await NbaApiService.GetBoxScore(_dateGame,_gameId);
 
             if (boxScore.GetType().Name == "BoxScore")
             {
@@ -197,18 +200,13 @@ namespace NBAStats.ViewModels
 
         public void Initialize(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue("game", out Game game))
+            if (parameters.TryGetValue(ParametersConstants.GameId, out string gameId) && parameters.TryGetValue(ParametersConstants.DateGame, out string dateGame) &&
+                parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> playersListParam) && parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teams))
             {
-                gameBoxScore = game;
-            }
+                _gameId = gameId;
+                _dateGame = dateGame;
 
-            if (parameters.TryGetValue("playersList", out List<Player> playersListParam))
-            {
                 playersList = playersListParam;
-            }
-
-            if (parameters.TryGetValue("teams", out List<Team> teams))
-            {
                 teamList = teams;
             }
 

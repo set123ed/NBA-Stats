@@ -1,4 +1,5 @@
-﻿using NBAStats.Models;
+﻿using NBAStats.Constants;
+using NBAStats.Models;
 using NBAStats.Services;
 using Prism.Navigation;
 using System;
@@ -12,7 +13,7 @@ using Xamarin.Forms;
 
 namespace NBAStats.ViewModels
 {
-    class CalendarViewModel : BaseViewModel
+    class CalendarViewModel : BaseViewModel, IInitialize
     {
         public ObservableCollection<Game> GamesOfTheDate { get; set; } = new ObservableCollection<Game>();
         private List<Player> playersList = new List<Player>();
@@ -35,6 +36,17 @@ namespace NBAStats.ViewModels
 
             GameSelectedCommand = new Command<Game>(OnGameSelected);
 
+
+        }
+
+        public void Initialize(INavigationParameters parameters)
+        {
+            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teams) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> players))
+            {
+                teamList = teams;
+                playersList = new List<Player>(players.Where(player => player.IsActive)); ;
+            }
+
             GetData();
         }
 
@@ -48,11 +60,12 @@ namespace NBAStats.ViewModels
         private async void OnGameSelected(Game game)
         {
             var parameters = new NavigationParameters();
-            parameters.Add("game", game);
-            parameters.Add("playersList", playersList);
-            parameters.Add("teams", teamList);
+            parameters.Add(ParametersConstants.GameId, game.GameId);
+            parameters.Add(ParametersConstants.DateGame, game.StartDateEastern);
+            parameters.Add(ParametersConstants.PlayerList, playersList);
+            parameters.Add(ParametersConstants.TeamList, teamList);
 
-            await NavigationService.NavigateAsync(Config.BoxScorePage, parameters);
+            await NavigationService.NavigateAsync(NavigationConstants.BoxScorePage, parameters);
         }
 
         private void OneDayMore()
@@ -132,30 +145,33 @@ namespace NBAStats.ViewModels
 
         private async Task GetNbaTeams()
         {
-
-            var teams = await NbaApiService.GetTeams();
-
-            if (teams.GetType().Name == "Teams")
+            if (teamList.Count == 0)
             {
-                if (teams != null)
+                var teams = await NbaApiService.GetTeams();
+
+                if (teams.GetType().Name == "Teams")
                 {
-                    teamList = teams.League.Standard;
+                    if (teams != null)
+                    {
+                        teamList = teams.League.Standard;
+                    }
                 }
             }
-
-
         }
 
         private async Task GetPlayers()
         {
-            var players = await NbaApiService.GetNbaPlayers();
-
-            if (players.GetType().Name == "Players")
+            if (playersList.Count == 0)
             {
-                if (players != null)
-                {
+                var players = await NbaApiService.GetNbaPlayers();
 
-                    playersList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
+                if (players.GetType().Name == "Players")
+                {
+                    if (players != null)
+                    {
+
+                        playersList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
+                    }
                 }
             }
         }

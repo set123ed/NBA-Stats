@@ -1,10 +1,16 @@
-﻿using NBAStats.Services;
+﻿using NBAStats.Constants;
+using NBAStats.Models;
+using NBAStats.Services;
 using NBAStats.ViewModels;
 using NBAStats.Views;
 using Prism;
 using Prism.Ioc;
+using Prism.Navigation;
 using Prism.Unity;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,36 +18,70 @@ namespace NBAStats
 {
     public partial class App : PrismApplication
     {
-        public Config constants = new Config();
         public App(IPlatformInitializer platformInitializer = null) : base(platformInitializer) { }
-        
+
+        //List<Player> playerList = new List<Player>();
+        //List<Team> teamList = new List<Team>();
         protected override async void OnInitialized()
         {
-            //var api = new NbaApiService();
-            //var obj = await api.GetTeamStats();
-
             InitializeComponent();
-            await NavigationService.NavigateAsync($"{Config.NavigationPage}/{Config.StatsPage}");
+            await NavigationService.NavigateAsync($"{NavigationConstants.NavigationPage}/{NavigationConstants.TabbedPage}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<NBATabbedPage>(Config.TabbedPage);
+            containerRegistry.RegisterForNavigation<NBATabbedPage>(NavigationConstants.TabbedPage);
             containerRegistry.Register<INbaApiService, NbaApiService>();
 
-            containerRegistry.RegisterForNavigation<HomePage, HomeViewModel>(Config.HomePage);
-            containerRegistry.RegisterForNavigation<BoxScorePage, BoxScoreViewModel>(Config.BoxScorePage);
-            containerRegistry.RegisterForNavigation<PlayerProfilePage, PlayerProfileViewModel>(Config.PlayerProfilePage);
-            containerRegistry.RegisterForNavigation<StandingPage, StandingViewModel>(Config.StandingPage);
-            containerRegistry.RegisterForNavigation<StatsPage, StatsViewModel>(Config.StatsPage);
-            containerRegistry.RegisterForNavigation<CalendarPage, CalendarViewModel>(Config.CalendarPage);
-            containerRegistry.RegisterForNavigation<TeamProfilePage, TeamProfileViewModel>(Config.TeamProfilePage);
+            containerRegistry.RegisterForNavigation<HomePage, HomeViewModel>(NavigationConstants.HomePage);
+            containerRegistry.RegisterForNavigation<BoxScorePage, BoxScoreViewModel>(NavigationConstants.BoxScorePage);
+            containerRegistry.RegisterForNavigation<PlayerProfilePage, PlayerProfileViewModel>(NavigationConstants.PlayerProfilePage);
+            containerRegistry.RegisterForNavigation<StandingPage, StandingViewModel>(NavigationConstants.StandingPage);
+            containerRegistry.RegisterForNavigation<StatsPage, StatsViewModel>(NavigationConstants.StatsPage);
+            containerRegistry.RegisterForNavigation<CalendarPage, CalendarViewModel>(NavigationConstants.CalendarPage);
+            containerRegistry.RegisterForNavigation<TeamProfilePage, TeamProfileViewModel>(NavigationConstants.TeamProfilePage);
 
-            containerRegistry.RegisterForNavigation<NavigationPage>(Config.NavigationPage);
-            containerRegistry.RegisterForNavigation<PlayersPage, PlayersViewModel>(Config.PlayersPage);
-            containerRegistry.RegisterForNavigation<PlayerInfoDetailPage, PlayerInfoDetailViewModel>(Config.PlayerInfoDetailPage);
-            containerRegistry.RegisterForNavigation<TeamPage, TeamViewModel>(Config.TeamPage);
-            containerRegistry.RegisterForNavigation<CoachPage, CoachViewModel>(Config.CoachPage);
+            containerRegistry.RegisterForNavigation<NavigationPage>(NavigationConstants.NavigationPage);
+            //containerRegistry.RegisterForNavigation<PlayersPage, PlayersViewModel>(NavigationConstants.PlayersPage);
+            //containerRegistry.RegisterForNavigation<PlayerInfoDetailPage, PlayerInfoDetailViewModel>(NavigationConstants.PlayerInfoDetailPage);
+            //containerRegistry.RegisterForNavigation<TeamPage, TeamViewModel>(NavigationConstants.TeamPage);
+            //containerRegistry.RegisterForNavigation<CoachPage, CoachViewModel>(NavigationConstants.CoachPage);
         }
+
+        //private async Task GetPlayers()
+        //{
+        //    var nbaApiService = new NbaApiService();
+        //    var players = await nbaApiService.GetNbaPlayers();
+
+        //    if (players.GetType().Name == "Players")
+        //    {
+        //        if (players != null)
+        //        {
+        //            playerList = new List<Player>(players.League.Standard);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        throw new Exception();
+        //    }
+        //}
+
+        //public async Task GetTeams()
+        //{
+        //    var nbaApiService = new NbaApiService();
+        //    var teams = await nbaApiService.GetTeams();
+
+        //    if (teams.GetType().Name == "Teams")
+        //    {
+        //        if (teams != null)
+        //        {
+        //            teamList = teams.League.Standard;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        throw new Exception();
+        //    }
+        //}
     }
 }

@@ -1,4 +1,5 @@
-﻿using NBAStats.Models;
+﻿using NBAStats.Constants;
+using NBAStats.Models;
 using NBAStats.Services;
 using Prism.Navigation;
 using Prism.Services;
@@ -13,7 +14,7 @@ using Xamarin.Forms;
 
 namespace NBAStats.ViewModels
 {
-    public class HomeViewModel : BaseViewModel
+    public class HomeViewModel : BaseViewModel, IInitialize
     {
         private SeasonRange SeasonRange { get; }
         private string TodayDate { get; } = DateTime.Today.ToString("yyyyMMdd");
@@ -25,6 +26,7 @@ namespace NBAStats.ViewModels
         public ICommand RefreshGamesOfDayCommand { get; }
         public ICommand GameSelectedCommand { get; }
         public ICommand PlayerSelectedCommand { get; }
+        public ICommand TeamSelectedCommand { get; set; }
         public bool AreGamesBeingPlayed { get; set; } = false;
         public IPageDialogService AlertService { get; }
         private List<string> GamesBeingPlayed { get; set; } = new List<string>();
@@ -33,8 +35,7 @@ namespace NBAStats.ViewModels
         {
             AlertService = dialogService;
 
-            GetData();
-
+            TeamSelectedCommand = new Command<string>(OnSelectedTeam);
             RefreshGamesOfDayCommand = new Command(OnRefreshGamesOfDay);
             GameSelectedCommand = new Command<Game>(OnGameSelected);
             PlayerSelectedCommand = new Command<PlayerRegularStats>(OnPlayerSelected);
@@ -66,34 +67,47 @@ namespace NBAStats.ViewModels
                 if (playedSelected)
                 {
                     var parameters = new NavigationParameters();
-                    parameters.Add("personId", playerId);
-                    parameters.Add("players", playersList);
-                    parameters.Add("teams", teamList);
+                    parameters.Add(ParametersConstants.PlayerId, playerId);
+                    parameters.Add(ParametersConstants.PlayerList, playersList);
+                    parameters.Add(ParametersConstants.TeamList, teamList);
 
-                    await NavigationService.NavigateAsync(Config.PlayerProfilePage, parameters);
+                    await NavigationService.NavigateAsync(NavigationConstants.PlayerProfilePage, parameters);
                 }
             }
             else
             {
                 playerId = player.PlayerId;
                 var parameters = new NavigationParameters();
-                parameters.Add("personId", playerId);
-                parameters.Add("players", playersList);
-                parameters.Add("teams", teamList);
+                parameters.Add(ParametersConstants.PlayerId, playerId);
+                parameters.Add(ParametersConstants.PlayerList, playersList);
+                parameters.Add(ParametersConstants.TeamList, teamList);
 
-                await NavigationService.NavigateAsync(Config.PlayerProfilePage, parameters);
+                await NavigationService.NavigateAsync(NavigationConstants.PlayerProfilePage, parameters);
             }
 
+        }
+
+        private async void OnSelectedTeam(string teamId)
+        {
+            Team teamSelected = teamList.First(team => team.TeamId == teamId);
+
+            var parameters = new NavigationParameters();
+            parameters.Add(ParametersConstants.Team, teamSelected);
+            parameters.Add(ParametersConstants.PlayerList, playersList);
+            parameters.Add(ParametersConstants.TeamList, teamList);
+
+            await NavigationService.NavigateAsync(Config.TeamProfilePage, parameters);
         }
 
         private async void OnGameSelected(Game game)
         {
             var parameters = new NavigationParameters();
-            parameters.Add("game", game);
-            parameters.Add("playersList", playersList);
-            parameters.Add("teams", teamList);
+            parameters.Add(ParametersConstants.GameId, game.GameId);
+            parameters.Add(ParametersConstants.DateGame, game.StartDateEastern);
+            parameters.Add(ParametersConstants.PlayerList, playersList);
+            parameters.Add(ParametersConstants.TeamList, teamList);
 
-            await NavigationService.NavigateAsync(Config.BoxScorePage, parameters);
+            await NavigationService.NavigateAsync(NavigationConstants.BoxScorePage, parameters);
         }
 
         private async void GetData()
@@ -252,17 +266,18 @@ namespace NBAStats.ViewModels
 
         private async Task GetNbaTeams()
         {
-
-            var teams = await NbaApiService.GetTeams();
-
-            if (teams.GetType().Name == "Teams")
+            if (teamList.Count == 0)
             {
-                if (teams != null)
+                var teams = await NbaApiService.GetTeams();
+
+                if (teams.GetType().Name == "Teams")
                 {
-                    teamList = teams.League.Standard;
+                    if (teams != null)
+                    {
+                        teamList = teams.League.Standard;
+                    }
                 }
             }
-
 
         }
 
@@ -296,18 +311,30 @@ namespace NBAStats.ViewModels
 
         private async Task GetPlayers()
         {
-            var players = await NbaApiService.GetNbaPlayers();
-
-            if (players.GetType().Name == "Players")
+            if (playersList.Count == 0)
             {
-                if (players != null)
-                {
+                var players = await NbaApiService.GetNbaPlayers();
 
-                    playersList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
+                if (players.GetType().Name == "Players")
+                {
+                    if (players != null)
+                    {
+
+                        playersList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
+                    }
                 }
             }
         }
 
+        public void Initialize(INavigationParameters parameters)
+        {
+            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teams) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> players))
+            {
+                teamList = teams;
+                playersList = players;
+            }
 
+            GetData();
+        }
     }
 }

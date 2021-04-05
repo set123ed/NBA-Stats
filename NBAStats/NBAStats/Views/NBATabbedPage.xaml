@@ -2,9 +2,12 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NBAStats.Views.NBATabbedPage"
-            xmlns:views="clr-namespace:NBAStats.Views" xmlns:views1="clr-namespace:NBAStats">
+            xmlns:views="clr-namespace:NBAStats.Views" xmlns:views1="clr-namespace:NBAStats"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            android:TabbedPage.ToolbarPlacement="Bottom">
   <!--Pages can be added as references or inline-->
-    <views:PlayersPage Title="Players"/>
-    <views:TeamPage Title="Teams"/>
-    <views1:CoachPage Title="Coaches"/>
+    <views:HomePage Title="Home"/>
+    <views:CalendarPage Title="Calendar"/>
+    <views:StandingPage Title="Standing"/>
+    <views:StatsPage Title="Stats"/>
 </TabbedPage>

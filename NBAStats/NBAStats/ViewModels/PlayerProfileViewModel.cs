@@ -1,4 +1,5 @@
-﻿using NBAStats.Models;
+﻿using NBAStats.Constants;
+using NBAStats.Models;
 using NBAStats.Services;
 using Prism.Navigation;
 using System;
@@ -36,24 +37,17 @@ namespace NBAStats.ViewModels
 
         public async void Initialize(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue("teams", out List<Team> teams))
+            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teams) && parameters.TryGetValue(ParametersConstants.PlayerId, out string personId) &&
+                parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> players))
             {
                 teamList = teams;
-            }
-
-            if (parameters.TryGetValue("personId", out string personId))
-            {
                 playerId = personId;
-            }
-
-            if (parameters.TryGetValue("players", out List<Player> players))
-            {
                 playersList = players;
-            }
 
-            if (!string.IsNullOrEmpty(playerId))
-            {
-                await GetProfile(playerId);
+                if (!string.IsNullOrEmpty(playerId))
+                {
+                    await GetProfile(playerId);
+                }
             }
         }
 

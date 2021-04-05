@@ -1,4 +1,5 @@
-﻿using NBAStats.Models;
+﻿using NBAStats.Constants;
+using NBAStats.Models;
 using NBAStats.Services;
 using Prism.Navigation;
 using System;
@@ -12,7 +13,7 @@ using Xamarin.Forms;
 
 namespace NBAStats.ViewModels
 {
-    class StatsViewModel : BaseViewModel
+    class StatsViewModel : BaseViewModel, IInitialize
     {
         private string firstTeamAllStarId = "";
         private string lastTeamAllStarId = "";
@@ -65,6 +66,30 @@ namespace NBAStats.ViewModels
             ShowSearchCommand = new Command(OnShowSearch);
 
             GetData();
+        }
+
+        public void Initialize(INavigationParameters parameters)
+        {
+            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teams) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> players))
+            {
+                players.RemoveAll(player => !player.IsActive);
+
+                players = new List<Player>(players.OrderBy(player => player.FirstName));
+
+                PlayersList = new ObservableCollection<Player>(players);
+                fullPlayerList = new ObservableCollection<Player>(players);
+
+
+
+                firstTeamAllStarId = teams.First(team => team.IsAllStar).TeamId;
+                lastTeamAllStarId = teams.Last(team => team.IsAllStar).TeamId;
+
+                teams.RemoveAll(team => team.IsAllStar);
+    
+                TeamList = new ObservableCollection<Team>(teams);
+                fullTeamList = new ObservableCollection<Team>(teams);
+
+            }
         }
 
         private void OnShowSearch()
@@ -133,20 +158,21 @@ namespace NBAStats.ViewModels
             Team teamSelected = fullTeamList.First(team => team.TeamId == teamId);
 
             var parameters = new NavigationParameters();
-            parameters.Add("team", teamSelected);
-            parameters.Add("players", new List<Player>(fullPlayerList));
+            parameters.Add(ParametersConstants.Team, teamSelected);
+            parameters.Add(ParametersConstants.PlayerList, new List<Player>(fullPlayerList));
+            parameters.Add(ParametersConstants.TeamList, new List<Team>(fullTeamList));
 
-            await NavigationService.NavigateAsync(Config.TeamProfilePage ,parameters);
+            await NavigationService.NavigateAsync(NavigationConstants.TeamProfilePage ,parameters);
         }
 
         private async void OnSelectedPlayer(string playerId)
         {
             var parameters = new NavigationParameters();
-            parameters.Add("teams", new List<Team>(fullTeamList));
-            parameters.Add("personId", playerId);
-            parameters.Add("players", new List<Player>(fullPlayerList));
+            parameters.Add(ParametersConstants.TeamList, new List<Team>(fullTeamList));
+            parameters.Add(ParametersConstants.PlayerId, playerId);
+            parameters.Add(ParametersConstants.PlayerList, new List<Player>(fullPlayerList));
 
-            await NavigationService.NavigateAsync(Config.PlayerProfilePage, parameters);
+            await NavigationService.NavigateAsync(NavigationConstants.PlayerProfilePage, parameters);
         }
 
         private void OnClear()
@@ -188,43 +214,50 @@ namespace NBAStats.ViewModels
 
         private async Task GetPlayers()
         {
-            var players = await NbaApiService.GetNbaPlayers();
-
-            if (players.GetType().Name == "Players")
+            if (fullPlayerList.Count == 0)
             {
-                if (players != null)
+                var players = await NbaApiService.GetNbaPlayers();
+
+                if (players.GetType().Name == "Players")
                 {
-                    List<Player> playerList = new List<Player>(players.League.Standard);
+                    if (players != null)
+                    {
+                        List<Player> playerList = new List<Player>(players.League.Standard);
 
-                    playerList.RemoveAll(player => !player.IsActive);
+                        playerList.RemoveAll(player => !player.IsActive);
 
-                    playerList = new List<Player>(playerList.OrderBy(player => player.FirstName));
+                        playerList = new List<Player>(playerList.OrderBy(player => player.FirstName));
 
-                    PlayersList = new ObservableCollection<Player>(playerList);
-                    fullPlayerList = new ObservableCollection<Player>(playerList);
+                        PlayersList = new ObservableCollection<Player>(playerList);
+                        fullPlayerList = new ObservableCollection<Player>(playerList);
+                    }
                 }
             }
+
         }
 
         public async Task GetTeams()
         {
-
-            var teams = await NbaApiService.GetTeams();
-
-            if (teams.GetType().Name == "Teams")
+            if (fullTeamList.Count == 0)
             {
-                if (teams != null)
+                var teams = await NbaApiService.GetTeams();
+
+                if (teams.GetType().Name == "Teams")
                 {
-                    List<Team> teamList = teams.League.Standard;
+                    if (teams != null)
+                    {
+                        List<Team> teamList = teams.League.Standard;
 
-                    firstTeamAllStarId = teamList.First(team => team.IsAllStar).TeamId;
-                    lastTeamAllStarId = teamList.Last(team => team.IsAllStar).TeamId;
+                        firstTeamAllStarId = teamList.First(team => team.IsAllStar).TeamId;
+                        lastTeamAllStarId = teamList.Last(team => team.IsAllStar).TeamId;
 
-                    teamList.RemoveAll(team => team.IsAllStar);
-                    TeamList = new ObservableCollection<Team>(teamList);
-                    fullTeamList = new ObservableCollection<Team>(teamList);
+                        teamList.RemoveAll(team => team.IsAllStar);
+                        TeamList = new ObservableCollection<Team>(teamList);
+                        fullTeamList = new ObservableCollection<Team>(teamList);
+                    }
                 }
             }
+
         }
 
         public async Task GetPointLeaders()
