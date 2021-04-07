@@ -7,166 +7,188 @@
     <ContentPage.Content>
         <RefreshView IsRefreshing="{Binding IsGamesOfDayRefreshing}" Command="{Binding RefreshGamesOfDayCommand}">
             <ScrollView>
+                <Grid BackgroundColor="White">
+                    <Grid.ColumnDefinitions>
 
-                <StackLayout>
-                    <Label Margin="30,15,15,0" Text="Games of the day" FontSize="18" TextColor="Black"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
 
-                    <StackLayout HeightRequest="250" WidthRequest="175" Margin="15" >
+                    </Grid.ColumnDefinitions>
 
+                    <Grid.RowDefinitions>
 
-                        <CarouselView BackgroundColor="Azure" ItemsSource="{Binding GamesOfDay}"><!---->
-                            <CarouselView.ItemTemplate>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="190"/>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="250" />
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="400"/>
+
+                    </Grid.RowDefinitions>
+
+                    <Frame Background="white" HeightRequest="40" HasShadow="False" Grid.Row="0" Grid.ColumnSpan="2" >
+                        <Grid >
+                         
+                            <Image Source="LOGO2.png" Grid.ColumnSpan="1"
+                                   HorizontalOptions="Center" Margin="0,0,130,0"/>
+                            <Image Source="LOGO.png" Grid.Column="0" Margin="50,0,0,0" HorizontalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                    <Label VerticalTextAlignment="End" Text="Games of the day" FontSize="25" HorizontalOptions="CenterAndExpand" TextColor="Black" Grid.Row="1" Grid.ColumnSpan="2"/>
+
+                        <CollectionView ItemsSource="{Binding GamesOfDay}" ItemsLayout="HorizontalList" Grid.Row="2" Grid.ColumnSpan="2">
+                            <CollectionView.ItemTemplate>
                                 <DataTemplate>
+                                    <Grid Scale="0.9" Padding="13"  >
+                            <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.GameSelectedCommand}" CommandParameter="{Binding}"/>
+                            </Grid.GestureRecognizers>
 
-                                    <StackLayout Orientation="Vertical"  VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="250" WidthRequest="175" BackgroundColor="Gainsboro">
+                                        <Frame HasShadow="True" CornerRadius="20" BackgroundColor="White" >
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="160"/>
+                                                    <ColumnDefinition Width="160"/>
+                                                </Grid.ColumnDefinitions>
 
-                                        <StackLayout Orientation="Horizontal"  VerticalOptions="Center" HorizontalOptions="Center">
+                                     <Label Text="{Binding VTeam.TriCode}" FontSize="20" TextColor="Black" Grid.Column="0"/>
 
-                                            <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
+                                     <Label Text="VS" VerticalOptions="Center" Grid.Row="0" HorizontalOptions="Center" FontSize="20" TextColor="Black" Grid.ColumnSpan="2"/>
 
-                                                <Label Text="{Binding VTeam.TriCode}" FontSize="20" TextColor="Black"/>
+                                     <Label Text="{Binding HTeam.TriCode}" FontSize="20" TextColor="Black" Grid.Column="1" HorizontalOptions="End"/> 
 
-                                            </StackLayout>
+                                     <Label Text="{Binding ScoreOrTime}" HorizontalOptions="Center" VerticalOptions="End" Margin="10"
+                                            FontSize="20" TextColor="Black" Grid.Row="2" Grid.ColumnSpan="2" />
 
-                                            <Label Text="VS" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
-
-                                            <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-
-                                                <Label Text="{Binding HTeam.TriCode}" FontSize="20" TextColor="Black"/>
-
-                                            </StackLayout>
-
-                                        </StackLayout>
-
-                                        <Label Text="{Binding ScoreOrTime}" HorizontalOptions="Center" VerticalOptions="End" Margin="10" FontSize="20" TextColor="Black"/>
-                                        <Label Text="{Binding TimePeriodHalftime}" HorizontalOptions="Center" VerticalOptions="End" Margin="10" FontSize="20" TextColor="Black"/>
-
-                                        <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.GameSelectedCommand}" CommandParameter="{Binding}"/>
-                                        </StackLayout.GestureRecognizers>
-
-                                    </StackLayout>
-
+                                    <Label Text="{Binding TimePeriodHalftime}"  Grid.Row="1" Grid.ColumnSpan="2" HorizontalOptions="Center"  Margin="5"  TextColor="Black"/>
+                                            </Grid>
+                                         </Frame>
+                                        </Grid>
                                 </DataTemplate>
-                            </CarouselView.ItemTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
 
+                    <Label VerticalTextAlignment="End" Text="Scoring Leaders" FontSize="25" HorizontalOptions="CenterAndExpand" TextColor="Black" Grid.Row="3" Grid.ColumnSpan="2"/>
 
-                        </CarouselView>
+                    <CollectionView Grid.Row="4" ItemsSource="{Binding ScoringLeaders}"  ItemsLayout="HorizontalList"  Grid.ColumnSpan="2">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                 <Grid Scale="0.9" Padding="10"  >
+                            <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
+                            <Grid.GestureRecognizers>
+                                 <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.PlayerSelectedCommand}" CommandParameter="{Binding}"/>
+                            </Grid.GestureRecognizers>
 
-                    </StackLayout>
+                                     <Frame HasShadow="True" Margin="5" BackgroundColor="White" CornerRadius="20" >
+                                         <Grid>
+                                             <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                             </Grid.RowDefinitions>
+                                             <Grid.ColumnDefinitions>
+                                                 <ColumnDefinition Width="160"/>
+                                                 <ColumnDefinition Width="150"/>
 
-                    <Label Margin="30,15,15,0" Text="Scoring Leaders" FontSize="18" TextColor="Black"/>
+                                             </Grid.ColumnDefinitions>
 
-                    <StackLayout HeightRequest="250" WidthRequest="175" Margin="15" >
+                                            <Label Text="{Binding Name}"  Grid.Row="0" FontSize="25" HorizontalOptions="CenterAndExpand" Grid.ColumnSpan="2" TextColor="Black" VerticalOptions="Center" />
+                                            <Label Text="{Binding Team}" Grid.Row="1" Grid.ColumnSpan="2" FontSize="20" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                            <Label Text="{Binding PointsPerGame}" Grid.Row="2" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
+                                            <Label Text="PTS" VerticalOptions="Center" Grid.Row="2" HorizontalOptions="Center" />
 
-                        <CarouselView BackgroundColor="Azure" ItemsSource="{Binding ScoringLeaders}" ><!---->
-                            <CarouselView.ItemTemplate>
-                                <DataTemplate>
+                                            <Label Text="{Binding AssistsPerGame}" Grid.Row="3" Grid.Column="1" VerticalOptions="Start" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
+                                            <Label Text="AST" VerticalOptions="Center" HorizontalOptions="Center" Grid.Row="3"/>
 
-                                    <Grid RowDefinitions="*,*" ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                                            <Label Text="{Binding ReboundsPerGame}" Grid.Row="4" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
+                                            <Label Text="RBS" VerticalOptions="Center" Grid.Row="4" HorizontalOptions="Center"/>
+                                         </Grid>
 
+                                     </Frame>
 
-                                        <StackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0"  Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
+                                     </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
 
-                                            <Label Text="{Binding Name}" FontSize="25" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                            <Label Text="{Binding Team}" FontSize="20" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"/>
+                    </CollectionView>
+                    <Label VerticalTextAlignment="End" Text="Better Teams" FontSize="25" HorizontalOptions="Center" TextColor="Black" Grid.Row="5" Grid.ColumnSpan="2"/>
 
-                                        </StackLayout>
+                     <CollectionView Grid.Row="6" ItemsSource="{Binding  BetterTeams}"  ItemsLayout="HorizontalList"  Grid.ColumnSpan="2">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                 <Grid Scale="0.9" Padding="10"  >
+                            <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                                        <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-                                            <Label Text="{Binding PointsPerGame}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
-                                            <Label Text="PTS" VerticalOptions="Center" HorizontalOptions="Center" />
-                                        </StackLayout>
-
-                                        <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-                                            <Label Text="{Binding AssistsPerGame}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
-                                            <Label Text="AST" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                        </StackLayout>
-
-                                        <StackLayout Grid.Column="2" Grid.Row="1" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-                                            <Label Text="{Binding ReboundsPerGame}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
-                                            <Label Text="RBS" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                        </StackLayout>
-
-                                        <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.PlayerSelectedCommand}" CommandParameter="{Binding}"/>
-                                        </Grid.GestureRecognizers>
-                                    </Grid>
-
-
-                                </DataTemplate>
-                            </CarouselView.ItemTemplate>
-                        </CarouselView>
-
-                    </StackLayout>
-
-
-
-                    <Label Margin="30,15,15,0" Text="Better Teams" FontSize="18" TextColor="Black"/>
-
-                    <StackLayout HeightRequest="250" WidthRequest="175" Margin="15" >
-
-                        <CarouselView BackgroundColor="Azure" ItemsSource="{Binding BetterTeams}" ><!---->
-                            <CarouselView.ItemTemplate>
-                                <DataTemplate>
-
-                                    <Grid RowDefinitions="1.75*,*,*" ColumnDefinitions="*,*,*" ColumnSpacing="10" RowSpacing="10">
-
-
-                                        <StackLayout Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0"  Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-
-                                            <Label Text="{Binding TeamStanding.TeamSitesOnly.TeamNickname}" FontSize="25" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                            <Label Text="{Binding TeamStanding.TeamSitesOnly.TeamName}" FontSize="20" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"/>
-
-                                        </StackLayout>
-
-                                        <StackLayout Grid.Column="0" Grid.Row="1" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-                                            <Label Text="{Binding TeamStanding.Win}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
-                                            <Label Text="WINS" VerticalOptions="Center" HorizontalOptions="Center" />
-                                        </StackLayout>
-
-                                        <StackLayout Grid.Column="1" Grid.Row="1" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-                                            <Label Text="{Binding TeamStanding.Loss}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
-                                            <Label Text="LOSS" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                        </StackLayout>
-
-                                        <StackLayout Grid.Column="2" Grid.Row="1" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-                                            <Label Text="{Binding TeamStanding.WinPctV2}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
-                                            <Label Text="WIN%" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                        </StackLayout>
-
-                                        <StackLayout Grid.Column="0" Grid.Row="2" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-                                            <Label Text="{Binding TeamStats.Ppg.Avg}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
-                                            <Label Text="PTS" VerticalOptions="Center" HorizontalOptions="Center" />
-                                        </StackLayout>
-
-                                        <StackLayout Grid.Column="1" Grid.Row="2" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-                                            <Label Text="{Binding TeamStats.Apg.Avg}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
-                                            <Label Text="AST" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                        </StackLayout>
-
-                                        <StackLayout Grid.Column="2" Grid.Row="2" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-                                            <Label Text="{Binding TeamStats.Trpg.Avg}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
-                                            <Label Text="RBS" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                        </StackLayout>
-
-                                        <Grid.GestureRecognizers>
+                            <Grid.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.TeamSelectedCommand}" CommandParameter="{Binding TeamStanding.TeamId}"/>
-                                        </Grid.GestureRecognizers>
-                                    </Grid>
+                            </Grid.GestureRecognizers>
 
+                                     <Frame HasShadow="True" Margin="5" BackgroundColor="White" CornerRadius="20" >
+                                         <Grid>
+                                             <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                             </Grid.RowDefinitions>
+                                             <Grid.ColumnDefinitions>
+                                                 <ColumnDefinition Width="160"/>
+                                                 <ColumnDefinition Width="150"/>
 
-                                </DataTemplate>
-                            </CarouselView.ItemTemplate>
-                        </CarouselView>
+                                             </Grid.ColumnDefinitions>
 
+                                            <Label Text="{Binding TeamStanding.TeamSitesOnly.TeamNickname}"
+                                                  Grid.ColumnSpan="2" Grid.Row="0" FontSize="25" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                            <Label Text="{Binding TeamStanding.TeamSitesOnly.TeamName}"
+                                                  Grid.ColumnSpan="2" FontSize="20" Grid.Row="1" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Center"/>
 
+                                            <Label Text="{Binding TeamStanding.Win}" Grid.Column="1" Grid.Row="2" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
+                                            <Label Text="WINS" VerticalOptions="Center" Grid.Column="0" Grid.Row="2" HorizontalOptions="Center" />
 
-                    </StackLayout>
-                </StackLayout>
+                                            <Label Text="{Binding TeamStanding.Loss}" Grid.Column="1" Grid.Row="3"  VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
+                                            <Label Text="LOSS" VerticalOptions="Center" Grid.Column="0" Grid.Row="3" HorizontalOptions="Center"/>
 
+                                            <Label Text="{Binding TeamStanding.WinPctV2}" Grid.Column="1" Grid.Row="4" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
+                                            <Label Text="WIN%" VerticalOptions="Center" Grid.Column="0" Grid.Row="4" HorizontalOptions="Center"/>
+
+                                            <Label Text="{Binding TeamStats.Ppg.Avg}" Grid.Column="1" Grid.Row="5" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
+                                            <Label Text="PTS" VerticalOptions="Center" Grid.Column="0" Grid.Row="5" HorizontalOptions="Center" />
+
+                                            <Label Text="{Binding TeamStats.Apg.Avg}" Grid.Column="1" Grid.Row="6" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
+                                            <Label Text="AST" VerticalOptions="Center" Grid.Column="0" Grid.Row="6" HorizontalOptions="Center"/>
+
+                                            <Label Text="{Binding TeamStats.Trpg.Avg}" Grid.Column="1" Grid.Row="7" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
+                                            <Label Text="RBS" VerticalOptions="Center" Grid.Column="0" Grid.Row="7" HorizontalOptions="Center"/>
+
+                                         </Grid>
+                                     </Frame>
+                                     </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    </Grid>
             </ScrollView>
         </RefreshView>
     </ContentPage.Content>

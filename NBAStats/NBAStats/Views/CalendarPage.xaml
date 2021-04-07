@@ -6,52 +6,76 @@
              x:Name="calendarPage"
              Title="Calendar">
     <ContentPage.Content>
-        <StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <Button Text="L" Padding="0" Command="{Binding OneDayLessCommand}" HorizontalOptions="Start"/>
-                <DatePicker Date="{Binding DateSelected}" HorizontalOptions="CenterAndExpand">
+        <ScrollView>
+
+        <Grid BackgroundColor="White">
+                    <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="500"/>
+                    </Grid.RowDefinitions>
+
+                    <Frame Background="white" HeightRequest="40" HasShadow="False" Grid.Row="0" Grid.ColumnSpan="3" >
+                        <Grid >
+                            <Image Source="LOGO2.png" Grid.ColumnSpan="1"
+                                   HorizontalOptions="Center" Margin="0,0,130,0"/>
+                            <Image Source="LOGO.png" Grid.Column="0" Margin="50,0,0,0" HorizontalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                <Button Text="Antes" Padding="0" Command="{Binding OneDayLessCommand}" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0"/>
+                <DatePicker Date="{Binding DateSelected}" HorizontalOptions="CenterAndExpand" Grid.Row="1" Grid.ColumnSpan="3" >
                     <DatePicker.Behaviors>
                         <prism:EventToCommandBehavior EventName="DateSelected" Command="{Binding DateSelectedChangeCommand}"/>
                     </DatePicker.Behaviors>
                 </DatePicker>
-                <Button Text="R" Command="{Binding OneDayMoreCommand}" HorizontalOptions="End"/>
-            </StackLayout>
-            <ListView ItemsSource="{Binding GamesOfTheDate}" HasUnevenRows="True" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshGamesCommand}" IsRefreshing="{Binding AreGamesRefreshing}">
+                <Button Text="Despues" Command="{Binding OneDayMoreCommand}" HorizontalOptions="End" Grid.Row="1" Grid.Column="2" />
+
+            <ListView ItemsSource="{Binding GamesOfTheDate}" Grid.Row="2" Grid.ColumnSpan="3" HasUnevenRows="True" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshGamesCommand}" IsRefreshing="{Binding AreGamesRefreshing}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell >
-                        <StackLayout Orientation="Vertical"  VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="175" BackgroundColor="Gainsboro" Margin="15">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
 
-                            <StackLayout Orientation="Horizontal"  VerticalOptions="Center" HorizontalOptions="Center">
+                            </Grid.ColumnDefinitions>
 
-                                <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
+                                    <Label Text="{Binding VTeam.TriCode}" HorizontalOptions="Center" FontSize="20" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
 
-                                    <Label Text="{Binding VTeam.TriCode}" FontSize="20" TextColor="Black"/>
+                                    <Label Text="VS" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black" Grid.ColumnSpan="3" />
 
-                                </StackLayout>
+                                    <Label Text="{Binding HTeam.TriCode}" HorizontalOptions="Center" FontSize="20" TextColor="Black" Grid.Row="0" Grid.Column="2"/>
 
-                                <Label Text="VS" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
 
-                                <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
 
-                                    <Label Text="{Binding HTeam.TriCode}" FontSize="20" TextColor="Black"/>
+                            <Label Text="{Binding ScoreOrTime}" Grid.Row="1" Grid.ColumnSpan="3" HorizontalOptions="Center" VerticalOptions="End" Margin="10" FontSize="20" TextColor="Black"/>
+                            <Label Text="{Binding TimePeriodHalftime}" Grid.Row="2" Grid.ColumnSpan="3" HorizontalOptions="Center" VerticalOptions="End" Margin="10" FontSize="20" TextColor="Black"/>
 
-                                </StackLayout>
-
-                            </StackLayout>
-
-                            <Label Text="{Binding ScoreOrTime}" HorizontalOptions="Center" VerticalOptions="End" Margin="10" FontSize="20" TextColor="Black"/>
-                            <Label Text="{Binding TimePeriodHalftime}" HorizontalOptions="Center" VerticalOptions="End" Margin="10" FontSize="20" TextColor="Black"/>
-
-                            <StackLayout.GestureRecognizers>
+                            <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={x:Reference calendarPage}, Path=BindingContext.GameSelectedCommand}" CommandParameter="{Binding}"/>
-                            </StackLayout.GestureRecognizers>
+                            </Grid.GestureRecognizers>
 
-                        </StackLayout>
+                            </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackLayout>
+        </Grid>
+    </ScrollView>
     </ContentPage.Content>
 </ContentPage>

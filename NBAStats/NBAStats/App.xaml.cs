@@ -25,7 +25,7 @@ namespace NBAStats
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            await NavigationService.NavigateAsync($"{NavigationConstants.NavigationPage}/{NavigationConstants.TabbedPage}");
+            await NavigationService.NavigateAsync($"{NavigationConstants.TabbedPage}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
