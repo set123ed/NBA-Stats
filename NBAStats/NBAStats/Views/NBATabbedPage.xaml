@@ -4,7 +4,15 @@
              x:Class="NBAStats.Views.NBATabbedPage"
             xmlns:views="clr-namespace:NBAStats.Views" xmlns:views1="clr-namespace:NBAStats"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-            android:TabbedPage.ToolbarPlacement="Bottom">
+            android:TabbedPage.ToolbarPlacement="Bottom"
+            xmlns:prism="http://prismlibrary.com"
+            x:Name="tabbedPage"
+            Title="{Binding Title}"
+            CurrentPageChanged="TabbedPage_CurrentPageChanged"  >
+
+    <TabbedPage.Behaviors>
+        <prism:EventToCommandBehavior Command="{Binding CurrentPageChangedCommand}" EventName="CurrentPageChanged" CommandParameter="{Binding Source={x:Reference tabbedPage},Path=CurrentPage.Title}" />
+    </TabbedPage.Behaviors>
   <!--Pages can be added as references or inline-->
     <views:HomePage Title="Home"/>
     <views:CalendarPage Title="Calendar"/>

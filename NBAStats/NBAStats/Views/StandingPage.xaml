@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NBAStats.Views.StandingPage"
-             x:Name="standingPage">
+             x:Name="standingPage"
+             Title="Standing">
     <ContentPage.Content>
         <Grid RowDefinitions="0.4*,0.4*,5*">
             <StackLayout Orientation="Horizontal" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">

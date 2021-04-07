@@ -16,5 +16,11 @@ namespace NBAStats.Views
         {
             InitializeComponent();
         }
+
+        private void TabbedPage_CurrentPageChanged(object sender, EventArgs e)
+        {
+            var tabPage = (TabbedPage)sender;
+            Title = tabPage.CurrentPage.Title;
+        }
     }
 }
