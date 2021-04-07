@@ -18,7 +18,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="50"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="500"/>
                     </Grid.RowDefinitions>
 
                     <Frame Background="white" HeightRequest="40" HasShadow="False" Grid.Row="0" Grid.ColumnSpan="3" >
