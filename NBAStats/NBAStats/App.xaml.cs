@@ -7,10 +7,9 @@ using Prism;
 using Prism.Ioc;
 using Prism.Navigation;
 using Prism.Unity;
+using SQLite;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,6 +17,7 @@ namespace NBAStats
 {
     public partial class App : PrismApplication
     {
+        static DataBaseService DataBase;
         public App(IPlatformInitializer platformInitializer = null) : base(platformInitializer) { }
 
         //List<Player> playerList = new List<Player>();
@@ -47,6 +47,19 @@ namespace NBAStats
             //containerRegistry.RegisterForNavigation<TeamPage, TeamViewModel>(NavigationConstants.TeamPage);
             //containerRegistry.RegisterForNavigation<CoachPage, CoachViewModel>(NavigationConstants.CoachPage);
         }
+        public static DataBaseService SQliteDB
+        {
+            get
+            {
+                if (DataBase == null)
+                {
+                    DataBase = new DataBaseService(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Stats.db3"));
+                }
+                return DataBase;
+            }
+        }
+
+
 
         //private async Task GetPlayers()
         //{
