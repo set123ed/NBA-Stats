@@ -8,7 +8,9 @@
         <ScrollView>
 
         <Grid BackgroundColor="White">
+
                     <Grid.ColumnDefinitions>
+
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
@@ -41,7 +43,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell >
-                        <Grid>
+                        <Grid Padding="20">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
@@ -54,7 +56,7 @@
 
                             </Grid.ColumnDefinitions>
 
-                                    <Label Text="{Binding VTeam.TriCode}" HorizontalOptions="Center" FontSize="20" TextColor="Black" Grid.Row="0" Grid.Column="0"/>
+                                    <Label Text="{Binding VTeam.TriCode}" HorizontalOptions="Center" FontSize="20" TextColor="Black" Grid.Row="0" Grid.Column="0" />
 
                                     <Label Text="VS" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black" Grid.ColumnSpan="3" />
 
