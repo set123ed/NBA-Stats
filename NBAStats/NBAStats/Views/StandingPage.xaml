@@ -5,20 +5,48 @@
              x:Name="standingPage"
              Title="Standing">
     <ContentPage.Content>
-        <Grid RowDefinitions="0.4*,0.4*,5*">
-            <StackLayout Orientation="Horizontal" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
-                <Button Text="Conference" Command="{Binding ShowConferenceCommand}" />
-                <Button Text="All League" Command="{Binding ShowAllLeagueCommand}" />
-            </StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
 
-            <Label Text="{Binding SeasonStage}" TextColor="Black" FontSize="30" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Start"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
 
-            <ScrollView Orientation="Horizontal" Grid.Row="2" IsVisible="{Binding ShowConference}">
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Frame Background="white" HeightRequest="40" HasShadow="False" Grid.Row="0" Grid.ColumnSpan="2" >
+                        <Grid>
+                         
+                            <Image Source="LOGO2.png" Grid.ColumnSpan="1"
+                                   HorizontalOptions="Center" Margin="0,0,130,0"/>
+                            <Image Source="LOGO.png" Grid.Column="0"
+                                   Margin="50,0,0,0" HorizontalOptions="Center"/>
+                        </Grid>
+            </Frame>
+
+                <Button Text="Conference" Grid.Row="1" HorizontalOptions="Center" Grid.Column="0" Command="{Binding ShowConferenceCommand}" />
+                <Button Text="All League" Grid.Row="1" HorizontalOptions="Center" Grid.Column="1" Command="{Binding ShowAllLeagueCommand}" />
+            
+           
+
+            <Label Text="{Binding SeasonStage}" TextColor="Black" FontSize="30" Grid.Row="2" Grid.ColumnSpan="2" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+            <ScrollView Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2" IsVisible="{Binding ShowConference}" >
                 <StackLayout Orientation="Horizontal">
 
-
                     <ListView  ItemsSource="{Binding StandingPerConference}" IsGroupingEnabled="True" GroupDisplayBinding="{Binding Conference}" HasUnevenRows="True" WidthRequest="1000">
+
                         <ListView.Header>
+
                             <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*">
                                 <Label Text="RANK" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                 <Label Text="TEAM" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
@@ -31,18 +59,20 @@
                                 <Label Text="ROAD" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                 <Label Text="L10" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                             </Grid>
+
                         </ListView.Header>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*">
-                                        <Label Text="{Binding ConfRank}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                        <Label Text="{Binding FullName}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1">
-
-                                            <Label.GestureRecognizers>
+                                    <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*" Padding="13"  >
+                                        <Grid.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Source={x:Reference standingPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
-                                            </Label.GestureRecognizers>
-                                        </Label>
+                                        </Grid.GestureRecognizers>
+                                        <Label Text="{Binding ConfRank}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding FullName}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+
+                                          
+
                                         <Label Text="{Binding Win}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="{Binding Loss}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="{Binding WinPctV2}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
@@ -59,7 +89,7 @@
                 </StackLayout>
             </ScrollView>
 
-            <ScrollView Orientation="Horizontal" Grid.Row="2" IsVisible="{Binding ShowAllLeague}">
+            <ScrollView Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" IsVisible="{Binding ShowAllLeague}">
                 <StackLayout Orientation="Horizontal">
 
 
