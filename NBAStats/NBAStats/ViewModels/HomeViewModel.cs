@@ -1,4 +1,4 @@
-﻿using NBAStats.Constants;
+﻿ using NBAStats.Constants;
 using NBAStats.Models;
 using NBAStats.Services;
 using Prism.Navigation;
