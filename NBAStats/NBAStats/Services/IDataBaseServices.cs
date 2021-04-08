@@ -13,5 +13,15 @@ namespace NBAStats.Services
 
         Task<FavoritePlayer> GetPlayerById(string idpalyer);
         Task<FavoriteTeam> GetTeamById(string idteam);
+
+        Task<List<FavoritePlayer>> GetFavoritePalyer();
+
+        Task<List<FavoriteTeam>> GetFavoriteTeams();
+
+        Task<int> DeleteFavoriteTeams(FavoriteTeam favoriteTeam);
+
+        Task<int> DeleteFavoritePlayer(FavoritePlayer favoritePlayer);
+
+
     }
 }

@@ -4,6 +4,28 @@
              x:Class="NBAStats.App"
              xmlns:prism="http://prismlibrary.com">
     <Application.Resources>
+        
+        <ResourceDictionary>
+
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="LabelStyleForTitle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="End"/>
+                <Setter Property="Margin" Value="10" />
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+
+        </ResourceDictionary>
 
     </Application.Resources>
 
