@@ -9,7 +9,7 @@
 
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -34,10 +34,8 @@
 
                 <Button Text="Conference" Grid.Row="1" HorizontalOptions="Center" Grid.Column="0" Command="{Binding ShowConferenceCommand}" />
                 <Button Text="All League" Grid.Row="1" HorizontalOptions="Center" Grid.Column="1" Command="{Binding ShowAllLeagueCommand}" />
-            
-           
 
-            <Label Text="{Binding SeasonStage}" TextColor="Black" FontSize="30" Grid.Row="2" Grid.ColumnSpan="2" VerticalOptions="Center" HorizontalOptions="Center"/>
+            <Label Text="{Binding SeasonStage}" TextColor="Black" FontSize="30" Grid.Row="2" Grid.ColumnSpan="2" VerticalOptions="Start" HorizontalOptions="Center"/>
 
             <ScrollView Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2" IsVisible="{Binding ShowConference}" >
                 <StackLayout Orientation="Horizontal">
@@ -64,6 +62,7 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*" Padding="13"  >
+                                        
                                         <Grid.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Source={x:Reference standingPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
                                         </Grid.GestureRecognizers>
@@ -88,10 +87,10 @@
                 </StackLayout>
             </ScrollView>
 
-            <ScrollView Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" IsVisible="{Binding ShowAllLeague}">
+            <ScrollView Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2" IsVisible="{Binding ShowAllLeague}">
+                
                 <StackLayout Orientation="Horizontal">
-
-
+                    
                     <ListView  ItemsSource="{Binding StandingAllLeague}" HasUnevenRows="True" WidthRequest="1000">
                         <ListView.Header>
                             <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*">
@@ -110,12 +109,13 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*">
+                                    <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*" Padding="13" >
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference standingPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
+                                        </Grid.GestureRecognizers>
                                         <Label Text="{Binding Rank}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="{Binding FullName}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1">
-                                            <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={x:Reference standingPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
-                                            </Label.GestureRecognizers>
+                                           
                                         </Label>
                                         <Label Text="{Binding Win}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="{Binding Loss}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
