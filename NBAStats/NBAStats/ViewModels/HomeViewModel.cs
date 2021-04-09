@@ -1,6 +1,7 @@
 ﻿ using NBAStats.Constants;
 using NBAStats.Models;
 using NBAStats.Services;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -14,8 +15,11 @@ using Xamarin.Forms;
 
 namespace NBAStats.ViewModels
 {
-    public class HomeViewModel : BaseViewModel, IInitialize
+    public class HomeViewModel : BaseViewModel, IInitialize 
     {
+        int _position;
+        public int ImagePosition { get; set; }
+        
         private SeasonRange SeasonRange { get; }
         private string TodayDate { get; } = DateTime.Today.ToString("yyyyMMdd");
         private List<Team> teamList = new List<Team>();
@@ -30,10 +34,33 @@ namespace NBAStats.ViewModels
         public bool AreGamesBeingPlayed { get; set; } = false;
         public IPageDialogService AlertService { get; }
         private List<string> GamesBeingPlayed { get; set; } = new List<string>();
+
         private List<Player> playersList = new List<Player>();
+
+
+        public ObservableCollection<Models.CarouselView> BasquetImage { get; } = new ObservableCollection<Models.CarouselView>();
+
+
         public HomeViewModel(IPageDialogService dialogService, INbaApiService nbaApiService, INavigationService navigationService) : base(navigationService, nbaApiService)
         {
             AlertService = dialogService;
+
+            BasquetImage = new ObservableCollection<Models.CarouselView>
+           {
+            new Models.CarouselView("foto1.jpg"),
+            new Models.CarouselView("foto2.jpg"),
+            new Models.CarouselView("foto3.jpg"),
+            new Models.CarouselView("foto4.jpg"),
+            new Models.CarouselView("foto5.jpg"),
+
+           };
+
+            Device.StartTimer(TimeSpan.FromSeconds(3), (Func<bool>)(() =>
+             {
+                 ImagePosition = (ImagePosition + 1) % 5;
+                 return true;
+             }));
+       
 
             TeamSelectedCommand = new Command<string>(OnSelectedTeam);
             RefreshGamesOfDayCommand = new Command(OnRefreshGamesOfDay);

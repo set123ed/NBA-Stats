@@ -19,6 +19,26 @@ namespace NBAStats.Services
             DataBase.CreateTableAsync<FavoritePlayer>().Wait();
         }
 
+        public Task<int> DeleteFavoritePlayer(FavoritePlayer favoritePlayer)
+        {
+            return DataBase.DeleteAsync(favoritePlayer);
+        }
+
+        public Task<int> DeleteFavoriteTeams(FavoriteTeam favoriteTeam)
+        {
+            return DataBase.DeleteAsync(favoriteTeam);
+        }
+
+        public Task<List<FavoritePlayer>> GetFavoritePalyer()
+        {
+            return DataBase.Table<FavoritePlayer>().ToListAsync();
+        }
+
+        public Task<List<FavoriteTeam>> GetFavoriteTeams()
+        {
+            return DataBase.Table<FavoriteTeam>().ToListAsync();
+        }
+
         public Task<FavoritePlayer> GetPlayerById(string idpalyer)
         {
             return DataBase.Table<FavoritePlayer>().Where(Player => Player.IdFavoritePlayer == idpalyer).FirstOrDefaultAsync();
