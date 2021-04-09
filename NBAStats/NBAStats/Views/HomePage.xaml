@@ -7,7 +7,11 @@
     <ContentPage.Content>
         <RefreshView IsRefreshing="{Binding IsGamesOfDayRefreshing}" Command="{Binding RefreshGamesOfDayCommand}">
             <ScrollView>
-                <Grid BackgroundColor="#fbfef9">
+                <Grid>
+
+                    <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+                    <Grid BackgroundColor="#fbfef9" IsVisible="{Binding IsNotBusy}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -212,6 +216,7 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                     </Grid>
+                </Grid>
             </ScrollView>
         </RefreshView> 
     </ContentPage.Content>

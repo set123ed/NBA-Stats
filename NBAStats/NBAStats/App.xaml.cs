@@ -42,10 +42,6 @@ namespace NBAStats
             containerRegistry.RegisterForNavigation<TeamProfilePage, TeamProfileViewModel>(NavigationConstants.TeamProfilePage);
 
             containerRegistry.RegisterForNavigation<NavigationPage>(NavigationConstants.NavigationPage);
-            //containerRegistry.RegisterForNavigation<PlayersPage, PlayersViewModel>(NavigationConstants.PlayersPage);
-            //containerRegistry.RegisterForNavigation<PlayerInfoDetailPage, PlayerInfoDetailViewModel>(NavigationConstants.PlayerInfoDetailPage);
-            //containerRegistry.RegisterForNavigation<TeamPage, TeamViewModel>(NavigationConstants.TeamPage);
-            //containerRegistry.RegisterForNavigation<CoachPage, CoachViewModel>(NavigationConstants.CoachPage);
         }
         public static DataBaseService SQliteDB
         {

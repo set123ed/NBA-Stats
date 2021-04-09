@@ -16,16 +16,19 @@ namespace NBAStats.ViewModels
     class CalendarViewModel : BaseViewModel, IInitialize
     {
         public ObservableCollection<Game> GamesOfTheDate { get; set; } = new ObservableCollection<Game>();
-        private List<Player> playersList = new List<Player>();
-        private List<Team> teamList = new List<Team>();
+        private List<Player> _playersList = new List<Player>();
+        private List<Team> _teamList = new List<Team>();
         public DateTime DateSelected { get; set; } = DateTime.Today;
-        private string DateFormatted => DateSelected.ToString("yyyyMMdd");
+        private string dateFormatted => DateSelected.ToString("yyyyMMdd");
         public ICommand DateSelectedChangeCommand { get; }
         public ICommand OneDayLessCommand {get;}
         public ICommand OneDayMoreCommand {get;}
         public ICommand RefreshGamesCommand { get; }
         public ICommand GameSelectedCommand { get; }
         public bool AreGamesRefreshing { get; set; }
+
+        public bool IsBusy { get; set; } = true;
+        public bool IsNotBusy => !IsBusy;
         public CalendarViewModel(INbaApiService nbaApiServices, INavigationService navigationService) : base(navigationService, nbaApiServices)
         {
             DateSelectedChangeCommand = new Command(OnDateSelectedChange);
@@ -35,16 +38,14 @@ namespace NBAStats.ViewModels
             OneDayMoreCommand = new Command(OneDayMore);
 
             GameSelectedCommand = new Command<Game>(OnGameSelected);
-
-
         }
 
         public void Initialize(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teams) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> players))
+            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teamsList) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> playersList))
             {
-                teamList = teams;
-                playersList = new List<Player>(players.Where(player => player.IsActive)); ;
+                _teamList = teamsList;
+                _playersList = new List<Player>(playersList.Where(player => player.IsActive)); ;
             }
 
             GetData();
@@ -52,9 +53,11 @@ namespace NBAStats.ViewModels
 
         private async void GetData()
         {
+            await GetSeasonYearParameters();
             await GetNbaTeams();
             await GetPlayers();
             await GetGamesOfTheDate();
+            IsBusy = false;
         }
 
         private async void OnGameSelected(Game game)
@@ -62,8 +65,8 @@ namespace NBAStats.ViewModels
             var parameters = new NavigationParameters();
             parameters.Add(ParametersConstants.GameId, game.GameId);
             parameters.Add(ParametersConstants.DateGame, game.StartDateEastern);
-            parameters.Add(ParametersConstants.PlayerList, playersList);
-            parameters.Add(ParametersConstants.TeamList, teamList);
+            parameters.Add(ParametersConstants.PlayerList, _playersList);
+            parameters.Add(ParametersConstants.TeamList, _teamList);
 
             await NavigationService.NavigateAsync(NavigationConstants.BoxScorePage, parameters);
         }
@@ -92,7 +95,7 @@ namespace NBAStats.ViewModels
 
         public async Task GetGamesOfTheDate()
         {
-            var gameOfDay = await NbaApiService.GetGamesOfDay(DateFormatted);
+            var gameOfDay = await NbaApiService.GetGamesOfDay(dateFormatted);
             if (gameOfDay.GetType().Name == "GameOfDay")
             {
                 if (gameOfDay != null)
@@ -108,25 +111,25 @@ namespace NBAStats.ViewModels
                             {
                                 game.TimePeriodHalftime = "HALFTIME";
                             }
-                            else if (game.Period.IsEndOfPeriod && game.Period.Current <= 4)
+                            else if (game.Period.IsEndOfPeriod && game.Period.CurrentPeriod <= 4)
                             {
-                                game.TimePeriodHalftime = $"END OF {game.Period.Current} QUARTER";
+                                game.TimePeriodHalftime = $"END OF {game.Period.CurrentPeriod} QUARTER";
                             }
-                            else if (game.Period.IsEndOfPeriod && game.Period.Current > 4)
+                            else if (game.Period.IsEndOfPeriod && game.Period.CurrentPeriod > 4)
                             {
-                                game.TimePeriodHalftime = $"END OF {game.Period.Current - 4} OT";
+                                game.TimePeriodHalftime = $"END OF {game.Period.CurrentPeriod - 4} OT";
                             }
                             else if (!game.IsGameActivated)
                             {
                                 game.TimePeriodHalftime = "FINAL";
                             }
-                            else if (game.Period.Current <= 4)
+                            else if (game.Period.CurrentPeriod <= 4)
                             {
-                                game.TimePeriodHalftime = $"{game.Period.Current} QUARTER - {game.Clock} LEFT";
+                                game.TimePeriodHalftime = $"{game.Period.CurrentPeriod} QUARTER - {game.Clock} LEFT";
                             }
-                            else if (game.Period.Current > 4)
+                            else if (game.Period.CurrentPeriod > 4)
                             {
-                                game.TimePeriodHalftime = $"{game.Period.Current - 4} OT - {game.Clock} LEFT";
+                                game.TimePeriodHalftime = $"{game.Period.CurrentPeriod - 4} OT - {game.Clock} LEFT";
                             }
                         }
                         else
@@ -145,15 +148,15 @@ namespace NBAStats.ViewModels
 
         private async Task GetNbaTeams()
         {
-            if (teamList.Count == 0)
+            if (_teamList.Count == 0)
             {
-                var teams = await NbaApiService.GetTeams();
+                var teams = await NbaApiService.GetTeams(_seasonYearApiData);
 
                 if (teams.GetType().Name == "Teams")
                 {
                     if (teams != null)
                     {
-                        teamList = teams.League.Standard;
+                        _teamList = teams.League.Standard;
                     }
                 }
             }
@@ -161,16 +164,16 @@ namespace NBAStats.ViewModels
 
         private async Task GetPlayers()
         {
-            if (playersList.Count == 0)
+            if (_playersList.Count == 0)
             {
-                var players = await NbaApiService.GetNbaPlayers();
+                var players = await NbaApiService.GetNbaPlayers(_seasonYearApiData);
 
                 if (players.GetType().Name == "Players")
                 {
                     if (players != null)
                     {
 
-                        playersList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
+                        _playersList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
                     }
                 }
             }

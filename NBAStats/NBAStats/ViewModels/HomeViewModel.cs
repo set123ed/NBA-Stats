@@ -19,10 +19,9 @@ namespace NBAStats.ViewModels
     {
         int _position;
         public int ImagePosition { get; set; }
-        
-        private SeasonRange SeasonRange { get; }
-        private string TodayDate { get; } = DateTime.Today.ToString("yyyyMMdd");
-        private List<Team> teamList = new List<Team>();
+
+        private string _todayDate = DateTime.Today.ToString("yyyyMMdd");
+        private List<Team> _teamList = new List<Team>();
         public ObservableCollection<Game> GamesOfDay { get; set; } = new ObservableCollection<Game>();
         public ObservableCollection<PlayerRegularStats> ScoringLeaders { get; set; }
         public ObservableCollection<BetterTeams> BetterTeams { get; set; }
@@ -31,13 +30,14 @@ namespace NBAStats.ViewModels
         public ICommand GameSelectedCommand { get; }
         public ICommand PlayerSelectedCommand { get; }
         public ICommand TeamSelectedCommand { get; set; }
-        public bool AreGamesBeingPlayed { get; set; } = false;
         public IPageDialogService AlertService { get; }
-        private List<string> GamesBeingPlayed { get; set; } = new List<string>();
 
-        private List<Player> playersList = new List<Player>();
+        private bool _areGamesBeingPlayed = false;
+        private List<string> _gamesBeingPlayed = new List<string>();
+        private List<Player> _playersList = new List<Player>();
 
-
+        public bool IsBusy { get; set; } = true;
+        public bool IsNotBusy => !IsBusy;
         public ObservableCollection<Models.CarouselView> BasquetImage { get; } = new ObservableCollection<Models.CarouselView>();
 
 
@@ -46,20 +46,20 @@ namespace NBAStats.ViewModels
             AlertService = dialogService;
 
             BasquetImage = new ObservableCollection<Models.CarouselView>
-           {
+            {
             new Models.CarouselView("foto1.jpg"),
             new Models.CarouselView("foto2.jpg"),
             new Models.CarouselView("foto3.jpg"),
             new Models.CarouselView("foto4.jpg"),
             new Models.CarouselView("foto5.jpg"),
 
-           };
+            };
 
             Device.StartTimer(TimeSpan.FromSeconds(3), (Func<bool>)(() =>
-             {
+            {
                  ImagePosition = (ImagePosition + 1) % 5;
                  return true;
-             }));
+            }));
        
 
             TeamSelectedCommand = new Command<string>(OnSelectedTeam);
@@ -95,8 +95,8 @@ namespace NBAStats.ViewModels
                 {
                     var parameters = new NavigationParameters();
                     parameters.Add(ParametersConstants.PlayerId, playerId);
-                    parameters.Add(ParametersConstants.PlayerList, playersList);
-                    parameters.Add(ParametersConstants.TeamList, teamList);
+                    parameters.Add(ParametersConstants.PlayerList, _playersList);
+                    parameters.Add(ParametersConstants.TeamList, _teamList);
 
                     await NavigationService.NavigateAsync(NavigationConstants.PlayerProfilePage, parameters);
                 }
@@ -106,8 +106,8 @@ namespace NBAStats.ViewModels
                 playerId = player.PlayerId;
                 var parameters = new NavigationParameters();
                 parameters.Add(ParametersConstants.PlayerId, playerId);
-                parameters.Add(ParametersConstants.PlayerList, playersList);
-                parameters.Add(ParametersConstants.TeamList, teamList);
+                parameters.Add(ParametersConstants.PlayerList, _playersList);
+                parameters.Add(ParametersConstants.TeamList, _teamList);
 
                 await NavigationService.NavigateAsync(NavigationConstants.PlayerProfilePage, parameters);
             }
@@ -116,14 +116,14 @@ namespace NBAStats.ViewModels
 
         private async void OnSelectedTeam(string teamId)
         {
-            Team teamSelected = teamList.First(team => team.TeamId == teamId);
+            Team teamSelected = _teamList.First(team => team.TeamId == teamId);
 
             var parameters = new NavigationParameters();
             parameters.Add(ParametersConstants.Team, teamSelected);
-            parameters.Add(ParametersConstants.PlayerList, playersList);
-            parameters.Add(ParametersConstants.TeamList, teamList);
+            parameters.Add(ParametersConstants.PlayerList, _playersList);
+            parameters.Add(ParametersConstants.TeamList, _teamList);
 
-            await NavigationService.NavigateAsync(Config.TeamProfilePage, parameters);
+            await NavigationService.NavigateAsync(NavigationConstants.TeamProfilePage, parameters);
         }
 
         private async void OnGameSelected(Game game)
@@ -131,19 +131,21 @@ namespace NBAStats.ViewModels
             var parameters = new NavigationParameters();
             parameters.Add(ParametersConstants.GameId, game.GameId);
             parameters.Add(ParametersConstants.DateGame, game.StartDateEastern);
-            parameters.Add(ParametersConstants.PlayerList, playersList);
-            parameters.Add(ParametersConstants.TeamList, teamList);
+            parameters.Add(ParametersConstants.PlayerList, _playersList);
+            parameters.Add(ParametersConstants.TeamList, _teamList);
 
             await NavigationService.NavigateAsync(NavigationConstants.BoxScorePage, parameters);
         }
 
         private async void GetData()
         {
+            await GetSeasonYearParameters();
             await GetGamesOfTheDay();
             await GetScoringLeaders();
             await GetBetterTeams();
             await GetPlayers();
             await GetNbaTeams();
+            IsBusy = false;
         }
 
         private async void OnRefreshGamesOfDay()
@@ -157,15 +159,15 @@ namespace NBAStats.ViewModels
 
         private async Task GetGamesOfTheDay()
         {
-            GameOfDay gameOfDay = await NbaApiService.GetGamesOfDay(TodayDate);
+            GameOfDay gameOfDay = await NbaApiService.GetGamesOfDay(_todayDate);
             if (gameOfDay != null)
             {
                 foreach (Game game in gameOfDay.Games)
                 {
                     if (!string.IsNullOrEmpty(game.HTeam.Score) && $"{game.VTeam.Score} - {game.HTeam.Score}" != "0 - 0")
                     {
-                        AreGamesBeingPlayed = true;
-                        GamesBeingPlayed.Add(game.GameId);
+                        _areGamesBeingPlayed = true;
+                        _gamesBeingPlayed.Add(game.GameId);
 
                         game.ScoreOrTime = $"{game.VTeam.Score} - {game.HTeam.Score}";
 
@@ -173,25 +175,25 @@ namespace NBAStats.ViewModels
                         {
                             game.TimePeriodHalftime = "HALFTIME";
                         }
-                        else if (game.Period.IsEndOfPeriod && game.Period.Current <= 4)
+                        else if (game.Period.IsEndOfPeriod && game.Period.CurrentPeriod <= 4)
                         {
-                            game.TimePeriodHalftime = $"END OF {game.Period.Current} PERIOD";
+                            game.TimePeriodHalftime = $"END OF {game.Period.CurrentPeriod} PERIOD";
                         }
-                        else if (game.Period.IsEndOfPeriod && game.Period.Current > 4)
+                        else if (game.Period.IsEndOfPeriod && game.Period.CurrentPeriod > 4)
                         {
-                            game.TimePeriodHalftime = $"END OF {game.Period.Current - 4} OT";
+                            game.TimePeriodHalftime = $"END OF {game.Period.CurrentPeriod - 4} OT";
                         }
                         else if (!game.IsGameActivated)
                         {
                             game.TimePeriodHalftime = "FINAL";
                         }
-                        else if (game.Period.Current <= 4)
+                        else if (game.Period.CurrentPeriod <= 4)
                         {
-                            game.TimePeriodHalftime = $"{game.Period.Current} PERIOD - {game.Clock} LEFT";
+                            game.TimePeriodHalftime = $"{game.Period.CurrentPeriod} PERIOD - {game.Clock} LEFT";
                         }
-                        else if (game.Period.Current > 4)
+                        else if (game.Period.CurrentPeriod > 4)
                         {
-                            game.TimePeriodHalftime = $"{game.Period.Current - 4} OT - {game.Clock} LEFT";
+                            game.TimePeriodHalftime = $"{game.Period.CurrentPeriod - 4} OT - {game.Clock} LEFT";
                         }
                     }
                     else
@@ -207,13 +209,13 @@ namespace NBAStats.ViewModels
 
         private async Task GetScoringLeaders()
         {
-            if (AreGamesBeingPlayed)
+            if (_areGamesBeingPlayed)
             {
                 ObservableCollection<PlayerRegularStats> playerScoringLeaderList = new ObservableCollection<PlayerRegularStats>();
 
-                for (int i = 0; i < GamesBeingPlayed.Count; i++)
+                foreach (string gameId in _gamesBeingPlayed)
                 {
-                    var boxScore = await NbaApiService.GetBoxScore(TodayDate, GamesBeingPlayed[i]);
+                    var boxScore = await NbaApiService.GetBoxScore(_todayDate, gameId);
 
                     if (boxScore.GetType().Name == "BoxScore")
                     {
@@ -226,7 +228,7 @@ namespace NBAStats.ViewModels
                             if (Convert.ToDecimal(boxScore.Stats.VTeam.Leaders.Points.Value) > Convert.ToDecimal(boxScore.Stats.HTeam.Leaders.Points.Value))
                             {
                                 playerRegularStats.Name = boxScore.Stats.VTeam.Leaders.Points.Players[0].FirstName + " " + boxScore.Stats.VTeam.Leaders.Points.Players[0].LastName;
-                                playerRegularStats.Team = boxScore.BasicGameData.VTeamBoxScore.TriCode;
+                                playerRegularStats.Team = boxScore.BasicGameData.VTeam.TriCode;
                                 playerRegularStats.PlayerId = boxScore.Stats.VTeam.Leaders.Points.Players[0].PersonId;
                                 playerRegularStats.PointsPerGame = boxScore.Stats.VTeam.Leaders.Points.Value;
                                 playerRegularStats.AssistsPerGame = boxScore.Stats.ActivePlayers.First(player => player.PersonId == playerRegularStats.PlayerId).Assists;
@@ -247,7 +249,7 @@ namespace NBAStats.ViewModels
                                                             + " - " + boxScore.Stats.HTeam.Leaders.Points.Players[0].FirstName + " " + boxScore.Stats.HTeam.Leaders.Points.Players[0].LastName;
                                 playerRegularStats.PlayerId = boxScore.Stats.VTeam.Leaders.Points.Players[0].PersonId + " " + boxScore.Stats.HTeam.Leaders.Points.Players[0].PersonId;
                                 playerRegularStats.PointsPerGame = boxScore.Stats.HTeam.Leaders.Points.Value;
-                                playerRegularStats.Team = boxScore.BasicGameData.VTeamBoxScore.TriCode + " - " + boxScore.BasicGameData.HTeam.TriCode;
+                                playerRegularStats.Team = boxScore.BasicGameData.VTeam.TriCode + " - " + boxScore.BasicGameData.HTeam.TriCode;
                                 playerRegularStats.AssistsPerGame = boxScore.Stats.ActivePlayers.First(player => player.PersonId == boxScore.Stats.VTeam.Leaders.Points.Players[0].PersonId).Assists + " - " +
                                         boxScore.Stats.ActivePlayers.First(player => player.PersonId == boxScore.Stats.HTeam.Leaders.Points.Players[0].PersonId).Assists;
                                 playerRegularStats.ReboundsPerGame = boxScore.Stats.ActivePlayers.First(player => player.PersonId == boxScore.Stats.VTeam.Leaders.Points.Players[0].PersonId).TotReb + " - " +
@@ -259,9 +261,6 @@ namespace NBAStats.ViewModels
 
                         }
 
-
-
-
                     }
                 }
 
@@ -269,7 +268,7 @@ namespace NBAStats.ViewModels
             }
             else
             {
-                PlayerStatsLeaders playerStatsLeaders = await NbaApiService.GetPlayerStatsLeaders("2020-21","PTS");
+                PlayerStatsLeaders playerStatsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats,"PTS");
                 ObservableCollection<PlayerRegularStats> listPlayerRegularStats = new ObservableCollection<PlayerRegularStats>();
 
                 for (int i = 0; i < 6; i++)
@@ -293,15 +292,15 @@ namespace NBAStats.ViewModels
 
         private async Task GetNbaTeams()
         {
-            if (teamList.Count == 0)
+            if (_teamList.Count == 0)
             {
-                var teams = await NbaApiService.GetTeams();
+                var teams = await NbaApiService.GetTeams(_seasonYearApiData);
 
                 if (teams.GetType().Name == "Teams")
                 {
                     if (teams != null)
                     {
-                        teamList = teams.League.Standard;
+                        _teamList = teams.League.Standard;
                     }
                 }
             }
@@ -311,7 +310,7 @@ namespace NBAStats.ViewModels
         private async Task GetBetterTeams()
         {
             var standing = await NbaApiService.GetStanding();
-            var teamStatsClass = await NbaApiService.GetTeamStats();
+            var teamStatsClass = await NbaApiService.GetTeamStats(_seasonYearApiData);
 
             if (standing.GetType().Name == "Standing" && teamStatsClass.GetType().Name == "TeamStatsClass")
             {
@@ -338,16 +337,16 @@ namespace NBAStats.ViewModels
 
         private async Task GetPlayers()
         {
-            if (playersList.Count == 0)
+            if (_playersList.Count == 0)
             {
-                var players = await NbaApiService.GetNbaPlayers();
+                var players = await NbaApiService.GetNbaPlayers(_seasonYearApiData);
 
                 if (players.GetType().Name == "Players")
                 {
                     if (players != null)
                     {
 
-                        playersList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
+                        _playersList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
                     }
                 }
             }
@@ -355,10 +354,10 @@ namespace NBAStats.ViewModels
 
         public void Initialize(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teams) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> players))
+            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teamsList) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> playersList))
             {
-                teamList = teams;
-                playersList = players;
+                _teamList = teamsList;
+                _playersList = playersList;
             }
 
             GetData();

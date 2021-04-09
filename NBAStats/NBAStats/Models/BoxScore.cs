@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace NBAStats.Models
 {
-    public class TotalsBoxScore
+    public class TotalTeamStatsBoxScore
     {
 
         [JsonPropertyName("points")]
@@ -91,7 +91,7 @@ namespace NBAStats.Models
         public string LastName { get; set; }
     }
 
-    public class PointsBoxScore
+    public class StatBoxScore
     {
 
         [JsonPropertyName("value")]
@@ -101,40 +101,21 @@ namespace NBAStats.Models
         public IList<PlayerBoxScore> Players { get; set; }
     }
 
-    public class ReboundsBoxScore
-    {
-
-        [JsonPropertyName("value")]
-        public string Value { get; set; }
-
-        [JsonPropertyName("players")]
-        public IList<PlayerBoxScore> Players { get; set; }
-    }
-
-    public class AssistsBoxScore
-    {
-
-        [JsonPropertyName("value")]
-        public string Value { get; set; }
-
-        [JsonPropertyName("players")]
-        public IList<PlayerBoxScore> Players { get; set; }
-    }
 
     public class LeadersBoxScore
     {
 
         [JsonPropertyName("points")]
-        public PointsBoxScore Points { get; set; }
+        public StatBoxScore Points { get; set; }
 
         [JsonPropertyName("rebounds")]
-        public ReboundsBoxScore Rebounds { get; set; }
+        public StatBoxScore Rebounds { get; set; }
 
         [JsonPropertyName("assists")]
-        public AssistsBoxScore Assists { get; set; }
+        public StatBoxScore Assists { get; set; }
     }
 
-    public class VTeamTotalBoxScore
+    public class TeamBoxScore
     {
 
         [JsonPropertyName("fastBreakPoints")]
@@ -156,66 +137,10 @@ namespace NBAStats.Models
         public string LongestRun { get; set; }
 
         [JsonPropertyName("totals")]
-        public TotalsBoxScore Totals { get; set; }
+        public TotalTeamStatsBoxScore Totals { get; set; }
 
         [JsonPropertyName("leaders")]
         public LeadersBoxScore Leaders { get; set; }
-    }
-
-    public class HTeamTotalBoxScore
-    {
-
-        [JsonPropertyName("fastBreakPoints")]
-        public string FastBreakPoints { get; set; }
-
-        [JsonPropertyName("pointsInPaint")]
-        public string PointsInPaint { get; set; }
-
-        [JsonPropertyName("biggestLead")]
-        public string BiggestLead { get; set; }
-
-        [JsonPropertyName("secondChancePoints")]
-        public string SecondChancePoints { get; set; }
-
-        [JsonPropertyName("pointsOffTurnovers")]
-        public string PointsOffTurnovers { get; set; }
-
-        [JsonPropertyName("longestRun")]
-        public string LongestRun { get; set; }
-
-        [JsonPropertyName("totals")]
-        public TotalsBoxScore Totals { get; set; }
-
-        [JsonPropertyName("leaders")]
-        public LeadersBoxScore Leaders { get; set; }
-    }
-    public class GameDurationBoxScore
-    {
-
-        [JsonPropertyName("hours")]
-        public string Hours { get; set; }
-
-        [JsonPropertyName("minutes")]
-        public string Minutes { get; set; }
-    }
-
-    public class PeriodBoxScore
-    {
-
-        [JsonPropertyName("current")]
-        public int Current { get; set; }
-
-        [JsonPropertyName("type")]
-        public int Type { get; set; }
-
-        [JsonPropertyName("maxRegular")]
-        public int MaxRegular { get; set; }
-
-        [JsonPropertyName("isHalftime")]
-        public bool IsHalftime { get; set; }
-
-        [JsonPropertyName("isEndOfPeriod")]
-        public bool IsEndOfPeriod { get; set; }
     }
 
     public class LinescoreBoxScore
@@ -225,36 +150,7 @@ namespace NBAStats.Models
         public string Score { get; set; }
     }
 
-    public class VTeamBoxScore
-    {
-
-        [JsonPropertyName("teamId")]
-        public string TeamId { get; set; }
-
-        [JsonPropertyName("triCode")]
-        public string TriCode { get; set; }
-
-        [JsonPropertyName("win")]
-        public string Win { get; set; }
-
-        [JsonPropertyName("loss")]
-        public string Loss { get; set; }
-
-        [JsonPropertyName("seriesWin")]
-        public string SeriesWin { get; set; }
-
-        [JsonPropertyName("seriesLoss")]
-        public string SeriesLoss { get; set; }
-
-        [JsonPropertyName("score")]
-        public string Score { get; set; }
-
-        [JsonPropertyName("linescore")]
-        public IList<LinescoreBoxScore> Linescore { get; set; }
-    }
-
-
-    public class HTeamBoxScore
+    public class TeamInfoBoxScore
     {
 
         [JsonPropertyName("teamId")]
@@ -357,28 +253,15 @@ namespace NBAStats.Models
         [JsonPropertyName("isNeutralVenue")]
         public bool IsNeutralVenue { get; set; }
 
-        [JsonPropertyName("gameDuration")]
-        public GameDurationBoxScore GameDuration { get; set; }
-
         [JsonPropertyName("period")]
-        public PeriodBoxScore Period { get; set; }
+        public Period Period { get; set; }
 
         [JsonPropertyName("vTeam")]
-        public VTeam VTeamBoxScore { get; set; }
+        public TeamInfoBoxScore VTeam { get; set; }
 
         [JsonPropertyName("hTeam")]
-        public HTeamBoxScore HTeam { get; set; }
+        public TeamInfoBoxScore HTeam { get; set; }
 
-    }
-
-    public class PreviousMatchup
-    {
-
-        [JsonPropertyName("gameId")]
-        public string GameId { get; set; }
-
-        [JsonPropertyName("gameDate")]
-        public string GameDate { get; set; }
     }
 
     public class ActivePlayerBoxScore
@@ -477,18 +360,11 @@ namespace NBAStats.Models
 
     public class StatsBoxScore
     {
-
-        [JsonPropertyName("timesTied")]
-        public string TimesTied { get; set; }
-
-        [JsonPropertyName("leadChanges")]
-        public string LeadChanges { get; set; }
-
         [JsonPropertyName("vTeam")]
-        public VTeamTotalBoxScore VTeam { get; set; }
+        public TeamBoxScore VTeam { get; set; }
 
         [JsonPropertyName("hTeam")]
-        public HTeamTotalBoxScore HTeam { get; set; }
+        public TeamBoxScore HTeam { get; set; }
 
         [JsonPropertyName("activePlayers")]
         public IList<ActivePlayerBoxScore> ActivePlayers { get; set; }
@@ -500,9 +376,6 @@ namespace NBAStats.Models
 
         [JsonPropertyName("basicGameData")]
         public BasicGameData BasicGameData { get; set; }
-
-        [JsonPropertyName("previousMatchup")]
-        public PreviousMatchup PreviousMatchup { get; set; }
 
         [JsonPropertyName("stats")]
         public StatsBoxScore Stats { get; set; }

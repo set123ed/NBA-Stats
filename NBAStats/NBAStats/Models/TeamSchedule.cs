@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace NBAStats.Models
 {
-    public class VTeamSchedule
+    public class TeamInfoSchedule
     {
         [JsonPropertyName("teamId")]
         public string TeamId { get; set; }
@@ -15,14 +15,6 @@ namespace NBAStats.Models
         public string Tricode { get; set; }
     }
 
-    public class HTeamSchedule
-    {
-        [JsonPropertyName("teamId")]
-        public string TeamId { get; set; }
-        [JsonPropertyName("score")]
-        public string Score { get; set; }
-        public string Tricode { get; set; }
-    }
 
     public class GameTeamSchedule
     {
@@ -73,10 +65,10 @@ namespace NBAStats.Models
         public bool IsStartTimeTBD { get; set; }
 
         [JsonPropertyName("vTeam")]
-        public VTeamSchedule VTeam { get; set; }
+        public TeamInfoSchedule VTeam { get; set; }
 
         [JsonPropertyName("hTeam")]
-        public HTeamSchedule HTeam { get; set; }
+        public TeamInfoSchedule HTeam { get; set; }
 
         public string ScoreOrTime { get; set; }
 

@@ -30,11 +30,14 @@ namespace NBAStats.ViewModels
 
         public Team Team { get; set; }
 
-        private List<Player> playersList = new List<Player>();
-        private List<Team> teamList = new List<Team>();
+        private List<Player> _playersList = new List<Player>();
+        private List<Team> _teamList = new List<Team>();
 
         public ICommand GameSelectedCommand { get; }
         public ICommand SelectedPlayerCommand { get; }
+
+        public bool IsBusy { get; set; } = true;
+        public bool IsNotBusy => !IsBusy;
 
         public TeamProfileViewModel(INavigationService navigationService, INbaApiService nbaApiService) : base(navigationService, nbaApiService)
         {
@@ -47,8 +50,8 @@ namespace NBAStats.ViewModels
             var parameters = new NavigationParameters();
             parameters.Add(ParametersConstants.GameId, game.GameId);
             parameters.Add(ParametersConstants.DateGame, game.StartDateEastern);
-            parameters.Add(ParametersConstants.PlayerList, playersList);
-            parameters.Add(ParametersConstants.TeamList, teamList);
+            parameters.Add(ParametersConstants.PlayerList, _playersList);
+            parameters.Add(ParametersConstants.TeamList, _teamList);
 
             await NavigationService.NavigateAsync(NavigationConstants.BoxScorePage, parameters);
         }
@@ -56,27 +59,29 @@ namespace NBAStats.ViewModels
         private async void OnSelectedPlayer(string playerId)
         {
             var parameters = new NavigationParameters();
-            parameters.Add(ParametersConstants.TeamList, new List<Team>(teamList));
+            parameters.Add(ParametersConstants.TeamList, new List<Team>(_teamList));
             parameters.Add(ParametersConstants.PlayerId, playerId);
-            parameters.Add(ParametersConstants.PlayerList, new List<Player>(playersList));
+            parameters.Add(ParametersConstants.PlayerList, new List<Player>(_playersList));
 
             await NavigationService.NavigateAsync(NavigationConstants.PlayerProfilePage, parameters);
         }
 
         public async void Initialize(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue(ParametersConstants.Team, out Team team) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> players) && parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teams))
+            if (parameters.TryGetValue(ParametersConstants.Team, out Team team) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> playersList) && parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teamsList))
             {
                 Team = team;
 
-                teamList = teams;
+                _teamList = teamsList;
 
-                playersList = players;
+                _playersList = playersList;
 
+                await GetSeasonYearParameters();
                 await GetTeamInfo();
                 await GetTeamLeaders();
                 await GetTeamStats();
                 await GetTeamStanding();
+                IsBusy = false;
             }
 
 
@@ -110,19 +115,12 @@ namespace NBAStats.ViewModels
 
         private async Task GetTeamInfo()
         {
-            var teamSchedule = await NbaApiService.GetTeamSchedule("2020",Team.UrlName);
+            var teamSchedule = await NbaApiService.GetTeamSchedule(_seasonYearApiData, Team.UrlName);
             if (teamSchedule.GetType().Name == "TeamSchedule")
             {
                 if (teamSchedule != null)
                 {
-                    ObservableCollection<Player> roster = new ObservableCollection<Player>(playersList.Where(player => player.TeamId == Team.TeamId));
-
-
-                    foreach (Player player in roster)
-                    {
-                            player.FullName = $"{player.FirstName} {player.LastName}";
-
-                    }
+                    ObservableCollection<Player> roster = new ObservableCollection<Player>(_playersList.Where(player => player.TeamId == Team.TeamId));
 
                     Roster = roster;
 
@@ -239,7 +237,7 @@ namespace NBAStats.ViewModels
 
         public async Task GetTeamLeaders()
         {
-            var teamLeaders = await NbaApiService.GetTeamLeaders("2020", Team.UrlName);
+            var teamLeaders = await NbaApiService.GetTeamLeaders(_seasonYearApiData, Team.UrlName);
 
             if (teamLeaders.GetType().Name == "TeamLeaders")
             {
@@ -328,7 +326,7 @@ namespace NBAStats.ViewModels
 
         private async Task GetTeamStats()
         {
-            var teamStat = await NbaApiService.GetTeamStats();
+            var teamStat = await NbaApiService.GetTeamStats(_seasonYearApiData);
 
             if (teamStat.GetType().Name == "TeamStatsClass")
             {

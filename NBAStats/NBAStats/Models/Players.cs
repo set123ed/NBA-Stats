@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using System.Text.Json.Serialization;
 
 namespace NBAStats.Models
@@ -53,15 +51,14 @@ namespace NBAStats.Models
 
     public class Player
     {
-        public string FullName { get; set; }
         [JsonPropertyName("firstName")]
         public string FirstName { get; set; }
 
         [JsonPropertyName("lastName")]
         public string LastName { get; set; }
 
-        [JsonPropertyName("temporaryDisplayName")]
-        public string TemporaryDisplayName { get; set; }
+        //[JsonPropertyName("temporaryDisplayName")]
+        //public string TemporaryDisplayName { get; set; }
 
         [JsonPropertyName("personId")]
         public string PersonId { get; set; }
@@ -84,14 +81,14 @@ namespace NBAStats.Models
         [JsonPropertyName("heightInches")]
         public string HeightInches { get; set; }
 
-        [JsonPropertyName("heightMeters")]
-        public string HeightMeters { get; set; }
+        //[JsonPropertyName("heightMeters")]
+        //public string HeightMeters { get; set; }
 
         [JsonPropertyName("weightPounds")]
         public string WeightPounds { get; set; }
 
-        [JsonPropertyName("weightKilograms")]
-        public string WeightKilograms { get; set; }
+        //[JsonPropertyName("weightKilograms")]
+        //public string WeightKilograms { get; set; }
 
         [JsonPropertyName("dateOfBirthUTC")]
         public string DateOfBirthUTC { get; set; }
@@ -105,23 +102,28 @@ namespace NBAStats.Models
         [JsonPropertyName("draft")]
         public Draft Draft { get; set; }
 
-        [JsonPropertyName("nbaDebutYear")]
-        public string NbaDebutYear { get; set; }
+        //[JsonPropertyName("nbaDebutYear")]
+        //public string NbaDebutYear { get; set; }
 
         [JsonPropertyName("yearsPro")]
         public string YearsPro { get; set; }
 
-        [JsonPropertyName("collegeName")]
-        public string CollegeName { get; set; }
+        //[JsonPropertyName("collegeName")]
+        //public string CollegeName { get; set; }
 
-        [JsonPropertyName("lastAffiliation")]
-        public string LastAffiliation { get; set; }
+        //[JsonPropertyName("lastAffiliation")]
+        //public string LastAffiliation { get; set; }
 
         [JsonPropertyName("country")]
         public string Country { get; set; }
 
         [JsonPropertyName("isallStar")]
         public bool? IsallStar { get; set; }
+
+        public string FullName => $"{FirstName} {LastName}";
+        public string PlayerHeight => $"{HeightFeet}.{HeightInches}";
+        public string YearDebutActualTeam => Teams[Teams.Count - 1].SeasonStart;
+
     }
 
     public class LeaguePlayer

@@ -7,9 +7,12 @@
              Title="Stats">
     <ContentPage.Content>
 
-        <Grid RowDefinitions="0.08*,*">
+        <Grid>
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
 
-            <StackLayout Orientation="Horizontal" Grid.Row="0" Padding="5" VerticalOptions="Center" HorizontalOptions="Center">
+            <Grid RowDefinitions="0.08*,*" IsVisible="{Binding IsNotBusy}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+
+                <StackLayout Orientation="Horizontal" Grid.Row="0" Padding="5" VerticalOptions="Center" HorizontalOptions="Center">
 
                 <Button Text="Players" Command="{Binding ShowPlayerCommand}"/>
                 <Button Text="Teams" Command="{Binding ShowTeamCommand}"/>
@@ -391,7 +394,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <Label Text="Three points made per game" Grid.Row="5" Grid.Column="1"/>
+                <Label Text="Three points percentage (%)" Grid.Row="5" Grid.Column="1"/>
 
                 <ListView ItemsSource="{Binding TeamThreesLeaders}" Grid.Column="1" Grid.Row="6" HasUnevenRows="True">
                     <ListView.Header>
@@ -466,8 +469,8 @@
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Orientation="Horizontal" Margin="7.5">
-                                    <Label Text="{Binding FirstName}"/>
-                                    <Label Text="{Binding LastName}"/>
+                                    <Label Text="{Binding FullName}"/>
+
 
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Source={x:Reference statsPage}, Path=BindingContext.SelectedPlayerCommand}" CommandParameter="{Binding PersonId}"/>
@@ -479,6 +482,8 @@
                 </ListView>
             </Grid>
             
+        </Grid>
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

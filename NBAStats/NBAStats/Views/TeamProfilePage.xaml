@@ -6,8 +6,12 @@
              x:Name="teamProfilePage">
     <ContentPage.Content>
 
-        <ScrollView  HeightRequest="500">
-        <Grid ColumnDefinitions="*,*,*" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto" RowSpacing="20" HorizontalOptions="Fill" VerticalOptions="Fill">
+        <ScrollView>
+            <Grid>
+
+                <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+                <Grid IsVisible="{Binding IsNotBusy}"  ColumnDefinitions="*,*,*" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto" RowSpacing="20" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             
             <StackLayout  Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
                 <Label Text="{Binding Team.FullName}" VerticalOptions="Center" HorizontalOptions="Center"/>
@@ -140,6 +144,8 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
+
+            </Grid>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

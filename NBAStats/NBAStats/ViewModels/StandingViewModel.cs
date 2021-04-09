@@ -15,8 +15,8 @@ namespace NBAStats.ViewModels
 {
     public class StandingViewModel : BaseViewModel, IInitialize
     {
-        private List<Team> teamList = new List<Team>();
-        private List<Player> playerList = new List<Player>();
+        private List<Team> _teamList = new List<Team>();
+        private List<Player> _playerList = new List<Player>();
         public ObservableCollection<StandingPerConference> StandingPerConference { get; set; } = new ObservableCollection<StandingPerConference>();
         public ObservableCollection<TeamStanding> StandingAllLeague { get; set; } = new ObservableCollection<TeamStanding>();
         public bool ShowConference { get; set; } = true;
@@ -26,10 +26,12 @@ namespace NBAStats.ViewModels
         public ICommand SelectedTeamCommand { get; }
 
         public string SeasonStage { get; set; }
+
+        public bool IsBusy { get; set; } = true;
+        public bool IsNotBusy => !IsBusy;
+
         public StandingViewModel(INavigationService navigationService, INbaApiService nbaApiService) : base(navigationService, nbaApiService)
         {
-            GetData();
-
             ShowAllLeagueCommand = new Command(OnShowAllLeague);
             ShowConferenceCommand = new Command(OnShowConference);
             SelectedTeamCommand = new Command<string>(OnSelectedTeam);
@@ -37,12 +39,12 @@ namespace NBAStats.ViewModels
 
         private async void OnSelectedTeam(string teamId)
         {
-            Team teamSelected = teamList.First(team => team.TeamId == teamId);
+            Team teamSelected = _teamList.First(team => team.TeamId == teamId);
 
             var parameters = new NavigationParameters();
             parameters.Add(ParametersConstants.Team, teamSelected);
-            parameters.Add(ParametersConstants.PlayerList, new List<Player>(playerList));
-            parameters.Add(ParametersConstants.TeamList, new List<Team>(teamList));
+            parameters.Add(ParametersConstants.PlayerList, new List<Player>(_playerList));
+            parameters.Add(ParametersConstants.TeamList, new List<Team>(_teamList));
 
             await NavigationService.NavigateAsync(NavigationConstants.TeamProfilePage, parameters);
         }
@@ -65,9 +67,11 @@ namespace NBAStats.ViewModels
 
         private async void GetData()
         {
+            await GetSeasonYearParameters();
             await GetTeams();
             await GetPlayers();
             await GetStanding();
+            IsBusy = false;
         }
 
         private async Task GetStanding()
@@ -89,12 +93,9 @@ namespace NBAStats.ViewModels
 
                     foreach (TeamStanding teamStanding in standings)
                     {
-                        Team team = teamList.First(t => t.TeamId == teamStanding.TeamId);
+                        Team team = _teamList.First(t => t.TeamId == teamStanding.TeamId);
 
                         teamStanding.FullName = team.FullName;
-                        teamStanding.L10 = $"{teamStanding.LastTenWin} - {teamStanding.LastTenLoss}";
-                        teamStanding.Home = $"{teamStanding.HomeWin} - {teamStanding.HomeLoss}";
-                        teamStanding.Road = $"{teamStanding.AwayWin} - {teamStanding.AwayLoss}";
 
                         if (team.ConfName == "East")
                         {
@@ -118,15 +119,15 @@ namespace NBAStats.ViewModels
 
         public async Task GetTeams()
         {
-            if (teamList.Count == 0)
+            if (_teamList.Count == 0)
             {
-                var teams = await NbaApiService.GetTeams();
+                var teams = await NbaApiService.GetTeams(_seasonYearApiData);
 
                 if (teams.GetType().Name == "Teams")
                 {
                     if (teams != null)
                     {
-                        teamList = teams.League.Standard;
+                        _teamList = teams.League.Standard;
                     }
                 }
             }
@@ -135,16 +136,16 @@ namespace NBAStats.ViewModels
 
         private async Task GetPlayers()
         {
-            if (playerList.Count == 0)
+            if (_playerList.Count == 0)
             {
-                var players = await NbaApiService.GetNbaPlayers();
+                var players = await NbaApiService.GetNbaPlayers(_seasonYearApiData);
 
                 if (players.GetType().Name == "Players")
                 {
                     if (players != null)
                     {
 
-                        playerList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
+                        _playerList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
                     }
                 }
             }
@@ -152,11 +153,15 @@ namespace NBAStats.ViewModels
 
         public void Initialize(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teams) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> players))
+            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teamsList) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> playersList))
             {
-                teamList = teams;
-                playerList = players;
+                _teamList = teamsList;
+                _playerList = playersList;
+
+                
             }
+
+            GetData();
         }
     }
 }

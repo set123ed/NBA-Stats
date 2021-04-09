@@ -6,6 +6,9 @@
              Title="Standing">
     <ContentPage.Content>
         <Grid>
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+            <Grid IsVisible="{Binding IsNotBusy}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             <Grid.RowDefinitions>
 
                 <RowDefinition Height="80"/>
@@ -133,6 +136,8 @@
                     </ListView>
                 </StackLayout>
             </ScrollView>
+
+        </Grid>
 
         </Grid>
     </ContentPage.Content>

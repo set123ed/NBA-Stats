@@ -15,13 +15,13 @@ namespace NBAStats.ViewModels
 {
     class StatsViewModel : BaseViewModel, IInitialize
     {
-        private string firstTeamAllStarId = "";
-        private string lastTeamAllStarId = "";
+        private string _firstTeamAllStarId = "";
+        private string _lastTeamAllStarId = "";
         public ObservableCollection<Team> TeamList { get; set; } = new ObservableCollection<Team>();
         public ObservableCollection<Player> PlayersList { get; set; } = new ObservableCollection<Player>();
 
-        private ObservableCollection<Team> fullTeamList = new ObservableCollection<Team>();
-        private ObservableCollection<Player> fullPlayerList = new ObservableCollection<Player>();
+        private ObservableCollection<Team> _fullTeamList = new ObservableCollection<Team>();
+        private ObservableCollection<Player> _fullPlayerList = new ObservableCollection<Player>();
 
         public bool ShowPlayers { get; set; } = true;
         public bool ShowTeams { get; set; } = false;
@@ -52,6 +52,8 @@ namespace NBAStats.ViewModels
         public ICommand ShowTeamCommand { get; }
         public ICommand ShowSearchCommand { get; }
 
+        public bool IsBusy { get; set; } = true;
+        public bool IsNotBusy => !IsBusy;
 
         public StatsViewModel(INbaApiService nbaApiServices, INavigationService navigationService) : base(navigationService, nbaApiServices)
         {
@@ -65,31 +67,34 @@ namespace NBAStats.ViewModels
             ShowTeamCommand = new Command(OnShowTeam);
             ShowSearchCommand = new Command(OnShowSearch);
 
-            GetData();
+            
         }
 
         public void Initialize(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teams) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> players))
+            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teamsList) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> playersList))
             {
-                players.RemoveAll(player => !player.IsActive);
+                playersList.RemoveAll(player => !player.IsActive);
 
-                players = new List<Player>(players.OrderBy(player => player.FirstName));
+                playersList = new List<Player>(playersList.OrderBy(player => player.FirstName));
 
-                PlayersList = new ObservableCollection<Player>(players);
-                fullPlayerList = new ObservableCollection<Player>(players);
+                PlayersList = new ObservableCollection<Player>(playersList);
+                _fullPlayerList = new ObservableCollection<Player>(playersList);
 
 
 
-                firstTeamAllStarId = teams.First(team => team.IsAllStar).TeamId;
-                lastTeamAllStarId = teams.Last(team => team.IsAllStar).TeamId;
+                _firstTeamAllStarId = teamsList.First(team => team.IsAllStar).TeamId;
+                _lastTeamAllStarId = teamsList.Last(team => team.IsAllStar).TeamId;
 
-                teams.RemoveAll(team => team.IsAllStar);
+                teamsList.RemoveAll(team => team.IsAllStar);
     
-                TeamList = new ObservableCollection<Team>(teams);
-                fullTeamList = new ObservableCollection<Team>(teams);
+                TeamList = new ObservableCollection<Team>(teamsList);
+                _fullTeamList = new ObservableCollection<Team>(teamsList);
 
+                
             }
+
+            GetData();
         }
 
         private void OnShowSearch()
@@ -155,12 +160,12 @@ namespace NBAStats.ViewModels
 
         private async void OnSelectedTeam(string teamId)
         {
-            Team teamSelected = fullTeamList.First(team => team.TeamId == teamId);
+            Team teamSelected = _fullTeamList.First(team => team.TeamId == teamId);
 
             var parameters = new NavigationParameters();
             parameters.Add(ParametersConstants.Team, teamSelected);
-            parameters.Add(ParametersConstants.PlayerList, new List<Player>(fullPlayerList));
-            parameters.Add(ParametersConstants.TeamList, new List<Team>(fullTeamList));
+            parameters.Add(ParametersConstants.PlayerList, new List<Player>(_fullPlayerList));
+            parameters.Add(ParametersConstants.TeamList, new List<Team>(_fullTeamList));
 
             await NavigationService.NavigateAsync(NavigationConstants.TeamProfilePage ,parameters);
         }
@@ -168,9 +173,9 @@ namespace NBAStats.ViewModels
         private async void OnSelectedPlayer(string playerId)
         {
             var parameters = new NavigationParameters();
-            parameters.Add(ParametersConstants.TeamList, new List<Team>(fullTeamList));
+            parameters.Add(ParametersConstants.TeamList, new List<Team>(_fullTeamList));
             parameters.Add(ParametersConstants.PlayerId, playerId);
-            parameters.Add(ParametersConstants.PlayerList, new List<Player>(fullPlayerList));
+            parameters.Add(ParametersConstants.PlayerList, new List<Player>(_fullPlayerList));
 
             await NavigationService.NavigateAsync(NavigationConstants.PlayerProfilePage, parameters);
         }
@@ -187,18 +192,19 @@ namespace NBAStats.ViewModels
         {
             if (!string.IsNullOrEmpty(Filter))
             {
-                TeamList = new ObservableCollection<Team>(fullTeamList.Where(team => team.FullName.ToLower().Contains(Filter.ToLower())));
-                PlayersList = new ObservableCollection<Player>(fullPlayerList.Where(player => (player.FirstName + " " + player.LastName).ToLower().Contains(Filter.ToLower())));
+                TeamList = new ObservableCollection<Team>(_fullTeamList.Where(team => team.FullName.ToLower().Contains(Filter.ToLower())));
+                PlayersList = new ObservableCollection<Player>(_fullPlayerList.Where(player => (player.FirstName + " " + player.LastName).ToLower().Contains(Filter.ToLower())));
             }
             else 
             {
-                TeamList = new ObservableCollection<Team>(fullTeamList);
-                PlayersList = new ObservableCollection<Player>(fullPlayerList);
+                TeamList = new ObservableCollection<Team>(_fullTeamList);
+                PlayersList = new ObservableCollection<Player>(_fullPlayerList);
             }
         }
 
         public async void GetData()
         {
+            await GetSeasonYearParameters();
             await GetTeams();
             await GetPlayers();
 
@@ -210,13 +216,14 @@ namespace NBAStats.ViewModels
             await GetThreesLeaders();
 
             await GetTeamStats();
+            IsBusy = false;
         }
 
         private async Task GetPlayers()
         {
-            if (fullPlayerList.Count == 0)
+            if (_fullPlayerList.Count == 0)
             {
-                var players = await NbaApiService.GetNbaPlayers();
+                var players = await NbaApiService.GetNbaPlayers(_seasonYearApiData);
 
                 if (players.GetType().Name == "Players")
                 {
@@ -229,7 +236,7 @@ namespace NBAStats.ViewModels
                         playerList = new List<Player>(playerList.OrderBy(player => player.FirstName));
 
                         PlayersList = new ObservableCollection<Player>(playerList);
-                        fullPlayerList = new ObservableCollection<Player>(playerList);
+                        _fullPlayerList = new ObservableCollection<Player>(playerList);
                     }
                 }
             }
@@ -238,9 +245,9 @@ namespace NBAStats.ViewModels
 
         public async Task GetTeams()
         {
-            if (fullTeamList.Count == 0)
+            if (_fullTeamList.Count == 0)
             {
-                var teams = await NbaApiService.GetTeams();
+                var teams = await NbaApiService.GetTeams(_seasonYearApiData);
 
                 if (teams.GetType().Name == "Teams")
                 {
@@ -248,12 +255,12 @@ namespace NBAStats.ViewModels
                     {
                         List<Team> teamList = teams.League.Standard;
 
-                        firstTeamAllStarId = teamList.First(team => team.IsAllStar).TeamId;
-                        lastTeamAllStarId = teamList.Last(team => team.IsAllStar).TeamId;
+                        _firstTeamAllStarId = teamList.First(team => team.IsAllStar).TeamId;
+                        _lastTeamAllStarId = teamList.Last(team => team.IsAllStar).TeamId;
 
                         teamList.RemoveAll(team => team.IsAllStar);
                         TeamList = new ObservableCollection<Team>(teamList);
-                        fullTeamList = new ObservableCollection<Team>(teamList);
+                        _fullTeamList = new ObservableCollection<Team>(teamList);
                     }
                 }
             }
@@ -262,7 +269,7 @@ namespace NBAStats.ViewModels
 
         public async Task GetPointLeaders()
         {
-            var pointsLeaders = await NbaApiService.GetPlayerStatsLeaders("2020-21", "PTS");
+            var pointsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats,"PTS");
 
             if (pointsLeaders.GetType().Name == "PlayerStatsLeaders")
             {
@@ -296,7 +303,7 @@ namespace NBAStats.ViewModels
         }
         public async Task GetAssistLeaders()
         {
-            var assistsLeaders = await NbaApiService.GetPlayerStatsLeaders("2020-21", "AST");
+            var assistsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "AST");
 
             if (assistsLeaders.GetType().Name == "PlayerStatsLeaders")
             {
@@ -330,7 +337,7 @@ namespace NBAStats.ViewModels
         }
         public async Task GetReboundLeaders()
         {
-            var reboundsLeaders = await NbaApiService.GetPlayerStatsLeaders("2020-21", "REB");
+            var reboundsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "REB");
 
             if (reboundsLeaders.GetType().Name == "PlayerStatsLeaders")
             {
@@ -364,7 +371,7 @@ namespace NBAStats.ViewModels
 
         public async Task GetStealsLeaders()
         {
-            var stealsLeaders = await NbaApiService.GetPlayerStatsLeaders("2020-21", "STL");
+            var stealsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "STL");
 
             if (stealsLeaders.GetType().Name == "PlayerStatsLeaders")
             {
@@ -397,7 +404,7 @@ namespace NBAStats.ViewModels
         }
         public async Task GetBlocksLeaders()
         {
-            var blocksLeaders = await NbaApiService.GetPlayerStatsLeaders("2020-21", "BLK");
+            var blocksLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "BLK");
 
             if (blocksLeaders.GetType().Name == "PlayerStatsLeaders")
             {
@@ -430,7 +437,7 @@ namespace NBAStats.ViewModels
         }
         public async Task GetThreesLeaders()
         {
-            var threesLeaders = await NbaApiService.GetPlayerStatsLeaders("2020-21", "FG3M");
+            var threesLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "FG3M");
 
             if (threesLeaders.GetType().Name == "PlayerStatsLeaders")
             {
@@ -462,7 +469,7 @@ namespace NBAStats.ViewModels
 
         public async Task GetTeamStats()
         {
-            var teamStats = await NbaApiService.GetTeamStats();
+            var teamStats = await NbaApiService.GetTeamStats(_seasonYearApiData);
 
             if (teamStats.GetType().Name == "TeamStatsClass")
             {
@@ -511,11 +518,11 @@ namespace NBAStats.ViewModels
 
                     foreach (TeamStats team in statsOfTeams)
                     {
-                        if (team.TeamId == firstTeamAllStarId)
+                        if (team.TeamId == _firstTeamAllStarId)
                         {
                             firstAllStarTeam = team;
                         }
-                        else if (team.TeamId == lastTeamAllStarId)
+                        else if (team.TeamId == _lastTeamAllStarId)
                         {
                             lastAllStarTeam = team;
                         }

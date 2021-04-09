@@ -24,10 +24,6 @@ namespace NBAStats.Models
 
     public class PlayerStatsLeaders : INotifyPropertyChanged
     {
-
-        [JsonPropertyName("resource")]
-        public string Resource { get; set; }
-
         [JsonPropertyName("resultSet")]
         public ResultSet ResultSet { get; set; }
 

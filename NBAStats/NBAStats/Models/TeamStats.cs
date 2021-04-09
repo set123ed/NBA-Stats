@@ -8,147 +8,7 @@ namespace NBAStats.Models
 {
 
 
-    public class MinTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class FgpTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class TppTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class FtpTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class OrpgTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class DrpgTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class TrpgTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class ApgTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class TpgTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class SpgTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class BpgTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class PfpgTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class PpgTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class OppgTeamStats
-    {
-
-        [JsonPropertyName("avg")]
-        public string Avg { get; set; }
-
-        [JsonPropertyName("rank")]
-        public string Rank { get; set; }
-    }
-
-    public class EffTeamStats
+    public class StatValueTeamStats
     {
 
         [JsonPropertyName("avg")]
@@ -177,49 +37,49 @@ namespace NBAStats.Models
         public string Abbreviation { get; set; }
 
         [JsonPropertyName("min")]
-        public MinTeamStats Min { get; set; }
+        public StatValueTeamStats Min { get; set; }
 
         [JsonPropertyName("fgp")]
-        public FgpTeamStats Fgp { get; set; }
+        public StatValueTeamStats Fgp { get; set; }
 
         [JsonPropertyName("tpp")]
-        public TppTeamStats Tpp { get; set; }
+        public StatValueTeamStats Tpp { get; set; }
 
         [JsonPropertyName("ftp")]
-        public FtpTeamStats Ftp { get; set; }
+        public StatValueTeamStats Ftp { get; set; }
 
         [JsonPropertyName("orpg")]
-        public OrpgTeamStats Orpg { get; set; }
+        public StatValueTeamStats Orpg { get; set; }
 
         [JsonPropertyName("drpg")]
-        public DrpgTeamStats Drpg { get; set; }
+        public StatValueTeamStats Drpg { get; set; }
 
         [JsonPropertyName("trpg")]
-        public TrpgTeamStats Trpg { get; set; }
+        public StatValueTeamStats Trpg { get; set; }
 
         [JsonPropertyName("apg")]
-        public ApgTeamStats Apg { get; set; }
+        public StatValueTeamStats Apg { get; set; }
 
         [JsonPropertyName("tpg")]
-        public TpgTeamStats Tpg { get; set; }
+        public StatValueTeamStats Tpg { get; set; }
 
         [JsonPropertyName("spg")]
-        public SpgTeamStats Spg { get; set; }
+        public StatValueTeamStats Spg { get; set; }
 
         [JsonPropertyName("bpg")]
-        public BpgTeamStats Bpg { get; set; }
+        public StatValueTeamStats Bpg { get; set; }
 
         [JsonPropertyName("pfpg")]
-        public PfpgTeamStats Pfpg { get; set; }
+        public StatValueTeamStats Pfpg { get; set; }
 
         [JsonPropertyName("ppg")]
-        public PpgTeamStats Ppg { get; set; }
+        public StatValueTeamStats Ppg { get; set; }
 
         [JsonPropertyName("oppg")]
-        public OppgTeamStats Oppg { get; set; }
+        public StatValueTeamStats Oppg { get; set; }
 
         [JsonPropertyName("eff")]
-        public EffTeamStats Eff { get; set; }
+        public StatValueTeamStats Eff { get; set; }
     }
 
     public class Preseason

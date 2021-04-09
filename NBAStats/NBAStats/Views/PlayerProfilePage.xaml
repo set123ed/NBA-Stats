@@ -5,7 +5,11 @@
              Title="Playerp profile">
     <ContentPage.Content>
         <ScrollView>
-            <Grid ColumnDefinitions="*,*" RowSpacing="30" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto" Padding="15">
+            <Grid>
+                
+                <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+                <Grid IsVisible="{Binding IsNotBusy}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ColumnDefinitions="*,*" RowSpacing="30" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto" Padding="15">
                 <StackLayout Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
                     <Frame  Margin="10,2" BackgroundColor="LightGray" CornerRadius="360" HeightRequest="100" WidthRequest="100">
                         <Label  Text="{Binding PlayerInfo.Jersey}" FontSize="40" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
@@ -20,11 +24,11 @@
                 <Grid ColumnDefinitions="*,2*" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" RowDefinitions="*,*,*,*,*,*,*,*,*,*" Padding="15">
 
                     <Label Text="Height: " FontSize="25" TextColor="Black" Grid.Column="0" Grid.Row="1"/>
-                    <Label Text="{Binding PlayerHeight}" FontSize="25" TextColor="Dodgerblue" FontAttributes="Bold" Grid.Column="1" Grid.Row="1"/>
+                    <Label Text="{Binding PlayerInfo.PlayerHeight}" FontSize="25" TextColor="Dodgerblue" FontAttributes="Bold" Grid.Column="1" Grid.Row="1"/>
 
 
                     <Label Text="{Binding ActualTeamInfo}" FontSize="25" TextColor="Black" Grid.Column="0" Grid.Row="2"/>
-                    <Label Text="{Binding YearDebutActualTeam}" TextColor="Dodgerblue" FontSize="25" FontAttributes="Bold" Grid.Column="1" Grid.Row="2"/>
+                    <Label Text="{Binding PlayerInfo.YearDebutActualTeam}" TextColor="Dodgerblue" FontSize="25" FontAttributes="Bold" Grid.Column="1" Grid.Row="2"/>
 
 
 
@@ -104,40 +108,40 @@
                                 <Label Text="TOV" Grid.Column="28" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                             </Grid>
 
-                            <Grid ColumnSpacing="0">
+                            <Grid ColumnSpacing="0" BindingContext="{Binding ActualSeason}">
 
-                                <Label Text="{Binding ActualSeason.SeasonYear}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.GamesPlayed}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.GamesStarted}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.PlusMinus}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Mpg}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Ppg}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Apg}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Rpg}" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Spg}" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Bpg}" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Fgp}" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Fgm}" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Fga}" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Tpp}" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Tpm}" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Tpa}" Grid.Column="21" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Ftp}" Grid.Column="22" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Ftm}" Grid.Column="23" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Fta}" Grid.Column="24" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.OffReb}" Grid.Column="25" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.DefReb}" Grid.Column="26" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Topg}" Grid.Column="27" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.PFouls}" Grid.Column="29" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding SeasonYear}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding GamesPlayed}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding GamesStarted}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding PlusMinus}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Mpg}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Ppg}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Apg}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Rpg}" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Spg}" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Bpg}" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Fgp}" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Fgm}" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Fga}" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Tpp}" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Tpm}" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Tpa}" Grid.Column="21" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Ftp}" Grid.Column="22" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Ftm}" Grid.Column="23" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Fta}" Grid.Column="24" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding OffReb}" Grid.Column="25" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding DefReb}" Grid.Column="26" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Topg}" Grid.Column="27" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding PFouls}" Grid.Column="29" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
 
-                                <Label Text="{Binding ActualSeason.Points}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Assists}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.TotReb}" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Blocks}" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Steals}" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding ActualSeason.Min}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Points}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Assists}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding TotReb}" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Blocks}" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Steals}" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Min}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
 
-                                <Label Text="{Binding ActualSeason.Turnovers}" Grid.Column="28" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Turnovers}" Grid.Column="28" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                             </Grid>
                         </StackLayout>
                     </StackLayout>
@@ -184,39 +188,39 @@
                                 <Label Text="TOV" Grid.Column="27" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                             </Grid>
 
-                            <Grid ColumnSpacing="0">
+                            <Grid ColumnSpacing="0" BindingContext="{Binding CarrerSumarry}">
 
-                                <Label Text="{Binding CarrerSumarry.GamesPlayed}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.GamesStarted}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.PlusMinus}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Mpg}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Ppg}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Apg}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Rpg}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Spg}" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Bpg}" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Fgp}" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Fgm}" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Fga}" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Tpp}" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Tpm}" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Tpa}" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Ftp}" Grid.Column="21" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Ftm}" Grid.Column="22" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Fta}" Grid.Column="23" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.OffReb}" Grid.Column="24" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.DefReb}" Grid.Column="25" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Topg}" Grid.Column="26" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.PFouls}" Grid.Column="28" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding GamesPlayed}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding GamesStarted}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding PlusMinus}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Mpg}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Ppg}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Apg}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Rpg}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Spg}" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Bpg}" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Fgp}" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Fgm}" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Fga}" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Tpp}" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Tpm}" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Tpa}" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Ftp}" Grid.Column="21" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Ftm}" Grid.Column="22" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Fta}" Grid.Column="23" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding OffReb}" Grid.Column="24" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding DefReb}" Grid.Column="25" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Topg}" Grid.Column="26" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding PFouls}" Grid.Column="28" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
 
-                                <Label Text="{Binding CarrerSumarry.Points}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Assists}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.TotReb}" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Blocks}" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Steals}" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                <Label Text="{Binding CarrerSumarry.Min}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Points}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Assists}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding TotReb}" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Blocks}" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Steals}" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Min}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
 
-                                <Label Text="{Binding CarrerSumarry.Turnovers}" Grid.Column="27" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                <Label Text="{Binding Turnovers}" Grid.Column="27" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                             </Grid>
                         </StackLayout>
                     </StackLayout>
@@ -313,6 +317,8 @@
                     </StackLayout>
                 </ScrollView>
 
+            </Grid>
+  
             </Grid>
         </ScrollView>
     </ContentPage.Content>

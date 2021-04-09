@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -11,6 +12,7 @@ namespace NBAStats.Services
 {
     public class NbaApiService : INbaApiService
     {
+
         public async Task<SeasonRange> GetSeasonRange()
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
@@ -19,7 +21,7 @@ namespace NBAStats.Services
 
                 HttpClient client = new HttpClient();
 
-                var seasonRangeResponse = await client.GetAsync("http://data.nba.net/data/10s/prod/v1/calendar.json");
+                var seasonRangeResponse = await client.GetAsync(Config.CalendarUrl);
 
                 if (seasonRangeResponse.IsSuccessStatusCode)
                 {
@@ -38,7 +40,7 @@ namespace NBAStats.Services
 
         }
 
-        public async Task<Teams> GetTeams()
+        public async Task<Teams> GetTeams(string year)
         {
 
             Teams teams = null;
@@ -47,9 +49,7 @@ namespace NBAStats.Services
             {
                 HttpClient client = new HttpClient();
 
-                string urlApi = $"http://data.nba.net/data/10s/prod/v1/{DateTime.Today.Year - 1}/teams.json";
-
-                var teamsResponse = await client.GetAsync(urlApi);
+                var teamsResponse = await client.GetAsync(Config.GetTeamsUrl(year));
 
                 if (teamsResponse.IsSuccessStatusCode)
                 {
@@ -70,13 +70,9 @@ namespace NBAStats.Services
 
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-
-
                 HttpClient client = new HttpClient();
 
-                string apiUrl = $"http://data.nba.net/data/10s/prod/v1/{date}/scoreboard.json";
-
-                var gamesOfDayResponse = await client.GetAsync(apiUrl);
+                var gamesOfDayResponse = await client.GetAsync(Config.GetScoreboardUrl(date));
 
                 if (gamesOfDayResponse.IsSuccessStatusCode)
                 {
@@ -93,7 +89,7 @@ namespace NBAStats.Services
 
         }
 
-        public async Task<TeamLeaders> GetTeamLeaders(string year, string team)
+        public async Task<TeamLeaders> GetTeamLeaders(string year, string teamName)
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
@@ -101,9 +97,7 @@ namespace NBAStats.Services
 
                 HttpClient client = new HttpClient();
 
-                string urlApi = $"http://data.nba.net/data/10s/prod/v1/{year}/teams/{team}/leaders.json";
-
-                var teamLeadersResponse = await client.GetAsync(urlApi);
+                var teamLeadersResponse = await client.GetAsync(Config.GetTeamLeadersUrl(year,teamName));
 
                 if (teamLeadersResponse.IsSuccessStatusCode)
                 {
@@ -128,10 +122,8 @@ namespace NBAStats.Services
 
                 HttpClient client = new HttpClient();
 
-                //string urlApi = $"http://data.nba.net/data/10s/prod/v1/{year}/teams/{team}/leaders.json";
-
-                var playerStatsLeaderResponse = await client.GetAsync($"https://stats.nba.com/stats/leagueleaders?LeagueID=00&PerMode=PerGame&Scope=S&Season={season}&SeasonType=Regular+Season&StatCategory={stat}");
-
+                var playerStatsLeaderResponse = await client.GetAsync(Config.GetPlayerStatsLeadersUrl(season,stat));
+                
                 if (playerStatsLeaderResponse.IsSuccessStatusCode)
                 {
                     var jsonPlayerStatsLeaders = await playerStatsLeaderResponse.Content.ReadAsStringAsync();
@@ -155,9 +147,7 @@ namespace NBAStats.Services
 
                 HttpClient client = new HttpClient();
 
-                //string urlApi = $"http://data.nba.net/data/10s/prod/v1/{year}/teams/{team}/leaders.json";
-
-                var playerStatsLeaderResponse = await client.GetAsync("http://data.nba.net/data/10s/prod/v1/current/standings_all.json");
+                var playerStatsLeaderResponse = await client.GetAsync(Config.StandingUrl);
 
                 if (playerStatsLeaderResponse.IsSuccessStatusCode)
                 {
@@ -174,7 +164,7 @@ namespace NBAStats.Services
             }
         }
 
-        public async Task<TeamStatsClass> GetTeamStats()
+        public async Task<TeamStatsClass> GetTeamStats(string year)
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
@@ -182,7 +172,7 @@ namespace NBAStats.Services
 
                 HttpClient client = new HttpClient();
 
-                var teamStatsResponse = await client.GetAsync("https://data.nba.net/data/10s/prod/v1/2020/team_stats_rankings.json");
+                var teamStatsResponse = await client.GetAsync(Config.GetTeamStatsUrl(year));
 
                 if (teamStatsResponse.IsSuccessStatusCode)
                 {
@@ -207,9 +197,7 @@ namespace NBAStats.Services
 
                 HttpClient client = new HttpClient();
 
-                string urlApi = $"http://data.nba.net/data/10s/prod/v1/{date}/{gameId}_boxscore.json";
-
-                var boxScoreResponse = await client.GetAsync(urlApi);
+                var boxScoreResponse = await client.GetAsync(Config.GetBoxScoreUrl(date, gameId));
 
                 if (boxScoreResponse.IsSuccessStatusCode)
                 {
@@ -226,14 +214,14 @@ namespace NBAStats.Services
             }
         }
 
-        public async Task<Players> GetNbaPlayers()
+        public async Task<Players> GetNbaPlayers(string year)
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
                 Players players = null;
                 HttpClient client = new HttpClient();
 
-                var playersResponse = await client.GetAsync("http://data.nba.net/data/10s/prod/v1/2020/players.json");
+                var playersResponse = await client.GetAsync(Config.GetPlayersUrl(year));
 
                 if (playersResponse.IsSuccessStatusCode)
                 {
@@ -250,14 +238,14 @@ namespace NBAStats.Services
             }
         }
 
-        public async Task<PlayerProfile> GetPlayerProfile(string personId)
+        public async Task<PlayerProfile> GetPlayerProfile(string year, string personId)
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
                 PlayerProfile playerProfile = null;
                 HttpClient client = new HttpClient();
 
-                var playerProfileResponse = await client.GetAsync($"http://data.nba.net/data/10s/prod/v1/2020/players/{personId}_profile.json");
+                var playerProfileResponse = await client.GetAsync(Config.GetPlayerProfileUrl(year, personId));
 
                 if (playerProfileResponse.IsSuccessStatusCode)
                 {
@@ -281,7 +269,7 @@ namespace NBAStats.Services
                 TeamSchedule teamSchedule = null;
                 HttpClient client = new HttpClient();
 
-                var teamScheduleResponse = await client.GetAsync($"http://data.nba.net/data/10s/prod/v1/{year}/teams/{teamName}/schedule.json");
+                var teamScheduleResponse = await client.GetAsync(Config.GetTeamScheduleUrl(year, teamName));
 
                 if (teamScheduleResponse.IsSuccessStatusCode)
                 {

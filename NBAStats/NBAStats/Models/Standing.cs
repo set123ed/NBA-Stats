@@ -39,46 +39,6 @@ namespace NBAStats.Models
         public string StreakText { get; set; }
     }
 
-    //public class SortKey
-    //{
-
-    //    [JsonPropertyName("defaultOrder")]
-    //    public int DefaultOrder { get; set; }
-
-    //    [JsonPropertyName("nickname")]
-    //    public int Nickname { get; set; }
-
-    //    [JsonPropertyName("win")]
-    //    public int Win { get; set; }
-
-    //    [JsonPropertyName("loss")]
-    //    public int Loss { get; set; }
-
-    //    [JsonPropertyName("winPct")]
-    //    public int WinPct { get; set; }
-
-    //    [JsonPropertyName("gamesBehind")]
-    //    public int GamesBehind { get; set; }
-
-    //    [JsonPropertyName("confWinLoss")]
-    //    public int ConfWinLoss { get; set; }
-
-    //    [JsonPropertyName("divWinLoss")]
-    //    public int DivWinLoss { get; set; }
-
-    //    [JsonPropertyName("homeWinLoss")]
-    //    public int HomeWinLoss { get; set; }
-
-    //    [JsonPropertyName("awayWinLoss")]
-    //    public int AwayWinLoss { get; set; }
-
-    //    [JsonPropertyName("lastTenWinLoss")]
-    //    public int LastTenWinLoss { get; set; }
-
-    //    [JsonPropertyName("streak")]
-    //    public int Streak { get; set; }
-    //}
-
     public class TeamStanding
     {
         public int Rank { get; set; }
@@ -165,9 +125,9 @@ namespace NBAStats.Models
         [JsonPropertyName("tieBreakerPts")]
         public string TieBreakerPts { get; set; }
 
-        public string L10 { get; set; }
-        public string Home { get; set; }
-        public string Road { get; set; }
+        public string L10 => $"{LastTenWin} - {LastTenLoss}";
+        public string Home => $"{HomeWin} - {HomeLoss}";
+        public string Road => $"{AwayWin} - {AwayLoss}";
 
     }
 
