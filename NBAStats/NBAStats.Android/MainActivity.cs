@@ -6,6 +6,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using CarouselView.FormsPlugin.Droid;
 
 namespace NBAStats.Droid
 {
@@ -16,6 +17,7 @@ namespace NBAStats.Droid
         {
             base.OnCreate(savedInstanceState);
 
+            CarouselViewRenderer.Init();
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new AndroidInitializer()));
