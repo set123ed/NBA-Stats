@@ -4,12 +4,14 @@
              x:Class="NBAStats.Views.PlayerProfilePage"
              Title="Playerp profile">
     <ContentPage.Content>
-        <ScrollView>
-            <Grid>
-                
-                <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
 
-                <Grid IsVisible="{Binding IsNotBusy}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ColumnDefinitions="*,*" RowSpacing="30" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto" Padding="15">
+        <Grid>
+
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
+            <ScrollView IsVisible="{Binding IsNotBusy}">
+
+
+                <Grid  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ColumnDefinitions="*,*" RowSpacing="30" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto" Padding="15">
                 <StackLayout Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
                     <Frame  Margin="10,2" BackgroundColor="LightGray" CornerRadius="360" HeightRequest="100" WidthRequest="100">
                         <Label  Text="{Binding PlayerInfo.Jersey}" FontSize="40" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
@@ -319,7 +321,8 @@
 
             </Grid>
   
-            </Grid>
+            
         </ScrollView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

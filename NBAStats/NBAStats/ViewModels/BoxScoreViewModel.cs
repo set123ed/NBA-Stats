@@ -21,7 +21,9 @@ namespace NBAStats.ViewModels
         private List<Team> _teamList = new List<Team>();
 
         public ObservableCollection<ActivePlayerBoxScore> HTeamPlayerStats { get; set; }
+        public TotalTeamStatsBoxScore HTeamTotalStats { get; set; }
         public ObservableCollection<ActivePlayerBoxScore> VTeamPlayerStats { get; set; }
+        public TotalTeamStatsBoxScore VTeamTotalStats { get; set; }
 
         public string HTeamName { get; set; }
         public string VTeamName { get; set; }
@@ -98,6 +100,9 @@ namespace NBAStats.ViewModels
             {
                 if (boxScore != null)
                 {
+                    HTeamTotalStats = boxScore.Stats.HTeam.Totals;
+                    VTeamTotalStats = boxScore.Stats.VTeam.Totals;
+
 
                     HTeamName = boxScore.BasicGameData.HTeam.TriCode;
                     VTeamName = boxScore.BasicGameData.VTeam.TriCode;
