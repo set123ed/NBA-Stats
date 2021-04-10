@@ -6,12 +6,14 @@
              x:Name="calendarPage"
              Title="Calendar">
     <ContentPage.Content>
-        <ScrollView>
 
-            <Grid>
+        <Grid>
 
-                <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
-                <Grid BackgroundColor="White" IsVisible="{Binding IsNotBusy}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
+            <ScrollView IsVisible="{Binding IsNotBusy}" >
+
+
+                <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 
                     <Grid.ColumnDefinitions>
 
@@ -35,7 +37,7 @@
                         </Grid>
                     </Frame>
 
-                <Button Text="Antes" Padding="0" Margin="20,0,0,10"  Style="{StaticResource Key=ButtonStyleOut}" Command="{Binding OneDayLessCommand}" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0">
+                    <Button Text="&lt;&lt;" Padding="0" Margin="20,0,0,10"  Style="{StaticResource Key=ButtonStyleOut}" Command="{Binding OneDayLessCommand}" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="1,0" >
                             <GradientStop Color="Orange" Offset="0.1" />
@@ -48,8 +50,12 @@
                     <DatePicker.Behaviors>
                         <prism:EventToCommandBehavior EventName="DateSelected" Command="{Binding DateSelectedChangeCommand}"/>
                     </DatePicker.Behaviors>
+
+                        <DatePicker.Format>
+                            dd MMMM yyyy
+                        </DatePicker.Format>
                 </DatePicker>
-                <Button Text="Despues" Margin="0,0,20,10" Command="{Binding OneDayMoreCommand}" Style="{StaticResource Key=ButtonStyleOut}" Grid.Row="1" Grid.Column="2" >
+                <Button Text=">>" Margin="0,0,20,10" Command="{Binding OneDayMoreCommand}" Style="{StaticResource Key=ButtonStyleOut}" Grid.Row="1" Grid.Column="2" >
                     <Button.Background>
                         <LinearGradientBrush EndPoint="1,0" >
                             <GradientStop Color="Orange" Offset="0.1" />
@@ -96,7 +102,8 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-            </Grid>
-        </ScrollView>
+
+            </ScrollView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

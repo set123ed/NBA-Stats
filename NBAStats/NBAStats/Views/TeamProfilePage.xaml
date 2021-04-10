@@ -5,13 +5,13 @@
              Title="Team profile"
              x:Name="teamProfilePage">
     <ContentPage.Content>
+        <Grid>
 
-        <ScrollView>
-            <Grid>
+            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
+            <ScrollView IsVisible="{Binding IsNotBusy}" >
 
-                <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
 
-                <Grid IsVisible="{Binding IsNotBusy}"  ColumnDefinitions="*,*,*" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto" RowSpacing="20" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Grid  ColumnDefinitions="*,*,*" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto" RowSpacing="20" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             
             <StackLayout  Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
                 <Label Text="{Binding Team.FullName}" VerticalOptions="Center" HorizontalOptions="Center"/>
@@ -145,7 +145,8 @@
             </ListView>
         </Grid>
 
-            </Grid>
+
         </ScrollView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
