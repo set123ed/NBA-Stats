@@ -30,6 +30,7 @@ namespace NBAStats.ViewModels
         public ICommand GameSelectedCommand { get; }
         public ICommand PlayerSelectedCommand { get; }
         public ICommand TeamSelectedCommand { get; set; }
+        public ICommand ListPlayers { get; }
         public IPageDialogService AlertService { get; }
 
         private bool _areGamesBeingPlayed = false;
@@ -66,8 +67,13 @@ namespace NBAStats.ViewModels
             RefreshGamesOfDayCommand = new Command(OnRefreshGamesOfDay);
             GameSelectedCommand = new Command<Game>(OnGameSelected);
             PlayerSelectedCommand = new Command<PlayerRegularStats>(OnPlayerSelected);
+            ListPlayers = new Command(PlayerList);
         }
 
+        private async void PlayerList()
+        {
+            await NavigationService.NavigateAsync(NavigationConstants.PlayersList);
+        }
         private async void OnPlayerSelected(PlayerRegularStats player)
         {
             string playerId = "";

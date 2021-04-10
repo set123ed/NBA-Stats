@@ -23,5 +23,7 @@ namespace NBAStats.Constants
         //public const string PlayerInfoDetailPage = "PlayerInfoDetail";
         public const string TabbedPage = "tab";
         public const string StandingPage = "Standing";
+        public const string PlayersList = "Players";
+
     }
 }

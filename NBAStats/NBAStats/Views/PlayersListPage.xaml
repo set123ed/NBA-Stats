@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:prism="http://prismlibrary.com"
+             x:Class="NBAStats.Views.PlayersListPage">
+
+    <ScrollView>
+
+        <Grid ColumnDefinitions="auto,auto,auto" RowDefinitions="auto,auto,auto">
+            
+            <Button Text="Antes" Padding="0" Command="{Binding OneDayLessCommand}" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0"/>
+            <DatePicker Date="{Binding DateSelected}" HorizontalOptions="CenterAndExpand" Grid.Row="1" Grid.ColumnSpan="3" >
+                <DatePicker.Behaviors>
+                    <prism:EventToCommandBehavior EventName="DateSelected" Command="{Binding DateSelectedChangeCommand}"/>
+                </DatePicker.Behaviors>
+            </DatePicker>
+            
+            <Button Text="Despues" Command="{Binding OneDayMoreCommand}" HorizontalOptions="End" Grid.Row="1" Grid.Column="2" />
+
+
+            <ListView ItemsSource="{Binding Players}" Grid.ColumnSpan="3" Grid.Row="3">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding FirstName}" />
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+        
+    </ScrollView>
+    
+</ContentPage>

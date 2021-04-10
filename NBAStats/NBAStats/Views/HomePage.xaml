@@ -26,8 +26,9 @@
                         <RowDefinition Height="250" />
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="350"/>
-
-                    </Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
 
                     <Frame BackgroundColor="#fbfef9" HeightRequest="40" HasShadow="False" Grid.Row="0" Grid.ColumnSpan="2" >
                         <Grid >
@@ -164,57 +165,67 @@
                                             <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.TeamSelectedCommand}" CommandParameter="{Binding TeamStanding.TeamId}"/>
                             </Grid.GestureRecognizers>
 
-                                    <Frame  Style="{StaticResource Key=FrameStyle1}" Margin="5"  >
-                                         <Grid>
-                                             <Grid.RowDefinitions>
+                                        <Frame  Style="{StaticResource Key=FrameStyle1}" Margin="5"  >
+                                            <Grid>
+                                                <Grid.RowDefinitions>
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
-                                             </Grid.RowDefinitions>
-                                             <Grid.ColumnDefinitions>
-                                                 <ColumnDefinition Width="160"/>
-                                                 <ColumnDefinition Width="150"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="160"/>
+                                                    <ColumnDefinition Width="150"/>
 
-                                             </Grid.ColumnDefinitions>
+                                                </Grid.ColumnDefinitions>
 
-                                            <Label Text="{Binding TeamStanding.TeamSitesOnly.TeamNickname}" Style="{StaticResource Key=LabelStyle}"
+                                                <Label Text="{Binding TeamStanding.TeamSitesOnly.TeamNickname}" Style="{StaticResource Key=LabelStyle}"
                                                   Grid.ColumnSpan="2" Grid.Row="0"  VerticalOptions="Center" HorizontalOptions="Center"/>
-                                            <Label Text="{Binding TeamStanding.TeamSitesOnly.TeamName}" Style="{StaticResource Key=LabelStyle}"
+                                                <Label Text="{Binding TeamStanding.TeamSitesOnly.TeamName}" Style="{StaticResource Key=LabelStyle}"
                                                   Grid.ColumnSpan="2" FontSize="20" Grid.Row="1"  VerticalOptions="Center" HorizontalOptions="Center"/>
 
-                                            <Label Text="{Binding TeamStanding.Win}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="2"
+                                                <Label Text="{Binding TeamStanding.Win}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="2"
                                                    VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
-                                            <Label Text="WINS" VerticalOptions="Center" Grid.Column="0"
+                                                <Label Text="WINS" VerticalOptions="Center" Grid.Column="0"
                                                    Style="{StaticResource Key=LabelStyle}" FontSize="18" Grid.Row="2" HorizontalOptions="Center" />
 
-                                            <Label Text="{Binding TeamStanding.Loss}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="3"  VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
-                                            <Label Text="LOSS" VerticalOptions="Center" Grid.Column="0" 
+                                                <Label Text="{Binding TeamStanding.Loss}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="3"  VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="LOSS" VerticalOptions="Center" Grid.Column="0" 
                                                     Style="{StaticResource Key=LabelStyle}" FontSize="18" Grid.Row="3" HorizontalOptions="Center"/>
 
-                                            <Label Text="{Binding TeamStanding.WinPctV2}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="4" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
-                                            <Label Text="WIN%" VerticalOptions="Center" Grid.Column="0"
+                                                <Label Text="{Binding TeamStanding.WinPctV2}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="4" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="WIN%" VerticalOptions="Center" Grid.Column="0"
                                                     Style="{StaticResource Key=LabelStyle}" FontSize="18" Grid.Row="4" HorizontalOptions="Center"/>
 
-                                            <Label Text="{Binding TeamStats.Ppg.Avg}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="5" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
-                                            <Label Text="PTS" VerticalOptions="Center" Grid.Column="0" 
+                                                <Label Text="{Binding TeamStats.Ppg.Avg}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="5" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="PTS" VerticalOptions="Center" Grid.Column="0" 
                                                     Style="{StaticResource Key=LabelStyle}" FontSize="18" Grid.Row="5" HorizontalOptions="Center" />
 
-                                            <Label Text="{Binding TeamStats.Apg.Avg}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="6" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
-                                            <Label Text="AST" VerticalOptions="Center"  Grid.Column="0"
+                                                <Label Text="{Binding TeamStats.Apg.Avg}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="6" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="AST" VerticalOptions="Center"  Grid.Column="0"
                                                     Style="{StaticResource Key=LabelStyle}" FontSize="18" Grid.Row="6" HorizontalOptions="Center"/>
 
-                                            <Label Text="{Binding TeamStats.Trpg.Avg}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="7" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
-                                            <Label Text="RBS" VerticalOptions="Center" Grid.Column="0"
+                                                <Label Text="{Binding TeamStats.Trpg.Avg}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="7" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="RBS" VerticalOptions="Center" Grid.Column="0"
                                                     Style="{StaticResource Key=LabelStyle}" FontSize="18" Grid.Row="7" HorizontalOptions="Center"/>
 
-                                         </Grid>
-                                     </Frame>
-                                     </Grid>
+                                            </Grid>
+                                        </Frame>
+
+                                    </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
+
+                        <Frame BackgroundColor="#fbfef9" HeightRequest="40" HasShadow="False" Grid.Row="8" Grid.ColumnSpan="2" >
+                            <Grid>
+
+                                <Button Command="{Binding ListPlayers}" Text="Player List" Grid.Column="0" HorizontalOptions="Center" Margin="50,0,0,0"/>
+
+                            </Grid>
+                        </Frame>
+
                     </Grid>
                 </Grid>
             </ScrollView>
