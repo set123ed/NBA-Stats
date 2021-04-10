@@ -38,22 +38,13 @@ namespace NBAStats.ViewModels
 
         public bool IsBusy { get; set; } = true;
         public bool IsNotBusy => !IsBusy;
-        public ObservableCollection<Models.CarouselView> BasquetImage { get; } = new ObservableCollection<Models.CarouselView>();
 
 
         public HomeViewModel(IPageDialogService dialogService, INbaApiService nbaApiService, INavigationService navigationService) : base(navigationService, nbaApiService)
         {
             AlertService = dialogService;
 
-            BasquetImage = new ObservableCollection<Models.CarouselView>
-            {
-            new Models.CarouselView("foto1.jpg"),
-            new Models.CarouselView("foto2.jpg"),
-            new Models.CarouselView("foto3.jpg"),
-            new Models.CarouselView("foto4.jpg"),
-            new Models.CarouselView("foto5.jpg"),
-
-            };
+           
 
             Device.StartTimer(TimeSpan.FromSeconds(3), (Func<bool>)(() =>
             {

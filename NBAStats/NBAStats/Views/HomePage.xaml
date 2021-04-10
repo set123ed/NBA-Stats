@@ -21,9 +21,9 @@
 
                         <RowDefinition Height="80"/>
                         <RowDefinition Height="285"/>
-                        <RowDefinition Height="250"/>
-                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="250" />
+                        <RowDefinition Height="auto" />
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="350"/>
 
@@ -38,7 +38,7 @@
                         </Grid>
                     </Frame>
 
-                    <contrils:CarouselViewControl Grid.Row="1" Margin="-10" Grid.ColumnSpan="2"  Orientation="Horizontal" InterPageSpacing="10"
+                    <!--<contrils:CarouselViewControl Grid.Row="1" Margin="-10" Grid.ColumnSpan="2"  Orientation="Horizontal" InterPageSpacing="10"
                                   ShowIndicators="True" Position="{Binding ImagePosition}">
                         <contrils:CarouselViewControl.ItemsSource>
                             <x:Array Type="{x:Type View}">
@@ -49,17 +49,67 @@
                                 <Image Source="foto5.jpg"/>
                             </x:Array>
                         </contrils:CarouselViewControl.ItemsSource>
-                    </contrils:CarouselViewControl>
-                  
-                    <CollectionView BackgroundColor="#fbfef9" ItemsSource="{Binding GamesOfDay}"
+                    </contrils:CarouselViewControl>-->
+
+
+                        <contrils:CarouselViewControl Grid.Row="1" ItemsSource="{Binding GamesOfDay}" Grid.ColumnSpan="2" Orientation="Horizontal"
+                                                      InterPageSpacing="10" Position="{Binding ImagePosition}" >
+                            <contrils:CarouselViewControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <Grid Scale="1" Padding="20">
+
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.GameSelectedCommand}" CommandParameter="{Binding}"/>
+                                    </Grid.GestureRecognizers>
+                                        
+                                    <Frame Style="{StaticResource Key=FrameStyle1}"  Scale="1" >
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.GameSelectedCommand}" CommandParameter="{Binding}"/>
+                                        </Frame.GestureRecognizers>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+
+                                            </Grid.RowDefinitions>
+                                                
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="160"/>
+                                                    <ColumnDefinition Width="160"/>
+                                                </Grid.ColumnDefinitions>
+
+                                            <Label Text="{Binding VTeam.TriCode}" Style="{StaticResource Key=LabelStyle}" Grid.Row="0" HorizontalOptions="Start" VerticalTextAlignment="Start"  Padding="50,0,0,0" Grid.Column="0"/>
+
+                                            <Label Text="VS" Style="{StaticResource Key=LabelStyle}" FontSize="15" VerticalOptions="Center" Grid.Row="0"  HorizontalOptions="Center" Grid.ColumnSpan="2"/>
+
+                                            <Label Text="{Binding HTeam.TriCode}" Style="{StaticResource Key=LabelStyle}"  Padding="0,0,50,0" Grid.Column="1" HorizontalOptions="End"/>
+
+                                            <Label Text="{Binding ScoreOrTime}" HorizontalOptions="Center" VerticalTextAlignment="Start" Padding="0,10,0,0"
+                                                            FontSize="20" TextColor="#fbfef9" FontAttributes="Bold" Grid.Row="2" Grid.ColumnSpan="2" />
+                                            
+                                                <Label Text="See Details" Style="{StaticResource Key=LabelStyle}" FontSize="19"  VerticalOptions="Center" Grid.Row="4"  Padding="0,38,0,0" HorizontalOptions="Center" Grid.ColumnSpan="2"/>
+
+
+                                        </Grid>
+                                         </Frame>
+                                        </Grid>
+                                </DataTemplate>
+                            </contrils:CarouselViewControl.ItemTemplate>
+                        </contrils:CarouselViewControl>
+                    <!--<CollectionView BackgroundColor="#fbfef9" ItemsSource="{Binding GamesOfDay}"
                                     ItemsLayout="HorizontalList" Grid.Row="2" Grid.ColumnSpan="2">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Scale="1" Padding="20"   >
                                         
-                                    <!--<Grid.GestureRecognizers>
+                                    <Grid.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.GameSelectedCommand}" CommandParameter="{Binding}"/>
-                                    </Grid.GestureRecognizers>-->
+                                    </Grid.GestureRecognizers>
                                         
                                     <Frame Style="{StaticResource Key=FrameStyle1}"  Scale="1" >
                                         <Frame.GestureRecognizers>
@@ -98,11 +148,11 @@
                                         </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
-                        </CollectionView>
+                        </CollectionView>-->
 
-                    <Label VerticalTextAlignment="End" Text="Scoring Leaders" FontSize="25" HorizontalOptions="CenterAndExpand" TextColor="Black" Grid.Row="3" Grid.ColumnSpan="2"/>
+                    <Label VerticalTextAlignment="End" Text="Scoring Leaders" FontSize="25" HorizontalOptions="CenterAndExpand" TextColor="Black" Grid.Row="2" Grid.ColumnSpan="2"/>
 
-                    <CollectionView BackgroundColor="#fbfef9" Grid.Row="4" ItemsSource="{Binding ScoringLeaders}"  ItemsLayout="HorizontalList"  Grid.ColumnSpan="2">
+                    <CollectionView BackgroundColor="#fbfef9" Grid.Row="3" ItemsSource="{Binding ScoringLeaders}"  ItemsLayout="HorizontalList"  Grid.ColumnSpan="2">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                  <Grid Scale="0.9" Padding="10"  >
