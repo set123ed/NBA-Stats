@@ -12,32 +12,38 @@ namespace NBAStats.ViewModels
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        public string _seasonYearApiData = null;
-        public string _seasonApiStats = null;
+        protected string _seasonYearApiData = null;
+        protected string _seasonApiStats = null;
+        protected List<Player> _playerList = new List<Player>();
+        protected List<Team> _teamList = new List<Team>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected INbaApiService NbaApiService { get;}
         protected INavigationService NavigationService { get; }
-        protected BaseViewModel(INavigationService navigationService, INbaApiService nbaApiService)
+        protected INbaDefaultInfoService NbaDefaultInfoService { get; }
+        protected BaseViewModel(INavigationService navigationService, INbaApiService nbaApiService, INbaDefaultInfoService nbaDefaultInfoService)
         {
             NbaApiService = nbaApiService;
             NavigationService = navigationService;
+            NbaDefaultInfoService = nbaDefaultInfoService;
+
         }
 
-        public async Task GetSeasonYearParameters()
+        public async Task GetDefaultData()
         {
-            var seasonRange = await NbaApiService.GetSeasonRange();
-
-            if (seasonRange.GetType().Name == nameof(SeasonRange))
+            try
             {
-                if (seasonRange != null)
-                {
-                    DateTime seasonStartDate = DateTime.ParseExact(seasonRange.StartDateCurrentSeason, "yyyyMMdd", CultureInfo.InvariantCulture);
-                    _seasonYearApiData = seasonStartDate.Year.ToString();
-                    _seasonApiStats = $"{_seasonYearApiData}-{seasonStartDate.AddYears(1).ToString("yy")}";
-                }
+                _seasonApiStats = await NbaDefaultInfoService.GetSeasonRangeApiStat();
+                _seasonYearApiData = await NbaDefaultInfoService.GetSeasonYearApiData();
+                _playerList = await NbaDefaultInfoService.GetPlayerList();
+                _teamList = await NbaDefaultInfoService.GetTeamList();
             }
+            catch (NoInternetConnectionException ex)
+            {
+
+            }
+
         }
     }
 }

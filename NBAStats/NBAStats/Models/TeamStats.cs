@@ -150,5 +150,15 @@ namespace NBAStats.Models
         public string FullName { get; set; }
         public string AverageStats { get; set; }
     }
+
+    public class LeaderStatsTeamCollection : ObservableCollection<LeadersStatsTeam>
+    {
+        public LeaderStatsTeamCollection(string stat)
+        {
+            Stat = stat;
+        }
+
+        public string Stat { get;  }
+    }
 }
 

@@ -1,5 +1,4 @@
-﻿using NBAStats.Constants;
-using NBAStats.Models;
+﻿using NBAStats.Models;
 using NBAStats.Services;
 using NBAStats.ViewModels;
 using NBAStats.Views;
@@ -10,6 +9,7 @@ using Prism.Unity;
 using SQLite;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,8 +20,6 @@ namespace NBAStats
         static DataBaseService DataBase;
         public App(IPlatformInitializer platformInitializer = null) : base(platformInitializer) { }
 
-        //List<Player> playerList = new List<Player>();
-        //List<Team> teamList = new List<Team>();
         protected override async void OnInitialized()
         {
             InitializeComponent();
@@ -32,6 +30,10 @@ namespace NBAStats
         {
             containerRegistry.RegisterForNavigation<NBATabbedPage>(NavigationConstants.TabbedPage);
             containerRegistry.Register<INbaApiService, NbaApiService>();
+
+            NbaDefaultInfoService nbaDefaultInfoService = new NbaDefaultInfoService();
+
+            containerRegistry.RegisterInstance<INbaDefaultInfoService>(nbaDefaultInfoService);
 
             containerRegistry.RegisterForNavigation<HomePage, HomeViewModel>(NavigationConstants.HomePage);
             containerRegistry.RegisterForNavigation<BoxScorePage, BoxScoreViewModel>(NavigationConstants.BoxScorePage);
@@ -44,6 +46,7 @@ namespace NBAStats
 
             containerRegistry.RegisterForNavigation<NavigationPage>(NavigationConstants.NavigationPage);
         }
+
         public static DataBaseService SQliteDB
         {
             get
@@ -55,43 +58,5 @@ namespace NBAStats
                 return DataBase;
             }
         }
-
-
-
-        //private async Task GetPlayers()
-        //{
-        //    var nbaApiService = new NbaApiService();
-        //    var players = await nbaApiService.GetNbaPlayers();
-
-        //    if (players.GetType().Name == "Players")
-        //    {
-        //        if (players != null)
-        //        {
-        //            playerList = new List<Player>(players.League.Standard);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        throw new Exception();
-        //    }
-        //}
-
-        //public async Task GetTeams()
-        //{
-        //    var nbaApiService = new NbaApiService();
-        //    var teams = await nbaApiService.GetTeams();
-
-        //    if (teams.GetType().Name == "Teams")
-        //    {
-        //        if (teams != null)
-        //        {
-        //            teamList = teams.League.Standard;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        throw new Exception();
-        //    }
-        //}
     }
 }

@@ -1,5 +1,4 @@
-﻿using NBAStats.Constants;
-using NBAStats.Models;
+﻿using NBAStats.Models;
 using NBAStats.Services;
 using Prism.Navigation;
 using System;
@@ -13,10 +12,6 @@ namespace NBAStats.ViewModels
 {
     public class PlayerProfileViewModel : BaseViewModel, IInitialize
     {
-
-        private List<Team> _teamList = new List<Team>();
-        private List<Player> _playersList = new List<Player>();
-
         public Team ActualTeam { get; set; }
         public Player PlayerInfo { get; set; }
         public string ActualTeamInfo { get; set; }
@@ -30,23 +25,20 @@ namespace NBAStats.ViewModels
 
         public bool IsBusy { get; set; } = true;
         public bool IsNotBusy => !IsBusy;
-        public PlayerProfileViewModel(INbaApiService nbaApiService, INavigationService navigationService) : base(navigationService, nbaApiService)
+        public PlayerProfileViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService) : base(navigationService, nbaApiService, nbaDefaultInfoService)
         {
 
         }
 
         public async void Initialize(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teamsList) && parameters.TryGetValue(ParametersConstants.PlayerId, out string personId) &&
-                parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> playersList))
+            if (parameters.TryGetValue(ParametersConstants.PlayerId, out string personId))
             {
-                _teamList = teamsList;
                 _playerId = personId;
-                _playersList = playersList;
 
                 if (!string.IsNullOrEmpty(_playerId))
                 {
-                    await GetSeasonYearParameters();
+                    await GetDefaultData();
                     await GetProfile(_playerId);
                     IsBusy = false;
                 }
@@ -55,10 +47,10 @@ namespace NBAStats.ViewModels
 
         public async Task GetProfile(string personId)
         {
-            var playerProfile = await NbaApiService.GetPlayerProfile(_seasonYearApiData, personId);
-
-            if (playerProfile.GetType().Name == "PlayerProfile")
+            try
             {
+                PlayerProfile playerProfile = await NbaApiService.GetPlayerProfile(_seasonYearApiData, personId);
+
                 if (playerProfile != null)
                 {
                     PlayerStats = playerProfile.League.Standard;
@@ -96,7 +88,7 @@ namespace NBAStats.ViewModels
 
                     ActualTeam = _teamList.First(team => team.TeamId == PlayerStats.TeamId);
 
-                    Player playerInfo = _playersList.First(player => player.PersonId == personId);
+                    Player playerInfo = _playerList.First(player => player.PersonId == personId);
 
                     ActualTeamInfo = $"In {ActualTeam.Tricode} since: ";
 
@@ -104,7 +96,13 @@ namespace NBAStats.ViewModels
                     PlayerInfo = playerInfo;
 
                 }
+
             }
+            catch (NoInternetConnectionException ex)
+            {
+
+            }
+            
         }
     }
 }

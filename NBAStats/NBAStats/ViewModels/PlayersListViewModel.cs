@@ -22,7 +22,7 @@ namespace NBAStats.ViewModels
         public DateTime SelectedTime { get; set; } = DateTime.Today;
         private string dateFormatted => SelectedTime.ToString("yyyy");
 
-        public PlayersListViewModel(INbaApiService nbaApiServices, INavigationService navigationService) : base(navigationService, nbaApiServices)
+        public PlayersListViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService) : base(navigationService, nbaApiService, nbaDefaultInfoService)
         {
             OneDayLessCommand = new Command(OneDayMore);
             OneDayMoreCommand = new Command(OneDayLess);

@@ -17,23 +17,31 @@ namespace NBAStats.Services
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                SeasonRange seasonRange = null;
-
-                HttpClient client = new HttpClient();
-
-                var seasonRangeResponse = await client.GetAsync(Config.CalendarUrl);
-
-                if (seasonRangeResponse.IsSuccessStatusCode)
+                try
                 {
-                    var jsonTeams = await seasonRangeResponse.Content.ReadAsStringAsync();
-                    seasonRange = JsonSerializer.Deserialize<SeasonRange>(jsonTeams);
+                    SeasonRange seasonRange = null;
+
+                    HttpClient client = new HttpClient();
+
+                    var seasonRangeResponse = await client.GetAsync(Config.CalendarUrl);
+
+                    if (seasonRangeResponse.IsSuccessStatusCode)
+                    {
+                        var jsonTeams = await seasonRangeResponse.Content.ReadAsStringAsync();
+                        seasonRange = JsonSerializer.Deserialize<SeasonRange>(jsonTeams);
+                    }
+                    return seasonRange;
                 }
-                return seasonRange;
+                catch (Exception)
+                {
+
+                    throw new NoInternetConnectionException();
+                }
 
             }
             else
             {
-                throw new NotImplementedException();
+                throw new NoInternetConnectionException();
 
             }
 
@@ -42,49 +50,65 @@ namespace NBAStats.Services
 
         public async Task<Teams> GetTeams(string year)
         {
-
-            Teams teams = null;
-
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                HttpClient client = new HttpClient();
-
-                var teamsResponse = await client.GetAsync(Config.GetTeamsUrl(year));
-
-                if (teamsResponse.IsSuccessStatusCode)
+                try
                 {
-                    var jsonTeams = await teamsResponse.Content.ReadAsStringAsync();
-                    teams = JsonSerializer.Deserialize<Teams>(jsonTeams);
+                    Teams teams = null;
+                    HttpClient client = new HttpClient();
+
+                    var teamsResponse = await client.GetAsync(Config.GetTeamsUrl(year));
+
+                    if (teamsResponse.IsSuccessStatusCode)
+                    {
+                        var jsonTeams = await teamsResponse.Content.ReadAsStringAsync();
+                        teams = JsonSerializer.Deserialize<Teams>(jsonTeams);
+                    }
+
+                    return teams;
                 }
+                catch (Exception)
+                {
 
-
+                    throw new NoInternetConnectionException();
+                }
             }
-
-            return teams;
+            else
+            {
+                throw new NoInternetConnectionException();
+            }
+            
 
         }
 
         public async Task<GameOfDay> GetGamesOfDay(string date)
         {
-            GameOfDay gamesOfDay = null;
 
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                HttpClient client = new HttpClient();
-
-                var gamesOfDayResponse = await client.GetAsync(Config.GetScoreboardUrl(date));
-
-                if (gamesOfDayResponse.IsSuccessStatusCode)
+                try
                 {
-                    var jsonGames = await gamesOfDayResponse.Content.ReadAsStringAsync();
-                    gamesOfDay = JsonSerializer.Deserialize<GameOfDay>(jsonGames);
-                }
-                return gamesOfDay;
+                    GameOfDay gamesOfDay = null;
+                    HttpClient client = new HttpClient();
 
+                    var gamesOfDayResponse = await client.GetAsync(Config.GetScoreboardUrl(date));
+
+                    if (gamesOfDayResponse.IsSuccessStatusCode)
+                    {
+                        var jsonGames = await gamesOfDayResponse.Content.ReadAsStringAsync();
+                        gamesOfDay = JsonSerializer.Deserialize<GameOfDay>(jsonGames);
+                    }
+                    return gamesOfDay;
+                }
+                catch (Exception)
+                {
+
+                    throw new NoInternetConnectionException();
+                }
             }
             else
             {
-                throw new NotImplementedException();
+                throw new NoInternetConnectionException();
             }
 
         }
@@ -93,23 +117,31 @@ namespace NBAStats.Services
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                TeamLeaders teamLeaders = null;
-
-                HttpClient client = new HttpClient();
-
-                var teamLeadersResponse = await client.GetAsync(Config.GetTeamLeadersUrl(year,teamName));
-
-                if (teamLeadersResponse.IsSuccessStatusCode)
+                try
                 {
-                    var jsonTeamLeaders = await teamLeadersResponse.Content.ReadAsStringAsync();
-                    teamLeaders = JsonSerializer.Deserialize<TeamLeaders>(jsonTeamLeaders);
+                    TeamLeaders teamLeaders = null;
+
+                    HttpClient client = new HttpClient();
+
+                    var teamLeadersResponse = await client.GetAsync(Config.GetTeamLeadersUrl(year, teamName));
+
+                    if (teamLeadersResponse.IsSuccessStatusCode)
+                    {
+                        var jsonTeamLeaders = await teamLeadersResponse.Content.ReadAsStringAsync();
+                        teamLeaders = JsonSerializer.Deserialize<TeamLeaders>(jsonTeamLeaders);
+                    }
+                    return teamLeaders;
                 }
-                return teamLeaders;
+                catch (Exception)
+                {
+
+                    throw new NoInternetConnectionException();
+                }
 
             }
             else
             {
-                throw new NotImplementedException();
+                throw new NoInternetConnectionException();
 
             }
         }
@@ -118,23 +150,31 @@ namespace NBAStats.Services
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                PlayerStatsLeaders playerStatsLeaders = null;
-
-                HttpClient client = new HttpClient();
-
-                var playerStatsLeaderResponse = await client.GetAsync(Config.GetPlayerStatsLeadersUrl(season,stat));
-                
-                if (playerStatsLeaderResponse.IsSuccessStatusCode)
+                try
                 {
-                    var jsonPlayerStatsLeaders = await playerStatsLeaderResponse.Content.ReadAsStringAsync();
-                    playerStatsLeaders = JsonSerializer.Deserialize<PlayerStatsLeaders>(jsonPlayerStatsLeaders);
+                    PlayerStatsLeaders playerStatsLeaders = null;
+
+                    HttpClient client = new HttpClient();
+
+                    var playerStatsLeaderResponse = await client.GetAsync(Config.GetPlayerStatsLeadersUrl(season, stat));
+
+                    if (playerStatsLeaderResponse.IsSuccessStatusCode)
+                    {
+                        var jsonPlayerStatsLeaders = await playerStatsLeaderResponse.Content.ReadAsStringAsync();
+                        playerStatsLeaders = JsonSerializer.Deserialize<PlayerStatsLeaders>(jsonPlayerStatsLeaders);
+                    }
+                    return playerStatsLeaders;
                 }
-                return playerStatsLeaders;
+                catch (Exception)
+                {
+
+                    throw new NoInternetConnectionException();
+                }
 
             }
             else
             {
-                throw new NotImplementedException();
+                throw new NoInternetConnectionException();
 
             }
         }
@@ -143,23 +183,31 @@ namespace NBAStats.Services
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                Standing standing= null;
-
-                HttpClient client = new HttpClient();
-
-                var playerStatsLeaderResponse = await client.GetAsync(Config.StandingUrl);
-
-                if (playerStatsLeaderResponse.IsSuccessStatusCode)
+                try
                 {
-                    var jsonStanding = await playerStatsLeaderResponse.Content.ReadAsStringAsync();
-                    standing = JsonSerializer.Deserialize<Standing>(jsonStanding);
+                    Standing standing = null;
+
+                    HttpClient client = new HttpClient();
+
+                    var playerStatsLeaderResponse = await client.GetAsync(Config.StandingUrl);
+
+                    if (playerStatsLeaderResponse.IsSuccessStatusCode)
+                    {
+                        var jsonStanding = await playerStatsLeaderResponse.Content.ReadAsStringAsync();
+                        standing = JsonSerializer.Deserialize<Standing>(jsonStanding);
+                    }
+                    return standing;
                 }
-                return standing;
+                catch (Exception)
+                {
+
+                    throw new NoInternetConnectionException();
+                }
 
             }
             else
             {
-                throw new NotImplementedException();
+                throw new NoInternetConnectionException();
 
             }
         }
@@ -168,23 +216,31 @@ namespace NBAStats.Services
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                TeamStatsClass teamStatsClass = null;
-
-                HttpClient client = new HttpClient();
-
-                var teamStatsResponse = await client.GetAsync(Config.GetTeamStatsUrl(year));
-
-                if (teamStatsResponse.IsSuccessStatusCode)
+                try
                 {
-                    var jsonTeamStats = await teamStatsResponse.Content.ReadAsStringAsync();
-                    teamStatsClass = JsonSerializer.Deserialize<TeamStatsClass>(jsonTeamStats);
+                    TeamStatsClass teamStatsClass = null;
+
+                    HttpClient client = new HttpClient();
+
+                    var teamStatsResponse = await client.GetAsync(Config.GetTeamStatsUrl(year));
+
+                    if (teamStatsResponse.IsSuccessStatusCode)
+                    {
+                        var jsonTeamStats = await teamStatsResponse.Content.ReadAsStringAsync();
+                        teamStatsClass = JsonSerializer.Deserialize<TeamStatsClass>(jsonTeamStats);
+                    }
+                    return teamStatsClass;
                 }
-                return teamStatsClass;
+                catch (Exception)
+                {
+
+                    throw new NoInternetConnectionException();
+                }
 
             }
             else
             {
-                throw new NotImplementedException();
+                throw new NoInternetConnectionException();
 
             }
         }
@@ -193,23 +249,31 @@ namespace NBAStats.Services
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                BoxScore boxScore = null;
-
-                HttpClient client = new HttpClient();
-
-                var boxScoreResponse = await client.GetAsync(Config.GetBoxScoreUrl(date, gameId));
-
-                if (boxScoreResponse.IsSuccessStatusCode)
+                try
                 {
-                    var jsonBoxScore = await boxScoreResponse.Content.ReadAsStringAsync();
-                    boxScore = JsonSerializer.Deserialize<BoxScore>(jsonBoxScore);
+                    BoxScore boxScore = null;
+
+                    HttpClient client = new HttpClient();
+
+                    var boxScoreResponse = await client.GetAsync(Config.GetBoxScoreUrl(date, gameId));
+
+                    if (boxScoreResponse.IsSuccessStatusCode)
+                    {
+                        var jsonBoxScore = await boxScoreResponse.Content.ReadAsStringAsync();
+                        boxScore = JsonSerializer.Deserialize<BoxScore>(jsonBoxScore);
+                    }
+                    return boxScore;
                 }
-                return boxScore;
+                catch (Exception)
+                {
+
+                    throw new NoInternetConnectionException();
+                }
 
             }
             else
             {
-                throw new NotImplementedException();
+                throw new NoInternetConnectionException();
 
             }
         }
@@ -218,23 +282,31 @@ namespace NBAStats.Services
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                Players players = null;
-                HttpClient client = new HttpClient();
-
-                var playersResponse = await client.GetAsync(Config.GetPlayersUrl(year));
-
-                if (playersResponse.IsSuccessStatusCode)
+                try
                 {
-                    var jsonPlayers = await playersResponse.Content.ReadAsStringAsync();
-                    players = JsonSerializer.Deserialize<Players>(jsonPlayers);
-                }
+                    Players players = null;
+                    HttpClient client = new HttpClient();
 
-                return players;
+                    var playersResponse = await client.GetAsync(Config.GetPlayersUrl(year));
+
+                    if (playersResponse.IsSuccessStatusCode)
+                    {
+                        var jsonPlayers = await playersResponse.Content.ReadAsStringAsync();
+                        players = JsonSerializer.Deserialize<Players>(jsonPlayers);
+                    }
+
+                    return players;
+                }
+                catch (Exception)
+                {
+
+                    throw new NoInternetConnectionException();
+                }
 
             }
             else
             {
-                throw new Exception();
+                throw new NoInternetConnectionException();
             }
         }
 
@@ -242,23 +314,31 @@ namespace NBAStats.Services
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                PlayerProfile playerProfile = null;
-                HttpClient client = new HttpClient();
-
-                var playerProfileResponse = await client.GetAsync(Config.GetPlayerProfileUrl(year, personId));
-
-                if (playerProfileResponse.IsSuccessStatusCode)
+                try
                 {
-                    var jsonPlayerProfile = await playerProfileResponse.Content.ReadAsStringAsync();
-                    playerProfile = JsonSerializer.Deserialize<PlayerProfile>(jsonPlayerProfile);
-                }
+                    PlayerProfile playerProfile = null;
+                    HttpClient client = new HttpClient();
 
-                return playerProfile;
+                    var playerProfileResponse = await client.GetAsync(Config.GetPlayerProfileUrl(year, personId));
+
+                    if (playerProfileResponse.IsSuccessStatusCode)
+                    {
+                        var jsonPlayerProfile = await playerProfileResponse.Content.ReadAsStringAsync();
+                        playerProfile = JsonSerializer.Deserialize<PlayerProfile>(jsonPlayerProfile);
+                    }
+
+                    return playerProfile;
+                }
+                catch (Exception)
+                {
+
+                    throw new NoInternetConnectionException();
+                }
 
             }
             else
             {
-                throw new Exception();
+                throw new NoInternetConnectionException();
             }
         }
 
@@ -266,23 +346,31 @@ namespace NBAStats.Services
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
-                TeamSchedule teamSchedule = null;
-                HttpClient client = new HttpClient();
-
-                var teamScheduleResponse = await client.GetAsync(Config.GetTeamScheduleUrl(year, teamName));
-
-                if (teamScheduleResponse.IsSuccessStatusCode)
+                try
                 {
-                    var jsonTeamSchedule = await teamScheduleResponse.Content.ReadAsStringAsync();
-                    teamSchedule = JsonSerializer.Deserialize<TeamSchedule>(jsonTeamSchedule);
-                }
+                    TeamSchedule teamSchedule = null;
+                    HttpClient client = new HttpClient();
 
-                return teamSchedule;
+                    var teamScheduleResponse = await client.GetAsync(Config.GetTeamScheduleUrl(year, teamName));
+
+                    if (teamScheduleResponse.IsSuccessStatusCode)
+                    {
+                        var jsonTeamSchedule = await teamScheduleResponse.Content.ReadAsStringAsync();
+                        teamSchedule = JsonSerializer.Deserialize<TeamSchedule>(jsonTeamSchedule);
+                    }
+
+                    return teamSchedule;
+                }
+                catch (Exception)
+                {
+
+                    throw new NoInternetConnectionException();
+                }
 
             }
             else
             {
-                throw new Exception();
+                throw new NoInternetConnectionException();
             }
         }
     }

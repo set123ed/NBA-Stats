@@ -1,5 +1,4 @@
-﻿using NBAStats.Constants;
-using NBAStats.Models;
+﻿using NBAStats.Models;
 using NBAStats.Services;
 using Prism.Navigation;
 using System;
@@ -13,10 +12,8 @@ using Xamarin.Forms;
 
 namespace NBAStats.ViewModels
 {
-    public class StandingViewModel : BaseViewModel, IInitialize
+    public class StandingViewModel : BaseViewModel
     {
-        private List<Team> _teamList = new List<Team>();
-        private List<Player> _playerList = new List<Player>();
         public ObservableCollection<StandingPerConference> StandingPerConference { get; set; } = new ObservableCollection<StandingPerConference>();
         public ObservableCollection<TeamStanding> StandingAllLeague { get; set; } = new ObservableCollection<TeamStanding>();
         public bool ShowConference { get; set; } = true;
@@ -30,11 +27,13 @@ namespace NBAStats.ViewModels
         public bool IsBusy { get; set; } = true;
         public bool IsNotBusy => !IsBusy;
 
-        public StandingViewModel(INavigationService navigationService, INbaApiService nbaApiService) : base(navigationService, nbaApiService)
+        public StandingViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService) : base(navigationService, nbaApiService, nbaDefaultInfoService)
         {
             ShowAllLeagueCommand = new Command(OnShowAllLeague);
             ShowConferenceCommand = new Command(OnShowConference);
             SelectedTeamCommand = new Command<string>(OnSelectedTeam);
+
+            GetStandingData();
         }
 
         private async void OnSelectedTeam(string teamId)
@@ -43,8 +42,6 @@ namespace NBAStats.ViewModels
 
             var parameters = new NavigationParameters();
             parameters.Add(ParametersConstants.Team, teamSelected);
-            parameters.Add(ParametersConstants.PlayerList, new List<Player>(_playerList));
-            parameters.Add(ParametersConstants.TeamList, new List<Team>(_teamList));
 
             await NavigationService.NavigateAsync(NavigationConstants.TeamProfilePage, parameters);
         }
@@ -65,33 +62,32 @@ namespace NBAStats.ViewModels
             }
         }
 
-        private async void GetData()
+        private async void GetStandingData()
         {
-            await GetSeasonYearParameters();
-            await GetTeams();
-            await GetPlayers();
+            await GetDefaultData();
             await GetStanding();
             IsBusy = false;
         }
 
         private async Task GetStanding()
         {
-            var standingApi = await NbaApiService.GetStanding();
-
-            if (standingApi.GetType().Name == "Standing")
+            try
             {
-                if (standingApi != null)
-                {
-                    ObservableCollection<TeamStanding> standings = standingApi.League.Standard.Teams;
+                Standing standing = await NbaApiService.GetStanding();
 
-                    SeasonStage = Config.SeasonStages.First(season => season.Id == standingApi.League.Standard.SeasonStageId).Stage;
+
+                if (standing != null)
+                {
+                    ObservableCollection<TeamStanding> standingList = standing.League.Standard.Teams;
+
+                    SeasonStage = Config.SeasonStages.First(season => season.Id == standing.League.Standard.SeasonStageId).Stage;
 
                     StandingPerConference eastConference = new StandingPerConference("East");
-                    StandingPerConference westConference = new StandingPerConference("West");
+                    StandingPerConference westConference = new StandingPerConference("West");// string constanst
 
                     int cont = 1;
 
-                    foreach (TeamStanding teamStanding in standings)
+                    foreach (TeamStanding teamStanding in standingList)
                     {
                         Team team = _teamList.First(t => t.TeamId == teamStanding.TeamId);
 
@@ -114,54 +110,15 @@ namespace NBAStats.ViewModels
                     StandingPerConference.Add(westConference);
                     StandingPerConference.Add(eastConference);
                 }
+
+
             }
-        }
-
-        public async Task GetTeams()
-        {
-            if (_teamList.Count == 0)
+            catch (NoInternetConnectionException ex)
             {
-                var teams = await NbaApiService.GetTeams(_seasonYearApiData);
-
-                if (teams.GetType().Name == "Teams")
-                {
-                    if (teams != null)
-                    {
-                        _teamList = teams.League.Standard;
-                    }
-                }
-            }
-
-        }
-
-        private async Task GetPlayers()
-        {
-            if (_playerList.Count == 0)
-            {
-                var players = await NbaApiService.GetNbaPlayers(_seasonYearApiData);
-
-                if (players.GetType().Name == "Players")
-                {
-                    if (players != null)
-                    {
-
-                        _playerList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
-                    }
-                }
-            }
-        }
-
-        public void Initialize(INavigationParameters parameters)
-        {
-            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teamsList) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> playersList))
-            {
-                _teamList = teamsList;
-                _playerList = playersList;
 
                 
             }
-
-            GetData();
         }
+
     }
 }

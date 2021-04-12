@@ -1,5 +1,4 @@
-﻿using NBAStats.Constants;
-using NBAStats.Models;
+﻿using NBAStats.Models;
 using NBAStats.Services;
 using Prism.Navigation;
 using System;
@@ -30,16 +29,13 @@ namespace NBAStats.ViewModels
 
         public Team Team { get; set; }
 
-        private List<Player> _playersList = new List<Player>();
-        private List<Team> _teamList = new List<Team>();
-
         public ICommand GameSelectedCommand { get; }
         public ICommand SelectedPlayerCommand { get; }
 
         public bool IsBusy { get; set; } = true;
         public bool IsNotBusy => !IsBusy;
 
-        public TeamProfileViewModel(INavigationService navigationService, INbaApiService nbaApiService) : base(navigationService, nbaApiService)
+        public TeamProfileViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService) : base(navigationService, nbaApiService, nbaDefaultInfoService)
         {
             GameSelectedCommand = new Command<GameTeamSchedule>(OnGameSelected);
             SelectedPlayerCommand = new Command<string>(OnSelectedPlayer);
@@ -50,8 +46,6 @@ namespace NBAStats.ViewModels
             var parameters = new NavigationParameters();
             parameters.Add(ParametersConstants.GameId, game.GameId);
             parameters.Add(ParametersConstants.DateGame, game.StartDateEastern);
-            parameters.Add(ParametersConstants.PlayerList, _playersList);
-            parameters.Add(ParametersConstants.TeamList, _teamList);
 
             await NavigationService.NavigateAsync(NavigationConstants.BoxScorePage, parameters);
         }
@@ -59,24 +53,17 @@ namespace NBAStats.ViewModels
         private async void OnSelectedPlayer(string playerId)
         {
             var parameters = new NavigationParameters();
-            parameters.Add(ParametersConstants.TeamList, new List<Team>(_teamList));
             parameters.Add(ParametersConstants.PlayerId, playerId);
-            parameters.Add(ParametersConstants.PlayerList, new List<Player>(_playersList));
 
             await NavigationService.NavigateAsync(NavigationConstants.PlayerProfilePage, parameters);
         }
 
         public async void Initialize(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue(ParametersConstants.Team, out Team team) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> playersList) && parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teamsList))
+            if (parameters.TryGetValue(ParametersConstants.Team, out Team team))
             {
                 Team = team;
-
-                _teamList = teamsList;
-
-                _playersList = playersList;
-
-                await GetSeasonYearParameters();
+                await GetDefaultData();
                 await GetTeamInfo();
                 await GetTeamLeaders();
                 await GetTeamStats();
@@ -89,13 +76,13 @@ namespace NBAStats.ViewModels
 
         private async Task GetTeamStanding()
         {
-            var standingApi = await NbaApiService.GetStanding();
-
-            if (standingApi.GetType().Name == "Standing")
+            try
             {
-                if (standingApi != null)
+                Standing standing = await NbaApiService.GetStanding();
+
+                if (standing != null)
                 {
-                    TeamStanding = standingApi.League.Standard.Teams.First(team => team.TeamId == Team.TeamId);
+                    TeamStanding = standing.League.Standard.Teams.First(team => team.TeamId == Team.TeamId);
 
                     if (TeamStanding.ConfRank != "1")
                     {
@@ -111,16 +98,23 @@ namespace NBAStats.ViewModels
                     TeamRecord = $"{TeamStanding.Win} - {TeamStanding.Loss}";
                 }
             }
+            catch (NoInternetConnectionException ex)
+            {
+
+            }
+
+            
         }
 
         private async Task GetTeamInfo()
         {
-            var teamSchedule = await NbaApiService.GetTeamSchedule(_seasonYearApiData, Team.UrlName);
-            if (teamSchedule.GetType().Name == "TeamSchedule")
+            try
             {
+                TeamSchedule teamSchedule = await NbaApiService.GetTeamSchedule(_seasonYearApiData, Team.UrlName);
+
                 if (teamSchedule != null)
                 {
-                    ObservableCollection<Player> roster = new ObservableCollection<Player>(_playersList.Where(player => player.TeamId == Team.TeamId));
+                    ObservableCollection<Player> roster = new ObservableCollection<Player>(_playerList.Where(player => player.TeamId == Team.TeamId));
 
                     Roster = roster;
 
@@ -149,13 +143,10 @@ namespace NBAStats.ViewModels
                         game.VTeam.Tricode = vTeamTricode;
                         game.HTeam.Tricode = hTeamTricode;
 
-                        if (string.IsNullOrEmpty(game.HTeam.Score))
+                        game.ScoreOrTime = Utilities.GetScoreOrTime(game.VTeam.Score, game.HTeam.Score, game.StartTimeEastern);
+
+                        if (game.ScoreOrTime.Contains("-"))
                         {
-                            game.ScoreOrTime = game.StartTimeEastern;
-                        }
-                        else
-                        {
-                            game.ScoreOrTime = $"{game.VTeam.Score} - {game.HTeam.Score}";
 
                             if (game.IsHomeTeam)
                             {
@@ -183,10 +174,6 @@ namespace NBAStats.ViewModels
 
                         game.SeasonStage = Config.SeasonStages.First(stage => stage.Id == game.SeasonStageId).Stage;
 
-
-
-
-
                         lastGamesPlayed.Add(game);
                     }
 
@@ -203,7 +190,7 @@ namespace NBAStats.ViewModels
 
                     GameScheduleCollection nextGamesToPlay = new GameScheduleCollection($"Next {nextGamesCount} games");
 
-                    ObservableCollection<GameTeamSchedule> nextGames = new ObservableCollection<GameTeamSchedule>(teamSchedule.League.Standard.ToList().GetRange(lastGamePlayedIndex +1, nextGamesCount));
+                    ObservableCollection<GameTeamSchedule> nextGames = new ObservableCollection<GameTeamSchedule>(teamSchedule.League.Standard.ToList().GetRange(lastGamePlayedIndex + 1, nextGamesCount));
                     foreach (GameTeamSchedule game in nextGames)
                     {
                         string gameUrl = game.GameUrlCode;
@@ -213,14 +200,7 @@ namespace NBAStats.ViewModels
                         game.VTeam.Tricode = vTeamTricode;
                         game.HTeam.Tricode = hTeamTricode;
 
-                        if (string.IsNullOrEmpty(game.HTeam.Score))
-                        {
-                            game.ScoreOrTime = game.StartTimeEastern;
-                        }
-                        else
-                        {
-                            game.ScoreOrTime = $"{game.VTeam.Score} - {game.HTeam.Score}";
-                        }
+                        game.ScoreOrTime = Utilities.GetScoreOrTime(game.VTeam.Score, game.HTeam.Score, game.StartTimeEastern);
 
                         game.SeasonStage = Config.SeasonStages.First(stage => stage.Id == game.SeasonStageId).Stage;
 
@@ -232,15 +212,21 @@ namespace NBAStats.ViewModels
 
 
                 }
+
             }
+            catch (NoInternetConnectionException ex)
+            {
+
+            }
+            
         }
 
         public async Task GetTeamLeaders()
         {
-            var teamLeaders = await NbaApiService.GetTeamLeaders(_seasonYearApiData, Team.UrlName);
-
-            if (teamLeaders.GetType().Name == "TeamLeaders")
+            try
             {
+                TeamLeaders teamLeaders = await NbaApiService.GetTeamLeaders(_seasonYearApiData, Team.UrlName);
+
                 if (teamLeaders != null)
                 {
                     TeamLeadersPlayers playerPpg = new TeamLeadersPlayers
@@ -322,14 +308,19 @@ namespace NBAStats.ViewModels
                     TeamLeaders = teamLeadersPlayers;
                 }
             }
+            catch (NoInternetConnectionException ex)
+            {
+
+            }
+            
         }
 
         private async Task GetTeamStats()
         {
-            var teamStat = await NbaApiService.GetTeamStats(_seasonYearApiData);
-
-            if (teamStat.GetType().Name == "TeamStatsClass")
+            try
             {
+                TeamStatsClass teamStat = await NbaApiService.GetTeamStats(_seasonYearApiData);
+
                 if (teamStat != null)
                 {
                     TeamStats teamRegularStats = teamStat.LeagueTeamStats.Seasons.RegularSeason.Teams.First(team => team.TeamId == Team.TeamId);
@@ -342,6 +333,11 @@ namespace NBAStats.ViewModels
 
                 }
             }
+            catch (NoInternetConnectionException ex)
+            {
+
+            }
+            
         }
     }
 }

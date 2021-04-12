@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -51,5 +52,16 @@ namespace NBAStats.Models
         public string Team { get; set; }
         public string AverageStats { get; set; }
         public string TotalStat { get; set; }
+    }
+
+    public class LeaderStatsPlayerCollection : ObservableCollection<LeadersStatsPlayer>
+    {
+        public LeaderStatsPlayerCollection(string stat)
+        {
+            Stat = stat;
+        }
+
+        public string Stat { get; }
+
     }
 }

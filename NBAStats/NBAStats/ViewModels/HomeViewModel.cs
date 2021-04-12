@@ -1,5 +1,4 @@
-﻿ using NBAStats.Constants;
-using NBAStats.Models;
+﻿using NBAStats.Models;
 using NBAStats.Services;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -15,13 +14,12 @@ using Xamarin.Forms;
 
 namespace NBAStats.ViewModels
 {
-    public class HomeViewModel : BaseViewModel, IInitialize 
+    public class HomeViewModel : BaseViewModel
     {
         int _position;
         public int ImagePosition { get; set; }
 
         private string _todayDate = DateTime.Today.ToString("yyyyMMdd");
-        private List<Team> _teamList = new List<Team>();
         public ObservableCollection<Game> GamesOfDay { get; set; } = new ObservableCollection<Game>();
         public ObservableCollection<PlayerRegularStats> ScoringLeaders { get; set; }
         public ObservableCollection<BetterTeams> BetterTeams { get; set; }
@@ -35,13 +33,12 @@ namespace NBAStats.ViewModels
 
         private bool _areGamesBeingPlayed = false;
         private List<string> _gamesBeingPlayed = new List<string>();
-        private List<Player> _playersList = new List<Player>();
 
         public bool IsBusy { get; set; } = true;
         public bool IsNotBusy => !IsBusy;
 
 
-        public HomeViewModel(IPageDialogService dialogService, INbaApiService nbaApiService, INavigationService navigationService) : base(navigationService, nbaApiService)
+        public HomeViewModel(IPageDialogService dialogService,INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService) : base(navigationService, nbaApiService, nbaDefaultInfoService)
         {
             AlertService = dialogService;
 
@@ -58,13 +55,17 @@ namespace NBAStats.ViewModels
             RefreshGamesOfDayCommand = new Command(OnRefreshGamesOfDay);
             GameSelectedCommand = new Command<Game>(OnGameSelected);
             PlayerSelectedCommand = new Command<PlayerRegularStats>(OnPlayerSelected);
+
             ListPlayers = new Command(PlayerList);
+
+            GetHomeData();
         }
 
         private async void PlayerList()
         {
             await NavigationService.NavigateAsync(NavigationConstants.PlayersList);
         }
+
         private async void OnPlayerSelected(PlayerRegularStats player)
         {
             string playerId = "";
@@ -92,8 +93,6 @@ namespace NBAStats.ViewModels
                 {
                     var parameters = new NavigationParameters();
                     parameters.Add(ParametersConstants.PlayerId, playerId);
-                    parameters.Add(ParametersConstants.PlayerList, _playersList);
-                    parameters.Add(ParametersConstants.TeamList, _teamList);
 
                     await NavigationService.NavigateAsync(NavigationConstants.PlayerProfilePage, parameters);
                 }
@@ -103,8 +102,6 @@ namespace NBAStats.ViewModels
                 playerId = player.PlayerId;
                 var parameters = new NavigationParameters();
                 parameters.Add(ParametersConstants.PlayerId, playerId);
-                parameters.Add(ParametersConstants.PlayerList, _playersList);
-                parameters.Add(ParametersConstants.TeamList, _teamList);
 
                 await NavigationService.NavigateAsync(NavigationConstants.PlayerProfilePage, parameters);
             }
@@ -117,8 +114,6 @@ namespace NBAStats.ViewModels
 
             var parameters = new NavigationParameters();
             parameters.Add(ParametersConstants.Team, teamSelected);
-            parameters.Add(ParametersConstants.PlayerList, _playersList);
-            parameters.Add(ParametersConstants.TeamList, _teamList);
 
             await NavigationService.NavigateAsync(NavigationConstants.TeamProfilePage, parameters);
         }
@@ -128,20 +123,16 @@ namespace NBAStats.ViewModels
             var parameters = new NavigationParameters();
             parameters.Add(ParametersConstants.GameId, game.GameId);
             parameters.Add(ParametersConstants.DateGame, game.StartDateEastern);
-            parameters.Add(ParametersConstants.PlayerList, _playersList);
-            parameters.Add(ParametersConstants.TeamList, _teamList);
 
             await NavigationService.NavigateAsync(NavigationConstants.BoxScorePage, parameters);
         }
 
-        private async void GetData()
+        private async void GetHomeData()
         {
-            await GetSeasonYearParameters();
+            await GetDefaultData();
             await GetGamesOfTheDay();
             await GetScoringLeaders();
             await GetBetterTeams();
-            await GetPlayers();
-            await GetNbaTeams();
             IsBusy = false;
         }
 
@@ -156,69 +147,48 @@ namespace NBAStats.ViewModels
 
         private async Task GetGamesOfTheDay()
         {
-            GameOfDay gameOfDay = await NbaApiService.GetGamesOfDay(_todayDate);
-            if (gameOfDay != null)
+            try
             {
-                foreach (Game game in gameOfDay.Games)
+                GameOfDay gameOfDay = await NbaApiService.GetGamesOfDay(_todayDate);
+                if (gameOfDay != null)
                 {
-                    if (!string.IsNullOrEmpty(game.HTeam.Score) && $"{game.VTeam.Score} - {game.HTeam.Score}" != "0 - 0")
+                    foreach (Game game in gameOfDay.Games)
                     {
-                        _areGamesBeingPlayed = true;
-                        _gamesBeingPlayed.Add(game.GameId);
+                        game.ScoreOrTime = Utilities.GetScoreOrTime(game.VTeam.Score, game.HTeam.Score, game.StartTimeEastern);
+                        game.TimePeriodHalftime = Utilities.GetTimePeriod(game.VTeam.Score, game.HTeam.Score, game.Period.CurrentPeriod, game.Period.IsHalftime, game.Period.IsEndOfPeriod, game.IsGameActivated, game.Clock);
 
-                        game.ScoreOrTime = $"{game.VTeam.Score} - {game.HTeam.Score}";
+                        if (game.ScoreOrTime.Contains("-"))
+                        {
+                            _areGamesBeingPlayed = true;
+                            _gamesBeingPlayed.Add(game.GameId);
+                        }
 
-                        if (game.Period.IsHalftime)
-                        {
-                            game.TimePeriodHalftime = "HALFTIME";
-                        }
-                        else if (game.Period.IsEndOfPeriod && game.Period.CurrentPeriod <= 4)
-                        {
-                            game.TimePeriodHalftime = $"END OF {game.Period.CurrentPeriod} PERIOD";
-                        }
-                        else if (game.Period.IsEndOfPeriod && game.Period.CurrentPeriod > 4)
-                        {
-                            game.TimePeriodHalftime = $"END OF {game.Period.CurrentPeriod - 4} OT";
-                        }
-                        else if (!game.IsGameActivated)
-                        {
-                            game.TimePeriodHalftime = "FINAL";
-                        }
-                        else if (game.Period.CurrentPeriod <= 4)
-                        {
-                            game.TimePeriodHalftime = $"{game.Period.CurrentPeriod} PERIOD - {game.Clock} LEFT";
-                        }
-                        else if (game.Period.CurrentPeriod > 4)
-                        {
-                            game.TimePeriodHalftime = $"{game.Period.CurrentPeriod - 4} OT - {game.Clock} LEFT";
-                        }
                     }
-                    else
-                    {
-                        game.ScoreOrTime = game.StartTimeEastern;
-                    }
+
+                    GamesOfDay = new ObservableCollection<Game>(gameOfDay.Games);
                 }
-
-                GamesOfDay = new ObservableCollection<Game>(gameOfDay.Games);
-
             }
+            catch (NoInternetConnectionException ex)
+            {
+                await AlertService.DisplayAlertAsync("Error", ex.Message, "ok");
+            }
+
         }
 
         private async Task GetScoringLeaders()
         {
-            if (_areGamesBeingPlayed)
+            try
             {
-                ObservableCollection<PlayerRegularStats> playerScoringLeaderList = new ObservableCollection<PlayerRegularStats>();
-
-                foreach (string gameId in _gamesBeingPlayed)
+                if (_areGamesBeingPlayed)
                 {
-                    var boxScore = await NbaApiService.GetBoxScore(_todayDate, gameId);
+                    ObservableCollection<PlayerRegularStats> playerScoringLeaderList = new ObservableCollection<PlayerRegularStats>();
 
-                    if (boxScore.GetType().Name == "BoxScore")
+                    foreach (string gameId in _gamesBeingPlayed)
                     {
+                        BoxScore boxScore = await NbaApiService.GetBoxScore(_todayDate, gameId);
+
                         if (boxScore != null)
                         {
-
 
                             PlayerRegularStats playerRegularStats = new PlayerRegularStats();
 
@@ -255,62 +225,51 @@ namespace NBAStats.ViewModels
 
                             playerScoringLeaderList.Add(playerRegularStats);
 
-
                         }
 
+
                     }
+
+                    ScoringLeaders = playerScoringLeaderList;
                 }
-
-                ScoringLeaders = playerScoringLeaderList;
-            }
-            else
-            {
-                PlayerStatsLeaders playerStatsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats,"PTS");
-                ObservableCollection<PlayerRegularStats> listPlayerRegularStats = new ObservableCollection<PlayerRegularStats>();
-
-                for (int i = 0; i < 6; i++)
+                else
                 {
-                    PlayerRegularStats newPlayer = new PlayerRegularStats();
+                    PlayerStatsLeaders playerStatsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "PTS");
+                    ObservableCollection<PlayerRegularStats> listPlayerRegularStats = new ObservableCollection<PlayerRegularStats>();
 
-                    newPlayer.PlayerId = playerStatsLeaders.ResultSet.RowSet[i][0].ToString();
-                    newPlayer.Name = playerStatsLeaders.ResultSet.RowSet[i][2].ToString();
-                    newPlayer.Team = playerStatsLeaders.ResultSet.RowSet[i][3].ToString();
-                    newPlayer.PointsPerGame = Math.Round(Convert.ToDecimal(playerStatsLeaders.ResultSet.RowSet[i][22].ToString()), 1).ToString();
-                    newPlayer.AssistsPerGame = Math.Round(Convert.ToDecimal(playerStatsLeaders.ResultSet.RowSet[i][18].ToString()), 1).ToString();
-                    newPlayer.ReboundsPerGame = Math.Round(Convert.ToDecimal(playerStatsLeaders.ResultSet.RowSet[i][17].ToString()), 1).ToString();
-
-                    listPlayerRegularStats.Add(newPlayer);
-                }
-
-                ScoringLeaders = listPlayerRegularStats;
-            }
-
-        }
-
-        private async Task GetNbaTeams()
-        {
-            if (_teamList.Count == 0)
-            {
-                var teams = await NbaApiService.GetTeams(_seasonYearApiData);
-
-                if (teams.GetType().Name == "Teams")
-                {
-                    if (teams != null)
+                    for (int i = 0; i < 6; i++)
                     {
-                        _teamList = teams.League.Standard;
+                        PlayerRegularStats newPlayer = new PlayerRegularStats();
+
+                        newPlayer.PlayerId = playerStatsLeaders.ResultSet.RowSet[i][0].ToString();
+                        newPlayer.Name = playerStatsLeaders.ResultSet.RowSet[i][2].ToString();
+                        newPlayer.Team = playerStatsLeaders.ResultSet.RowSet[i][3].ToString();
+                        newPlayer.PointsPerGame = Math.Round(Convert.ToDecimal(playerStatsLeaders.ResultSet.RowSet[i][22].ToString()), 1).ToString();
+                        newPlayer.AssistsPerGame = Math.Round(Convert.ToDecimal(playerStatsLeaders.ResultSet.RowSet[i][18].ToString()), 1).ToString();
+                        newPlayer.ReboundsPerGame = Math.Round(Convert.ToDecimal(playerStatsLeaders.ResultSet.RowSet[i][17].ToString()), 1).ToString();
+
+                        listPlayerRegularStats.Add(newPlayer);
                     }
+
+                    ScoringLeaders = listPlayerRegularStats;
                 }
+
+            }
+            catch (NoInternetConnectionException ex)
+            {
+
+                
             }
 
         }
 
         private async Task GetBetterTeams()
         {
-            var standing = await NbaApiService.GetStanding();
-            var teamStatsClass = await NbaApiService.GetTeamStats(_seasonYearApiData);
-
-            if (standing.GetType().Name == "Standing" && teamStatsClass.GetType().Name == "TeamStatsClass")
+            try
             {
+                Standing standing = await NbaApiService.GetStanding();
+                TeamStatsClass teamStatsClass = await NbaApiService.GetTeamStats(_seasonYearApiData);
+
                 if (standing != null && teamStatsClass != null)
                 {
                     ObservableCollection<BetterTeams> betterTeams = new ObservableCollection<BetterTeams>();
@@ -328,36 +287,14 @@ namespace NBAStats.ViewModels
                     BetterTeams = betterTeams;
 
                 }
+
             }
-
-        }
-
-        private async Task GetPlayers()
-        {
-            if (_playersList.Count == 0)
+            catch (NoInternetConnectionException ex)
             {
-                var players = await NbaApiService.GetNbaPlayers(_seasonYearApiData);
 
-                if (players.GetType().Name == "Players")
-                {
-                    if (players != null)
-                    {
-
-                        _playersList = new List<Player>(players.League.Standard.Where(player => player.IsActive));
-                    }
-                }
-            }
-        }
-
-        public void Initialize(INavigationParameters parameters)
-        {
-            if (parameters.TryGetValue(ParametersConstants.TeamList, out List<Team> teamsList) && parameters.TryGetValue(ParametersConstants.PlayerList, out List<Player> playersList))
-            {
-                _teamList = teamsList;
-                _playersList = playersList;
             }
 
-            GetData();
         }
+
     }
 }
