@@ -4,32 +4,21 @@
              xmlns:prism="http://prismlibrary.com"
              x:Class="NBAStats.Views.PlayersListPage">
 
-    <ScrollView>
-
         <Grid ColumnDefinitions="auto,auto,auto" RowDefinitions="auto,auto,auto">
-            
-            <Button Text="Antes" Padding="0" Command="{Binding OneDayLessCommand}" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0"/>
-            <DatePicker Date="{Binding DateSelected}" HorizontalOptions="CenterAndExpand" Grid.Row="1" Grid.ColumnSpan="3" >
-                <DatePicker.Behaviors>
-                    <prism:EventToCommandBehavior EventName="DateSelected" Command="{Binding DateSelectedChangeCommand}"/>
-                </DatePicker.Behaviors>
-            </DatePicker>
-            
-            <Button Text="Despues" Command="{Binding OneDayMoreCommand}" HorizontalOptions="End" Grid.Row="1" Grid.Column="2" />
 
-
-            <ListView ItemsSource="{Binding Players}" Grid.ColumnSpan="3" Grid.Row="3">
+        <ListView ItemsSource="{Binding Players}" Grid.Row="3" Grid.Column="0">
                 <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Label Text="{Binding FirstName}" />
-                        </ViewCell>
-                    </DataTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="{Binding FistName}" />
+                            <Label Text="{Binding LastName}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
         </Grid>
-        
-    </ScrollView>
-    
+
 </ContentPage>

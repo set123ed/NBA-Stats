@@ -13,9 +13,8 @@ namespace NBAStats.ViewModels
 {
     public class PlayersListViewModel: BaseViewModel
     {
-        
-        public ObservableCollection<Player> Players { get; set; }
 
+        public ObservableCollection<Player> Players { get; set; }
         public ICommand DateSelectedChangeCommand { get; }
         public ICommand OneDayLessCommand { get; }
         public ICommand OneDayMoreCommand { get; }
@@ -26,30 +25,32 @@ namespace NBAStats.ViewModels
         {
             OneDayLessCommand = new Command(OneDayMore);
             OneDayMoreCommand = new Command(OneDayLess);
-            DateSelectedChangeCommand = new Command(async() => await GetNamePlayers());
-            
+            // DateSelectedChangeCommand = new Command(async () => await GetNamePlayers());
+            getdata();
         }
-
+        public async void getdata()
+        {
+            await GetNamePlayers();
+        }
         public void OneDayMore()
         {
             SelectedTime = SelectedTime.AddDays(+1);
         }
-
         public void OneDayLess()
         {
             SelectedTime = SelectedTime.AddDays(-1);
         }
         public async Task GetNamePlayers()
         {
-            var dateInfo = await NbaApiService.GetNbaPlayers(dateFormatted);
-            var NamePalyer = dateInfo.League.Standard;
-            foreach(var datos in NamePalyer)
+            Players dateInfo = await NbaApiService.GetNbaPlayers(dateFormatted);
+            if(dateInfo.League.Standard != null)
             {
-                Players.Add(datos);
-              
+                Players = new ObservableCollection<Player>(dateInfo.League.Standard);
             }
-
-            
+            else
+            {
+                Players = null;
+            }
         }
 
     }

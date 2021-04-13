@@ -38,6 +38,7 @@ namespace NBAStats.ViewModels
                 _seasonYearApiData = await NbaDefaultInfoService.GetSeasonYearApiData();
                 _playerList = await NbaDefaultInfoService.GetPlayerList();
                 _teamList = await NbaDefaultInfoService.GetTeamList();
+                
             }
             catch (NoInternetConnectionException ex)
             {
