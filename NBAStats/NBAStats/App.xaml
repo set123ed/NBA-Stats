@@ -8,8 +8,7 @@
         <ResourceDictionary>
 
             <Style x:Key="FrameStyle1" TargetType="Frame" >
-                <Setter Property="CornerRadius" Value="20"/>
-                <Setter Property="BackgroundColor" Value="#ff85a3"/>
+                <Setter Property="BackgroundColor" Value="white"/>
                 <Setter Property="HasShadow" Value="True"/>
             </Style>
 
@@ -25,16 +24,24 @@
             <Style x:Key="LabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="OpenSans"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="TextColor" Value="#fbfef9"/>
-                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="FontSize" Value="25"/>
+            </Style>
+
+            <Style x:Key="LabelStyleDetails" TargetType="Label">
+                <Setter Property="FontFamily" Value="OpenSans"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="FontSize" Value="18"/>
             </Style>
 
             <Style x:Key="LabelStyleForTitle" TargetType="Label">
-                <Setter Property="HorizontalOptions" Value="Center" />
-                <Setter Property="VerticalOptions" Value="End"/>
-                <Setter Property="Margin" Value="10" />
-                <Setter Property="FontSize" Value="20" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="Margin" Value="10,0,0,0" />
+                <Setter Property="FontSize" Value="27" />
                 <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontFamily" Value="arial"/>
+
             </Style>
 
             <Style x:Key="ButtonStyleOut" TargetType="Button">
@@ -43,7 +50,8 @@
                 <Setter Property="CornerRadius" Value="20"/>
                 <Setter Property="FontFamily" Value="opensans"/>
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="BackgroundColor" Value="DarkRed"/>
             </Style>
 
             <Style x:Key="LabelList" TargetType="Label">

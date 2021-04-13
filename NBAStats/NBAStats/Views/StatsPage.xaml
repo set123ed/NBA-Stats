@@ -10,15 +10,15 @@
         <!--<Grid>
             <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>-->
 
-            <Grid RowDefinitions="0.08*,*"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid RowDefinitions="0.1*,*" BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 
                 <ActivityIndicator IsVisible="{Binding IsBusy}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" IsRunning="{Binding IsBusy}" BackgroundColor="White"  VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
 
                 <StackLayout Orientation="Horizontal" Grid.Row="0" Padding="5" VerticalOptions="Center" HorizontalOptions="Center">
 
-                <Button Text="Players" Command="{Binding ShowPlayerCommand}"/>
-                <Button Text="Teams" Command="{Binding ShowTeamCommand}"/>
-                <Button Text="Search" Command="{Binding ShowSearchCommand}"/>
+                <Button Text="Players" Style="{StaticResource Key=ButtonStyleOut}" Command="{Binding ShowPlayerCommand}"/>
+                <Button Text="Teams" Style="{StaticResource Key=ButtonStyleOut}" Command="{Binding ShowTeamCommand}"/>
+                <Button Text="Search" Style="{StaticResource Key=ButtonStyleOut}"  Command="{Binding ShowSearchCommand}"/>
 
                 </StackLayout>
 
@@ -32,21 +32,21 @@
                         <DataTemplate>
                             <ViewCell>
 
-                                <Grid ColumnDefinitions="1.5*,0.3*">
+                                <Grid ColumnDefinitions="1.5*,0.3*" Padding="13" >
                                     <StackLayout Orientation="Horizontal" Grid.Column="0" HorizontalOptions="FillAndExpand">
-                                        <Label Text="{Binding Pos}" Grid.Column="0" FontSize="12" VerticalOptions="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Center" Margin="1"/>
-                                        <Label Text="{Binding FullName}" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1">
+                                    <Label Text="{Binding Pos}"  Style="{StaticResource Key=LabelStyleForTitle}" Grid.Column="0" FontSize="15" VerticalOptions="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding FullName}" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1">
 
                                             <Label.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Source={x:Reference statsPage}, Path=BindingContext.SelectedPlayerCommand}" CommandParameter="{Binding PlayerId}"/>
                                             </Label.GestureRecognizers>
 
                                         </Label>
-                                        <Label Text="{Binding Team}" FontSize="12" HorizontalOptions="EndAndExpand" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Team}" FontAttributes="Bold" FontSize="15"  HorizontalOptions="EndAndExpand" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
 
                                     </StackLayout>
                                     <StackLayout Grid.Column="1">
-                                        <Label Text="{Binding AverageStats}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding AverageStats}" FontSize="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                     </StackLayout>
                                 </Grid>
                                 
@@ -58,7 +58,7 @@
 
                     <ListView ItemsSource="{Binding LeadersStatsTeams}"  Grid.Row="1" HasUnevenRows="True" IsGroupingEnabled="True" GroupDisplayBinding="{Binding Stat}" IsVisible="{Binding ShowTeams}">
                     <ListView.Header>
-                        <Grid ColumnDefinitions="1.5*,0.3*">
+                        <Grid ColumnDefinitions="1.5*,0.3*" >
 
                         </Grid>
                     </ListView.Header>
@@ -66,20 +66,17 @@
                         <DataTemplate>
                             <ViewCell>
 
-                                <Grid ColumnDefinitions="1.5*,0.3*">
-                                    <StackLayout Orientation="Horizontal" Grid.Column="0" HorizontalOptions="FillAndExpand">
-                                        <Label Text="{Binding Pos}" Grid.Column="0" FontSize="12" VerticalOptions="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Center" Margin="1"/>
-                                        <Label Text="{Binding FullName}" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1">
-
-                                            <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={x:Reference statsPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
-                                            </Label.GestureRecognizers>
-
-                                        </Label>
-
-                                    </StackLayout>
-                                    <StackLayout Grid.Column="1">
-                                        <Label Text="{Binding AverageStats}"  HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                            <Grid ColumnDefinitions="1.5*,0.3*,0.5*" Padding="13" >
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference statsPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
+                                </Grid.GestureRecognizers>
+                                <StackLayout Orientation="Horizontal" Grid.Column="0" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding Pos}"   FontSize="15" Grid.Column="0"  VerticalOptions="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Center" Margin="1"/>
+                                    <Label Text="{Binding FullName}" FontSize="18" HorizontalOptions="Center"  Margin="1"/>
+                                    
+                                </StackLayout>
+                                    <StackLayout Grid.Column="2">
+                                    <Label Text="{Binding AverageStats}" FontAttributes="Bold" FontSize="16" HorizontalOptions="Center"  Margin="1"/>
                                     </StackLayout>
                                 </Grid>
 
@@ -88,8 +85,8 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-            <Grid IsVisible="{Binding ShowSearch}" Grid.Row="1" RowDefinitions="0.18*,auto,0.4*,auto,*" RowSpacing="15">
-                <Frame Grid.Row="0" Padding="3" CornerRadius="25" BackgroundColor="LightBlue" Margin="10" IsVisible="{Binding InternetConnection}">
+            <Grid IsVisible="{Binding ShowSearch}" Grid.Row="1" RowDefinitions="0.10*,auto,0.4*,auto,0.4*" RowSpacing="15">
+                <Frame Grid.Row="0" Padding="3" CornerRadius="25" BackgroundColor="LightBlue" IsVisible="{Binding InternetConnection}">
                     <StackLayout Orientation="Horizontal" >
                         <SearchBar x:Name="searcherBar" Placeholder="Search a player" Text="{Binding Filter}" SearchCommand="{Binding SearcherCommand}" Keyboard="Text" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
                             <SearchBar.Behaviors>
@@ -100,14 +97,14 @@
                     </StackLayout> 
                 </Frame>
 
-                <Label Text="Teams" Grid.Row="1" Margin="7.5"/>
+                <Label Text="Teams" Style="{StaticResource Key=LabelStyleForTitle}" FontSize="18" Grid.Row="1" Margin="7.5"/>
 
                 <ListView Grid.Row="2" ItemsSource="{Binding TeamList}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
 
-                                <Label Text="{Binding FullName}">
+                                <Label Text="{Binding FullName}" FontSize="14" >
 
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Source={x:Reference statsPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
@@ -121,14 +118,14 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <Label Text="Players" Grid.Row="3" Margin="7.5"/>
+                <Label Text="Players" Style="{StaticResource Key=LabelStyleForTitle}" FontSize="18" Grid.Row="3" Margin="7.5"/>
 
                 <ListView Grid.Row="4" ItemsSource="{Binding PlayersList}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Orientation="Horizontal" Margin="7.5">
-                                    <Label Text="{Binding FullName}"/>
+                                    <Label Text="{Binding FullName}"  FontSize="14" />
 
 
                                     <StackLayout.GestureRecognizers>

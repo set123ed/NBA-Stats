@@ -17,7 +17,7 @@
                         <Label  Text="{Binding PlayerInfo.Jersey}" FontSize="40" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                     </Frame>
                     <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-                        <Label Text="{Binding PlayerInfo.FullName}"  VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontSize="30"/>
+                        <Label Text="{Binding PlayerInfo.FullName}" FontAttributes="Bold"  VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontSize="30"/>
                         <Label Text="{Binding PlayerInfo.TeamSitesOnly.PosFull}"  VerticalOptions="Center" HorizontalOptions="Center" TextColor="MidnightBlue" FontSize="19"/>
                         <Label Text="{Binding ActualTeam.FullName}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="DodgerBlue" FontSize="19" FontAttributes="Bold"/>
                     </StackLayout>

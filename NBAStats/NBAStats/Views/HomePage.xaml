@@ -7,11 +7,11 @@
     <ContentPage.Content>
         <RefreshView IsRefreshing="{Binding IsGamesOfDayRefreshing}" Command="{Binding RefreshGamesOfDayCommand}">
             <ScrollView>
-                <Grid>
+                <Grid BackgroundColor="White">
 
                     <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
 
-                    <Grid BackgroundColor="#fbfef9" IsVisible="{Binding IsNotBusy}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                    <Grid BackgroundColor="#white" IsVisible="{Binding IsNotBusy}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -20,8 +20,8 @@
                     <Grid.RowDefinitions>
 
                         <RowDefinition Height="80"/>
-                        <RowDefinition Height="285"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="240"/>
+                        <RowDefinition Height="35"/>
                         <RowDefinition Height="250" />
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="30"/>
@@ -30,12 +30,9 @@
                         <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
 
-                    <Frame BackgroundColor="#fbfef9" HeightRequest="40" HasShadow="False" Grid.Row="0" Grid.ColumnSpan="2" >
+                        <Frame BackgroundColor="#0b1b2b"  HasShadow="False" Grid.Row="0" Grid.ColumnSpan="2" >
                         <Grid >
-
-                            <Image Source="LOGO2.png" Grid.ColumnSpan="1"
-                                   HorizontalOptions="Center" Margin="0,0,130,0"/>
-                            <Image Source="LOGO.png" Grid.Column="0" Margin="50,0,0,0" HorizontalOptions="Center"/>
+                           <Image Source="LOGO.png" Grid.ColumnSpan="2" HorizontalOptions="Center"/>
                         </Grid>
                     </Frame>
 
@@ -58,26 +55,22 @@
                             <contrils:CarouselViewControl.ItemTemplate>
                                 <DataTemplate>
 
-                                    <Grid Scale="1" Padding="20">
+                                    <Grid Padding="20" BackgroundColor="White">
 
                                     <Grid.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.GameSelectedCommand}" CommandParameter="{Binding}"/>
                                     </Grid.GestureRecognizers>
                                         
-                                    <Frame Style="{StaticResource Key=FrameStyle1}"  Scale="1" >
+                                    <Frame Style="{StaticResource Key=FrameStyle1}" BackgroundColor="White" HasShadow="True"  Margin="10,10,10,40"  >
                                         <Frame.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.GameSelectedCommand}" CommandParameter="{Binding}"/>
                                         </Frame.GestureRecognizers>
                                             <Grid>
                                                 <Grid.RowDefinitions>
-                                                    
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
-                                                    <RowDefinition Height="auto"/>
-                                                    <RowDefinition Height="auto"/>
-
-                                            </Grid.RowDefinitions>
+                                                </Grid.RowDefinitions>
                                                 
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="160"/>
@@ -86,17 +79,13 @@
 
                                             <Label Text="{Binding VTeam.TriCode}" Style="{StaticResource Key=LabelStyle}" Grid.Row="0" HorizontalOptions="Start" VerticalTextAlignment="Start"  Padding="50,0,0,0" Grid.Column="0"/>
 
-                                            <Label Text="VS" Style="{StaticResource Key=LabelStyle}" FontSize="15" VerticalOptions="Center" Grid.Row="0"  HorizontalOptions="Center" Grid.ColumnSpan="2"/>
+                                            <Label Text="VS" Style="{StaticResource Key=LabelStyle}" FontSize="18" VerticalOptions="Center" Grid.Row="0"  HorizontalOptions="Center" Grid.ColumnSpan="2"/>
 
-                                            <Label Text="{Binding HTeam.TriCode}" Style="{StaticResource Key=LabelStyle}"  Padding="0,0,50,0" Grid.Column="1" HorizontalOptions="End"/>
+                                            <Label Text="{Binding HTeam.TriCode}"  Style="{StaticResource Key=LabelStyle}"  Padding="0,0,50,0" Grid.Column="1" HorizontalOptions="End"/>
 
                                             <Label Text="{Binding ScoreOrTime}" HorizontalOptions="Center" VerticalTextAlignment="Start" Padding="0,10,0,0"
-                                                            FontSize="20" TextColor="#fbfef9" FontAttributes="Bold" Grid.Row="2" Grid.ColumnSpan="2" />
-                                            
-                                                <Label Text="See Details" Style="{StaticResource Key=LabelStyle}" FontSize="19"  VerticalOptions="Center" Grid.Row="4"  Padding="0,38,0,0" HorizontalOptions="Center" Grid.ColumnSpan="2"/>
-
-
-                                        </Grid>
+                                                            FontSize="20" TextColor="Black" FontAttributes="Bold" Grid.Row="2" Grid.ColumnSpan="2" />
+                                            </Grid>
                                          </Frame>
                                         </Grid>
                                 </DataTemplate>
@@ -151,23 +140,21 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>-->
 
-                    <Label VerticalTextAlignment="End" Text="Scoring Leaders" FontSize="25" HorizontalOptions="CenterAndExpand" TextColor="Black" Grid.Row="2" Grid.ColumnSpan="2"/>
-
-                    <CollectionView BackgroundColor="#fbfef9" Grid.Row="3" ItemsSource="{Binding ScoringLeaders}"  ItemsLayout="HorizontalList"  Grid.ColumnSpan="2">
+                        <Label  Text="Scoring Leaders" Margin="10,0,0,0" FontSize="22" Style="{StaticResource Key=LabelStyleForTitle}" HorizontalOptions="Start"  Grid.Row="2" Grid.ColumnSpan="2"/>
+                    <CollectionView BackgroundColor="White" Grid.Row="3" ItemsSource="{Binding ScoringLeaders}"  ItemsLayout="HorizontalList"  Grid.ColumnSpan="2">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                  <Grid Scale="0.9" Padding="10"  >
-                            <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <Grid.GestureRecognizers>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.GestureRecognizers>
                                  <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.PlayerSelectedCommand}" CommandParameter="{Binding}"/>
                             </Grid.GestureRecognizers>
 
-                                    <Frame HasShadow="True"  Style="{StaticResource Key=FrameStyle1}"  Margin="5" >
-                                         <Grid>
+                                    <Frame   Style="{StaticResource Key=FrameStyle1}" Margin="0,10,0,10" >
+                                         <Grid >
                                              <Grid.RowDefinitions>
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
@@ -183,14 +170,14 @@
 
                                             <Label Text="{Binding Name}" Style="{StaticResource Key=LabelStyle}" Grid.Row="0"  HorizontalOptions="CenterAndExpand" Grid.ColumnSpan="2"  VerticalOptions="Center" />
                                             <Label Text="{Binding Team}" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource Key=LabelStyle}" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                            <Label Text="{Binding PointsPerGame}" Style="{StaticResource Key=LabelStyle}" Grid.Row="2" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
-                                            <Label Text="PTS" VerticalOptions="Center" Style="{StaticResource Key=LabelStyle}"  HorizontalOptions="Center" FontSize="18" Grid.Row="2" />
+                                                <Label Text="{Binding PointsPerGame}" Style="{StaticResource Key=LabelStyleDetails}" Grid.Row="2" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="PTS" VerticalOptions="Center" Style="{StaticResource Key=LabelStyleDetails}"  HorizontalOptions="Center" FontSize="18" Grid.Row="2" />
 
-                                            <Label Text="{Binding AssistsPerGame}"  Style="{StaticResource Key=LabelStyle}" Grid.Row="3" Grid.Column="1" VerticalOptions="Start" HorizontalOptions="Center" FontSize="20" />
-                                            <Label Text="AST"  VerticalOptions="Center" Style="{StaticResource Key=LabelStyle}"  HorizontalOptions="Center" FontSize="18" Grid.Row="3"/>
+                                                <Label Text="{Binding AssistsPerGame}"  Style="{StaticResource Key=LabelStyleDetails}" Grid.Row="3" Grid.Column="1" VerticalOptions="Start" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="AST"  VerticalOptions="Center" Style="{StaticResource Key=LabelStyleDetails}"  HorizontalOptions="Center" FontSize="18" Grid.Row="3"/>
 
-                                            <Label Text="{Binding ReboundsPerGame}" Style="{StaticResource Key=LabelStyle}" Grid.Row="4" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
-                                            <Label Text="RBS" VerticalOptions="Center" Style="{StaticResource Key=LabelStyle}" Grid.Row="4" HorizontalOptions="Center" FontSize="18"/>
+                                                <Label Text="{Binding ReboundsPerGame}" Style="{StaticResource Key=LabelStyleDetails}" Grid.Row="4" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="RBS" VerticalOptions="Center" Style="{StaticResource Key=LabelStyleDetails}" Grid.Row="4" HorizontalOptions="Center" FontSize="18"/>
                                          </Grid>
 
                                      </Frame>
@@ -200,12 +187,12 @@
                         </CollectionView.ItemTemplate>
 
                     </CollectionView>
-                    <Label VerticalTextAlignment="End" Text="Better Teams" FontSize="25" HorizontalOptions="Center" TextColor="Black" Grid.Row="5" Grid.ColumnSpan="2"/>
+                        <Label  Text="Better Teams" HorizontalTextAlignment="Start" FontSize="22" Style="{StaticResource Key=LabelStyleForTitle}"  Grid.Row="5" Grid.Column="0"/>
 
-                    <CollectionView BackgroundColor="#fbfef9" Grid.Row="6" ItemsSource="{Binding  BetterTeams}"  ItemsLayout="HorizontalList"  Grid.ColumnSpan="2">
+                    <CollectionView  BackgroundColor="#white" Grid.Row="6" ItemsSource="{Binding  BetterTeams}"  ItemsLayout="HorizontalList"  Grid.ColumnSpan="2">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                 <Grid Scale="0.9" Padding="10"  >
+                                 <Grid Padding="10"  >
                             <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -215,7 +202,7 @@
                                             <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.TeamSelectedCommand}" CommandParameter="{Binding TeamStanding.TeamId}"/>
                             </Grid.GestureRecognizers>
 
-                                        <Frame  Style="{StaticResource Key=FrameStyle1}" Margin="5"  >
+                                        <Frame  Style="{StaticResource Key=FrameStyle1}"  HasShadow="True"  >
                                             <Grid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="auto"/>
@@ -235,30 +222,30 @@
                                                 <Label Text="{Binding TeamStanding.TeamSitesOnly.TeamName}" Style="{StaticResource Key=LabelStyle}"
                                                   Grid.ColumnSpan="2" FontSize="20" Grid.Row="1"  VerticalOptions="Center" HorizontalOptions="Center"/>
 
-                                                <Label Text="{Binding TeamStanding.Win}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="2"
+                                                <Label Text="{Binding TeamStanding.Win}" Style="{StaticResource Key=LabelStyleDetails}" Grid.Column="1" Grid.Row="2"
                                                    VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
                                                 <Label Text="WINS" VerticalOptions="Center" Grid.Column="0"
-                                                   Style="{StaticResource Key=LabelStyle}" FontSize="18" Grid.Row="2" HorizontalOptions="Center" />
+                                                   Style="{StaticResource Key=LabelStyleDetails}" FontSize="18" Grid.Row="2" HorizontalOptions="Center" />
 
-                                                <Label Text="{Binding TeamStanding.Loss}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="3"  VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="{Binding TeamStanding.Loss}" Style="{StaticResource Key=LabelStyleDetails}" Grid.Column="1" Grid.Row="3"  VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
                                                 <Label Text="LOSS" VerticalOptions="Center" Grid.Column="0" 
-                                                    Style="{StaticResource Key=LabelStyle}" FontSize="18" Grid.Row="3" HorizontalOptions="Center"/>
+                                                    Style="{StaticResource Key=LabelStyleDetails}" FontSize="18" Grid.Row="3" HorizontalOptions="Center"/>
 
-                                                <Label Text="{Binding TeamStanding.WinPctV2}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="4" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="{Binding TeamStanding.WinPctV2}" Style="{StaticResource Key=LabelStyleDetails}" Grid.Column="1" Grid.Row="4" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
                                                 <Label Text="WIN%" VerticalOptions="Center" Grid.Column="0"
-                                                    Style="{StaticResource Key=LabelStyle}" FontSize="18" Grid.Row="4" HorizontalOptions="Center"/>
+                                                    Style="{StaticResource Key=LabelStyleDetails}" FontSize="18" Grid.Row="4" HorizontalOptions="Center"/>
 
-                                                <Label Text="{Binding TeamStats.Ppg.Avg}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="5" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="{Binding TeamStats.Ppg.Avg}" Style="{StaticResource Key=LabelStyleDetails}" Grid.Column="1" Grid.Row="5" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
                                                 <Label Text="PTS" VerticalOptions="Center" Grid.Column="0" 
-                                                    Style="{StaticResource Key=LabelStyle}" FontSize="18" Grid.Row="5" HorizontalOptions="Center" />
+                                                    Style="{StaticResource Key=LabelStyleDetails}" FontSize="18" Grid.Row="5" HorizontalOptions="Center" />
 
-                                                <Label Text="{Binding TeamStats.Apg.Avg}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="6" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="{Binding TeamStats.Apg.Avg}" Style="{StaticResource Key=LabelStyleDetails}" Grid.Column="1" Grid.Row="6" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
                                                 <Label Text="AST" VerticalOptions="Center"  Grid.Column="0"
-                                                    Style="{StaticResource Key=LabelStyle}" FontSize="18" Grid.Row="6" HorizontalOptions="Center"/>
+                                                    Style="{StaticResource Key=LabelStyleDetails}" FontSize="18" Grid.Row="6" HorizontalOptions="Center"/>
 
-                                                <Label Text="{Binding TeamStats.Trpg.Avg}" Style="{StaticResource Key=LabelStyle}" Grid.Column="1" Grid.Row="7" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
+                                                <Label Text="{Binding TeamStats.Trpg.Avg}" Style="{StaticResource Key=LabelStyleDetails}" Grid.Column="1" Grid.Row="7" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
                                                 <Label Text="RBS" VerticalOptions="Center" Grid.Column="0"
-                                                    Style="{StaticResource Key=LabelStyle}" FontSize="18" Grid.Row="7" HorizontalOptions="Center"/>
+                                                    Style="{StaticResource Key=LabelStyleDetails}" FontSize="18" Grid.Row="7" HorizontalOptions="Center"/>
 
                                             </Grid>
                                         </Frame>
@@ -268,7 +255,7 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
 
-                        <Frame BackgroundColor="#fbfef9" HeightRequest="40" HasShadow="False" Grid.Row="8" Grid.ColumnSpan="2" >
+                        <Frame BackgroundColor="#white" HeightRequest="40" HasShadow="False" Grid.Row="8" Grid.ColumnSpan="2" >
                             <Grid>
 
                                 <Button Command="{Binding ListPlayers}" Text="Player List" Grid.Column="0" HorizontalOptions="Center" Margin="50,0,0,0"/>
