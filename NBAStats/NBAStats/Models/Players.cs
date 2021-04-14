@@ -123,6 +123,7 @@ namespace NBAStats.Models
         public string FullName => $"{FirstName} {LastName}";
         public string PlayerHeight => $"{HeightFeet}.{HeightInches}";
         public string YearDebutActualTeam => Teams[Teams.Count - 1].SeasonStart;
+        public string TeamLogo => $"logo{TeamId}.png";
 
     }
 

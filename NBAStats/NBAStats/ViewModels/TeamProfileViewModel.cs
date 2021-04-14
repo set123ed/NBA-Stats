@@ -86,7 +86,7 @@ namespace NBAStats.ViewModels
 
                     if (TeamStanding.ConfRank != "1")
                     {
-                        GamesBehindFirstPlace = $"{TeamStanding.GamesBehind} games behind of {Team.ConfName}'s first place";
+                        GamesBehindFirstPlace = StringConstants.GetGamesBehindFirst(TeamStanding.GamesBehind, Team.ConfName);
                         GamesBehindShow = true;
                     }
                     else
@@ -94,7 +94,7 @@ namespace NBAStats.ViewModels
                         GamesBehindShow = false;
                     }
 
-                    ConferencePlace = $"{TeamStanding.ConfRank} place of {Team.ConfName} conference";
+                    ConferencePlace = StringConstants.GetConferenceRank(TeamStanding.ConfRank, Team.ConfName);
                     TeamRecord = $"{TeamStanding.Win} - {TeamStanding.Loss}";
                 }
             }
@@ -131,7 +131,7 @@ namespace NBAStats.ViewModels
                         lastGamesCount = lastGamePlayedIndex;
                     }
 
-                    GameScheduleCollection lastGamesPlayed = new GameScheduleCollection($"Last {lastGamesCount} games played");
+                    GameScheduleCollection lastGamesPlayed = new GameScheduleCollection(StringConstants.GetLastGames(lastGamesCount));
 
                     ObservableCollection<GameTeamSchedule> lastGames = new ObservableCollection<GameTeamSchedule>(teamSchedule.League.Standard.ToList().GetRange(lastGamePlayedIndex - lastGamesCount + 1, lastGamesCount));
                     foreach (GameTeamSchedule game in lastGames)
@@ -152,22 +152,22 @@ namespace NBAStats.ViewModels
                             {
                                 if (Convert.ToDecimal(game.HTeam.Score) > Convert.ToDecimal(game.VTeam.Score))
                                 {
-                                    game.Result = "WIN";
+                                    game.Result = StringConstants.Win;
                                 }
                                 else
                                 {
-                                    game.Result = "LOSS";
+                                    game.Result = StringConstants.Loss;
                                 }
                             }
                             else
                             {
                                 if (Convert.ToDecimal(game.VTeam.Score) > Convert.ToDecimal(game.HTeam.Score))
                                 {
-                                    game.Result = "WIN";
+                                    game.Result = StringConstants.Win;
                                 }
                                 else
                                 {
-                                    game.Result = "LOSS";
+                                    game.Result = StringConstants.Loss;
                                 }
                             }
                         }
@@ -188,7 +188,7 @@ namespace NBAStats.ViewModels
                         nextGamesCount = teamSchedule.League.Standard.Count - teamSchedule.League.LastStandardGamePlayedIndex;
                     }
 
-                    GameScheduleCollection nextGamesToPlay = new GameScheduleCollection($"Next {nextGamesCount} games");
+                    GameScheduleCollection nextGamesToPlay = new GameScheduleCollection(StringConstants.GetNextGames(nextGamesCount));
 
                     ObservableCollection<GameTeamSchedule> nextGames = new ObservableCollection<GameTeamSchedule>(teamSchedule.League.Standard.ToList().GetRange(lastGamePlayedIndex + 1, nextGamesCount));
                     foreach (GameTeamSchedule game in nextGames)
@@ -233,63 +233,63 @@ namespace NBAStats.ViewModels
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ppg[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ppg[0].PersonId).FullName,
-                        StatName = "Pts per game",
+                        StatName = StringConstants.PointsPerGame,
                         StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ppg[0].Value
                     };
                     TeamLeadersPlayers playerApg = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Apg[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Apg[0].PersonId).FullName,
-                        StatName = "Asts per game",
+                        StatName = StringConstants.AssistsPerGame,
                         StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Apg[0].Value
                     };
                     TeamLeadersPlayers playerRpg = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Trpg[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Trpg[0].PersonId).FullName,
-                        StatName = "Rebs per game",
+                        StatName = StringConstants.ReboundsPerGame,
                         StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Trpg[0].Value
                     };
                     TeamLeadersPlayers playerSpg = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Spg[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Spg[0].PersonId).FullName,
-                        StatName = "Stls per game",
+                        StatName = StringConstants.StealsPerGame,
                         StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Spg[0].Value
                     };
                     TeamLeadersPlayers playerBpg = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Bpg[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Bpg[0].PersonId).FullName,
-                        StatName = "Blks per game",
+                        StatName = StringConstants.BlocksPerGame,
                         StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Bpg[0].Value
                     };
                     TeamLeadersPlayers playerFgp = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Fgp[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Fgp[0].PersonId).FullName,
-                        StatName = "FG% per game",
+                        StatName = StringConstants.FgpPerGame,
                         StatAvg = Math.Round(Convert.ToDecimal(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Fgp[0].Value) * 100, 1).ToString() + "%"
                     };
                     TeamLeadersPlayers playerFtp = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ftp[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ftp[0].PersonId).FullName,
-                        StatName = "FT% per game",
+                        StatName = StringConstants.FtpPerGame,
                         StatAvg = Math.Round(Convert.ToDecimal(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ftp[0].Value) * 100, 1).ToString() + "%"
                     };
                     TeamLeadersPlayers playerTpp = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpp[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpp[0].PersonId).FullName,
-                        StatName = "3P% per game",
+                        StatName = StringConstants.TppPerGame,
                         StatAvg = Math.Round(Convert.ToDecimal(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpp[0].Value) * 100, 1).ToString() + "%"
                     };
                     TeamLeadersPlayers playerTpg = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpg[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpg[0].PersonId).FullName,
-                        StatName = "Tovs per game",
+                        StatName = StringConstants.TurnoversPerGame,
                         StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpg[0].Value
                     };
 

@@ -8,7 +8,7 @@ namespace NBAStats
     {
         public static string GetScoreOrTime(string vTeamScore, string hTeamScore, string gameStartTime)
         {
-            if (!string.IsNullOrEmpty(hTeamScore) && $"{vTeamScore} - {hTeamScore}" != "0 - 0")
+            if (!string.IsNullOrEmpty(hTeamScore) && $"{vTeamScore} - {hTeamScore}" != StringConstants.ScoreInZero)
             {
                 return $"{vTeamScore} - {hTeamScore}";
             }
@@ -20,31 +20,31 @@ namespace NBAStats
 
         public static string GetTimePeriod(string vTeamScore, string hTeamScore, int currentPeriod, bool isHalftime, bool isEndOfPeriod, bool isGameActivated, string clock)
         {
-            if (!string.IsNullOrEmpty(hTeamScore) && $"{vTeamScore} - {hTeamScore}" != "0 - 0")
+            if (!string.IsNullOrEmpty(hTeamScore) && $"{vTeamScore} - {hTeamScore}" != StringConstants.ScoreInZero)
             {
                 if (isHalftime)
                 {
-                    return "HALFTIME";
+                    return StringConstants.HalftimeGame;
                 }
                 else if (isEndOfPeriod && currentPeriod <= 4)
                 {
-                    return $"END OF {currentPeriod} QUARTER";
+                    return $" {currentPeriod} {StringConstants.QuarterGame}";
                 }
                 else if (isEndOfPeriod && currentPeriod > 4)
                 {
-                    return $"END OF {currentPeriod - 4} OT";
+                    return $"{StringConstants.EndOfPeriod} {currentPeriod - 4} {StringConstants.OTGame}";
                 }
                 else if (!isGameActivated)
                 {
-                    return "FINAL";
+                    return StringConstants.FinalGame;
                 }
                 else if (currentPeriod <= 4)
                 {
-                    return $"{currentPeriod} QUARTER - {clock} LEFT";
+                    return $"{currentPeriod} {StringConstants.QuarterGame} - {clock} {StringConstants.LeftTime}";
                 }
                 else if (currentPeriod > 4)
                 {
-                    return $"{currentPeriod - 4} OT - {clock} LEFT";
+                    return $"{currentPeriod - 4} {StringConstants.OTGame} - {clock} {StringConstants.LeftTime}";
                 }
                 else
                 {

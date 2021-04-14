@@ -14,6 +14,7 @@
                 <Grid  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ColumnDefinitions="*,*" RowSpacing="30" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto" Padding="15">
                 <StackLayout Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
                     <Frame  Margin="10,2" BackgroundColor="LightGray" CornerRadius="360" HeightRequest="100" WidthRequest="100">
+                        <!--<Image Source="{Binding PlayerInfo.TeamLogo}" HeightRequest="200" WidthRequest="200"/>-->
                         <Label  Text="{Binding PlayerInfo.Jersey}" FontSize="40" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
                     </Frame>
                     <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">

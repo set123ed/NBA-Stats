@@ -58,7 +58,7 @@ namespace NBAStats.ViewModels
 
                     foreach (SeasonPlayerProfile season in PlayerStats.Stats.RegularSeason.Season)
                     {
-                        string seasonYear = $"{season.SeasonYear}-{season.SeasonYear + 1}";
+                        string seasonYear = $"{season.SeasonYear} - {season.SeasonYear + 1}";
                         StatsPerSeasonCollection seasonList = new StatsPerSeasonCollection(seasonYear);
                         foreach (StatsPlayerProfile teams in season.Teams)
                         {
@@ -90,7 +90,7 @@ namespace NBAStats.ViewModels
 
                     Player playerInfo = _playerList.First(player => player.PersonId == personId);
 
-                    ActualTeamInfo = $"In {ActualTeam.Tricode} since: ";
+                    ActualTeamInfo = StringConstants.GetActualTeamInfo(ActualTeam.Tricode);
 
 
                     PlayerInfo = playerInfo;

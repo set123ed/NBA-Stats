@@ -69,6 +69,7 @@
                                                 <Grid.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding Source={x:Reference standingPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
                                                 </Grid.GestureRecognizers>
+                                                <!--<Image Source="{Binding TeamLogo}" HeightRequest="100" WidthRequest="100"/>-->
                                                 <Label Text="{Binding ConfRank}" Style="{StaticResource Key=LabelList}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                                 <Label Text="{Binding FullName}" Grid.Column="1" FontSize="17"  HorizontalOptions="Start" HorizontalTextAlignment="Center" Margin="1"/>
                                                
@@ -114,6 +115,7 @@
                                                 <Grid.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding Source={x:Reference standingPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
                                                 </Grid.GestureRecognizers>
+                                                <!--<Image Source="{Binding TeamLogo}" HeightRequest="100" WidthRequest="100"/>-->
                                                 <Label Text="{Binding Rank}" Style="{StaticResource Key=LabelList}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                                 <Label Text="{Binding FullName}"  Grid.Column="1" FontSize="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                                 <Label Text="{Binding Win}" Grid.Column="2" FontSize="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>

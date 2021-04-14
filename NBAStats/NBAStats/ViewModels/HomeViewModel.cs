@@ -17,7 +17,9 @@ namespace NBAStats.ViewModels
     public class HomeViewModel : BaseViewModel
     {
         int _position;
-        public int ImagePosition { get; set; }
+        public int GamePosition { get; set; }
+
+        private int _gamesOfTodayCount => GamesOfDay.Count;
 
         private string _todayDate = DateTime.Today.ToString("yyyyMMdd");
         public ObservableCollection<Game> GamesOfDay { get; set; } = new ObservableCollection<Game>();
@@ -44,11 +46,7 @@ namespace NBAStats.ViewModels
 
            
 
-            Device.StartTimer(TimeSpan.FromSeconds(3), (Func<bool>)(() =>
-            {
-                 ImagePosition = (ImagePosition + 1) % 5;
-                 return true;
-            }));
+
        
 
             TeamSelectedCommand = new Command<string>(OnSelectedTeam);
@@ -76,7 +74,7 @@ namespace NBAStats.ViewModels
                 string secondPlayer = player.Name.Substring(player.Name.LastIndexOf('-') + 1).Trim();
                 bool playedSelected = false;
 
-                var action = await AlertService.DisplayActionSheetAsync("Choose a player", "Cancel", null, firstPlayer, secondPlayer);
+                var action = await AlertService.DisplayActionSheetAsync(StringConstants.ChoosePlayer, StringConstants.Cancel, null, firstPlayer, secondPlayer);
 
                 if (action == firstPlayer)
                 {
@@ -127,6 +125,15 @@ namespace NBAStats.ViewModels
             await NavigationService.NavigateAsync(NavigationConstants.BoxScorePage, parameters);
         }
 
+        private void SwipeGamesAutomatic()
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(5), (Func<bool>)(() =>
+            {
+                GamePosition = (GamePosition + 1) % _gamesOfTodayCount;
+                return true;
+            }));
+        }
+
         private async void GetHomeData()
         {
             await GetDefaultData();
@@ -134,6 +141,7 @@ namespace NBAStats.ViewModels
             await GetScoringLeaders();
             await GetBetterTeams();
             IsBusy = false;
+            SwipeGamesAutomatic();
         }
 
         private async void OnRefreshGamesOfDay()
@@ -196,6 +204,7 @@ namespace NBAStats.ViewModels
                             {
                                 playerRegularStats.Name = boxScore.Stats.VTeam.Leaders.Points.Players[0].FirstName + " " + boxScore.Stats.VTeam.Leaders.Points.Players[0].LastName;
                                 playerRegularStats.Team = boxScore.BasicGameData.VTeam.TriCode;
+                                playerRegularStats.TeamId = boxScore.BasicGameData.VTeam.TeamId;
                                 playerRegularStats.PlayerId = boxScore.Stats.VTeam.Leaders.Points.Players[0].PersonId;
                                 playerRegularStats.PointsPerGame = boxScore.Stats.VTeam.Leaders.Points.Value;
                                 playerRegularStats.AssistsPerGame = boxScore.Stats.ActivePlayers.First(player => player.PersonId == playerRegularStats.PlayerId).Assists;
@@ -205,6 +214,7 @@ namespace NBAStats.ViewModels
                             {
                                 playerRegularStats.Name = boxScore.Stats.HTeam.Leaders.Points.Players[0].FirstName + " " + boxScore.Stats.HTeam.Leaders.Points.Players[0].LastName;
                                 playerRegularStats.Team = boxScore.BasicGameData.HTeam.TriCode;
+                                playerRegularStats.TeamId = boxScore.BasicGameData.HTeam.TeamId;
                                 playerRegularStats.PlayerId = boxScore.Stats.HTeam.Leaders.Points.Players[0].PersonId;
                                 playerRegularStats.PointsPerGame = boxScore.Stats.HTeam.Leaders.Points.Value;
                                 playerRegularStats.AssistsPerGame = boxScore.Stats.ActivePlayers.First(player => player.PersonId == playerRegularStats.PlayerId).Assists;
@@ -234,7 +244,7 @@ namespace NBAStats.ViewModels
                 }
                 else
                 {
-                    PlayerStatsLeaders playerStatsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "PTS");
+                    PlayerStatsLeaders playerStatsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, StringConstants.PtsStatParameter);
                     ObservableCollection<PlayerRegularStats> listPlayerRegularStats = new ObservableCollection<PlayerRegularStats>();
 
                     for (int i = 0; i < 6; i++)
@@ -244,6 +254,7 @@ namespace NBAStats.ViewModels
                         newPlayer.PlayerId = playerStatsLeaders.ResultSet.RowSet[i][0].ToString();
                         newPlayer.Name = playerStatsLeaders.ResultSet.RowSet[i][2].ToString();
                         newPlayer.Team = playerStatsLeaders.ResultSet.RowSet[i][3].ToString();
+                        newPlayer.TeamId = _teamList.First(team => team.Tricode.ToLower() == newPlayer.Team.ToLower()).TeamId;
                         newPlayer.PointsPerGame = Math.Round(Convert.ToDecimal(playerStatsLeaders.ResultSet.RowSet[i][22].ToString()), 1).ToString();
                         newPlayer.AssistsPerGame = Math.Round(Convert.ToDecimal(playerStatsLeaders.ResultSet.RowSet[i][18].ToString()), 1).ToString();
                         newPlayer.ReboundsPerGame = Math.Round(Convert.ToDecimal(playerStatsLeaders.ResultSet.RowSet[i][17].ToString()), 1).ToString();

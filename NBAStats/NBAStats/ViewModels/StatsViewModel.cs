@@ -14,8 +14,6 @@ namespace NBAStats.ViewModels
 {
     public class StatsViewModel : BaseViewModel
     {
-        private string _firstTeamAllStarId = "";
-        private string _lastTeamAllStarId = "";
         public ObservableCollection<Team> TeamList { get; set; } = new ObservableCollection<Team>();
         public ObservableCollection<Player> PlayersList { get; set; } = new ObservableCollection<Player>();
 
@@ -145,7 +143,7 @@ namespace NBAStats.ViewModels
             if (!string.IsNullOrEmpty(Filter))
             {
                 TeamList = new ObservableCollection<Team>(_teamList.Where(team => team.FullName.ToLower().Contains(Filter.ToLower())));
-                PlayersList = new ObservableCollection<Player>(_playerList.Where(player => (player.FirstName + " " + player.LastName).ToLower().Contains(Filter.ToLower())));
+                PlayersList = new ObservableCollection<Player>(_playerList.Where(player => (player.FullName).ToLower().Contains(Filter.ToLower())));
             }
             else 
             {
@@ -176,11 +174,11 @@ namespace NBAStats.ViewModels
         {
             try
             {
-                PlayerStatsLeaders pointsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "PTS");
+                PlayerStatsLeaders pointsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, StringConstants.PtsStatParameter);
 
                 if (pointsLeaders != null)
                 {
-                    LeaderStatsPlayerCollection pointsLeadersList = new LeaderStatsPlayerCollection("Points per game");
+                    LeaderStatsPlayerCollection pointsLeadersList = new LeaderStatsPlayerCollection(StringConstants.PointsPerGame);
                     for (int i = 0; i < 5; i++)
                     {
                         LeadersStatsPlayer pointLeader = new LeadersStatsPlayer();
@@ -189,7 +187,7 @@ namespace NBAStats.ViewModels
                         pointLeader.PlayerId = pointsLeaders.ResultSet.RowSet[i][0].ToString();
                         pointLeader.FullName = pointsLeaders.ResultSet.RowSet[i][2].ToString();
                         pointLeader.Team = pointsLeaders.ResultSet.RowSet[i][3].ToString();
-
+                        pointLeader.TeamId = _teamList.First(team => team.Tricode.ToLower() == pointLeader.Team.ToString().ToLower()).TeamId;
                         string avg = pointsLeaders.ResultSet.RowSet[i][22].ToString();
 
                         pointLeader.AverageStats = avg.Substring(0, avg.IndexOf('.') + 2);
@@ -214,11 +212,11 @@ namespace NBAStats.ViewModels
         {
             try
             {
-                PlayerStatsLeaders assistsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "AST");
+                PlayerStatsLeaders assistsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, StringConstants.AstStatParameter);
 
                 if (assistsLeaders != null)
                 {
-                    LeaderStatsPlayerCollection assistsLeadersList = new LeaderStatsPlayerCollection("Assists per game");
+                    LeaderStatsPlayerCollection assistsLeadersList = new LeaderStatsPlayerCollection(StringConstants.AssistsPerGame);
                     for (int i = 0; i < 5; i++)
                     {
                         LeadersStatsPlayer assistLeader = new LeadersStatsPlayer();
@@ -227,6 +225,7 @@ namespace NBAStats.ViewModels
                         assistLeader.PlayerId = assistsLeaders.ResultSet.RowSet[i][0].ToString();
                         assistLeader.FullName = assistsLeaders.ResultSet.RowSet[i][2].ToString();
                         assistLeader.Team = assistsLeaders.ResultSet.RowSet[i][3].ToString();
+                        assistLeader.TeamId = _teamList.First(team => team.Tricode.ToLower() == assistLeader.Team.ToString().ToLower()).TeamId;
 
                         string avg = assistsLeaders.ResultSet.RowSet[i][18].ToString();
 
@@ -254,11 +253,11 @@ namespace NBAStats.ViewModels
         {
             try
             {
-                PlayerStatsLeaders reboundsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "REB");
+                PlayerStatsLeaders reboundsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, StringConstants.RebStatParameter);
 
                 if (reboundsLeaders != null)
                 {
-                    LeaderStatsPlayerCollection reboundsLeadersList = new LeaderStatsPlayerCollection("Rebounds per game");
+                    LeaderStatsPlayerCollection reboundsLeadersList = new LeaderStatsPlayerCollection(StringConstants.ReboundsPerGame);
                     for (int i = 0; i < 5; i++)
                     {
                         LeadersStatsPlayer reboundLeader = new LeadersStatsPlayer();
@@ -267,6 +266,8 @@ namespace NBAStats.ViewModels
                         reboundLeader.PlayerId = reboundsLeaders.ResultSet.RowSet[i][0].ToString();
                         reboundLeader.FullName = reboundsLeaders.ResultSet.RowSet[i][2].ToString();
                         reboundLeader.Team = reboundsLeaders.ResultSet.RowSet[i][3].ToString();
+                        reboundLeader.TeamId = _teamList.First(team => team.Tricode.ToLower() == reboundLeader.Team.ToString().ToLower()).TeamId;
+
                         string avg = reboundsLeaders.ResultSet.RowSet[i][17].ToString();
 
                         reboundLeader.AverageStats = avg.Substring(0, avg.IndexOf('.') + 2);
@@ -294,11 +295,11 @@ namespace NBAStats.ViewModels
         {
             try
             {
-                PlayerStatsLeaders stealsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "STL");
+                PlayerStatsLeaders stealsLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, StringConstants.StlStatParameter);
 
                 if (stealsLeaders != null)
                 {
-                    LeaderStatsPlayerCollection stealsLeadersList = new LeaderStatsPlayerCollection("Steals per game");
+                    LeaderStatsPlayerCollection stealsLeadersList = new LeaderStatsPlayerCollection(StringConstants.StealsPerGame);
                     for (int i = 0; i < 5; i++)
                     {
                         LeadersStatsPlayer stealLeader = new LeadersStatsPlayer();
@@ -307,6 +308,8 @@ namespace NBAStats.ViewModels
                         stealLeader.PlayerId = stealsLeaders.ResultSet.RowSet[i][0].ToString();
                         stealLeader.FullName = stealsLeaders.ResultSet.RowSet[i][2].ToString();
                         stealLeader.Team = stealsLeaders.ResultSet.RowSet[i][3].ToString();
+                        stealLeader.TeamId = _teamList.First(team => team.Tricode.ToLower() == stealLeader.Team.ToString().ToLower()).TeamId;
+
                         string avg = stealsLeaders.ResultSet.RowSet[i][19].ToString();
 
                         stealLeader.AverageStats = avg.Substring(0, avg.IndexOf('.') + 2);
@@ -333,11 +336,11 @@ namespace NBAStats.ViewModels
         {
             try
             {
-                PlayerStatsLeaders blocksLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "BLK");
+                PlayerStatsLeaders blocksLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, StringConstants.BlkStatParameter);
 
                 if (blocksLeaders != null)
                 {
-                    LeaderStatsPlayerCollection blocksLeadersList = new LeaderStatsPlayerCollection("Blocks per game");
+                    LeaderStatsPlayerCollection blocksLeadersList = new LeaderStatsPlayerCollection(StringConstants.BlocksPerGame);
                     for (int i = 0; i < 5; i++)
                     {
                         LeadersStatsPlayer blockLeader = new LeadersStatsPlayer();
@@ -346,6 +349,8 @@ namespace NBAStats.ViewModels
                         blockLeader.PlayerId = blocksLeaders.ResultSet.RowSet[i][0].ToString();
                         blockLeader.FullName = blocksLeaders.ResultSet.RowSet[i][2].ToString();
                         blockLeader.Team = blocksLeaders.ResultSet.RowSet[i][3].ToString();
+                        blockLeader.TeamId = _teamList.First(team => team.Tricode.ToLower() == blockLeader.Team.ToString().ToLower()).TeamId;
+
                         string avg = blocksLeaders.ResultSet.RowSet[i][20].ToString();
 
                         blockLeader.AverageStats = avg.Substring(0, avg.IndexOf('.') + 2);
@@ -370,11 +375,11 @@ namespace NBAStats.ViewModels
         {
             try
             {
-                PlayerStatsLeaders threesLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, "FG3M");
+                PlayerStatsLeaders threesLeaders = await NbaApiService.GetPlayerStatsLeaders(_seasonApiStats, StringConstants.Fg3mStatParameter);
 
                 if (threesLeaders != null)
                 {
-                    LeaderStatsPlayerCollection threesLeadersList = new LeaderStatsPlayerCollection("Three points made per game");
+                    LeaderStatsPlayerCollection threesLeadersList = new LeaderStatsPlayerCollection(StringConstants.TpmgPerGame);
                     for (int i = 0; i < 5; i++)
                     {
                         LeadersStatsPlayer threeLeader = new LeadersStatsPlayer();
@@ -383,6 +388,7 @@ namespace NBAStats.ViewModels
                         threeLeader.PlayerId = threesLeaders.ResultSet.RowSet[i][0].ToString();
                         threeLeader.FullName = threesLeaders.ResultSet.RowSet[i][2].ToString();
                         threeLeader.Team = threesLeaders.ResultSet.RowSet[i][3].ToString();
+                        threeLeader.TeamId = _teamList.First(team => team.Tricode.ToLower() == threeLeader.Team.ToString().ToLower()).TeamId;
 
                         string avg = threesLeaders.ResultSet.RowSet[i][9].ToString();
 
@@ -429,11 +435,11 @@ namespace NBAStats.ViewModels
                     }
 
 
-                    if (season == "regularseason" || season == "allstar" || season == "playin")
+                    if (season == StringConstants.RegularSeasonFilter || season == StringConstants.AllStarSeasonFilter || season == StringConstants.PlayInSeasonFilter)
                     {
                         statsOfTeams = teamStats.LeagueTeamStats.Seasons.RegularSeason.Teams;
                     }
-                    else if (season == "preseason")
+                    else if (season == StringConstants.PreSeasonFilter)
                     {
                         statsOfTeams = teamStats.LeagueTeamStats.Seasons.Preseason.Teams;
                     }
@@ -493,7 +499,7 @@ namespace NBAStats.ViewModels
         {
             ObservableCollection<TeamStats> auxStats = new ObservableCollection<TeamStats>(stats.OrderBy(team => Convert.ToInt32(team.Ppg.Rank)));
 
-            LeaderStatsTeamCollection teamPpgLeader = new LeaderStatsTeamCollection("Points per game");
+            LeaderStatsTeamCollection teamPpgLeader = new LeaderStatsTeamCollection(StringConstants.PointsPerGame);
 
             int cont = 0;
 
@@ -525,7 +531,7 @@ namespace NBAStats.ViewModels
         {
             ObservableCollection<TeamStats> auxStats = new ObservableCollection<TeamStats>(stats.OrderBy(team => Convert.ToInt32(team.Apg.Rank)));
 
-            LeaderStatsTeamCollection teamApgLeader = new LeaderStatsTeamCollection("Assists per game");
+            LeaderStatsTeamCollection teamApgLeader = new LeaderStatsTeamCollection(StringConstants.AssistsPerGame);
 
             int cont = 0;
 
@@ -556,7 +562,7 @@ namespace NBAStats.ViewModels
         {
             ObservableCollection<TeamStats> auxStats = new ObservableCollection<TeamStats>(stats.OrderBy(team => Convert.ToInt32(team.Trpg.Rank)));
 
-            LeaderStatsTeamCollection teamTrpgLeader = new LeaderStatsTeamCollection("Rebounds per game");
+            LeaderStatsTeamCollection teamTrpgLeader = new LeaderStatsTeamCollection(StringConstants.ReboundsPerGame);
 
             int cont = 0;
 
@@ -587,7 +593,7 @@ namespace NBAStats.ViewModels
         {
             ObservableCollection<TeamStats> auxStats = new ObservableCollection<TeamStats>(stats.OrderBy(team => Convert.ToInt32(team.Spg.Rank)));
 
-            LeaderStatsTeamCollection teamSpgLeader = new LeaderStatsTeamCollection("Steals per game");
+            LeaderStatsTeamCollection teamSpgLeader = new LeaderStatsTeamCollection(StringConstants.StealsPerGame);
 
             int cont = 0;
 
@@ -618,7 +624,7 @@ namespace NBAStats.ViewModels
         {
             ObservableCollection<TeamStats> auxStats = new ObservableCollection<TeamStats>(stats.OrderBy(team => Convert.ToInt32(team.Bpg.Rank)));
 
-            LeaderStatsTeamCollection teamBpgLeader = new LeaderStatsTeamCollection("Blocks per game");
+            LeaderStatsTeamCollection teamBpgLeader = new LeaderStatsTeamCollection(StringConstants.BlocksPerGame);
 
             int cont = 0;
 
@@ -649,7 +655,7 @@ namespace NBAStats.ViewModels
         {
             ObservableCollection<TeamStats> auxStats = new ObservableCollection<TeamStats>(stats.OrderBy(team => Convert.ToInt32(team.Tpp.Rank)));
 
-            LeaderStatsTeamCollection teamTppLeader = new LeaderStatsTeamCollection("Three points percentage");
+            LeaderStatsTeamCollection teamTppLeader = new LeaderStatsTeamCollection(StringConstants.TppPerGame);
 
             int cont = 0;
 

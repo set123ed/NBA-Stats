@@ -82,8 +82,8 @@ namespace NBAStats.ViewModels
 
                     SeasonStage = Config.SeasonStages.First(season => season.Id == standing.League.Standard.SeasonStageId).Stage;
 
-                    StandingPerConference eastConference = new StandingPerConference("East");
-                    StandingPerConference westConference = new StandingPerConference("West");// string constanst
+                    StandingPerConference eastConference = new StandingPerConference(StringConstants.East);
+                    StandingPerConference westConference = new StandingPerConference(StringConstants.West);// string constanst
 
                     int cont = 1;
 
@@ -93,11 +93,11 @@ namespace NBAStats.ViewModels
 
                         teamStanding.FullName = team.FullName;
 
-                        if (team.ConfName == "East")
+                        if (team.ConfName == StringConstants.East)
                         {
                             eastConference.Add(teamStanding);
                         }
-                        else if (team.ConfName == "West")
+                        else if (team.ConfName == StringConstants.West)
                         {
                             westConference.Add(teamStanding);
                         }

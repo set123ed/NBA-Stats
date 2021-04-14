@@ -43,6 +43,7 @@ namespace NBAStats.Models
 
         [JsonPropertyName("divName")]
         public string DivName { get; set; }
+        public string TeamLogo => $"logo{TeamId}.png";
     }
 
     public class TeamLeague
@@ -62,7 +63,7 @@ namespace NBAStats.Models
     public class BetterTeams
     {
         public TeamStanding TeamStanding { get; set; }
-        
+
         public TeamStats TeamStats { get; set; }
     }
 

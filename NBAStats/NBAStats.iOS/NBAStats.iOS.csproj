@@ -157,4 +157,100 @@
       <Name>NBAStats</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610616834.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612737.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612738.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612739.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612740.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612741.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612742.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612743.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612744.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612745.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612746.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612747.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612748.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612749.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612750.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612751.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612752.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612753.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612754.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612755.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612756.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612757.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612758.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612759.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612760.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612761.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612762.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612763.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612764.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612765.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610612766.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo1610616833.png" />
+  </ItemGroup>
 </Project>

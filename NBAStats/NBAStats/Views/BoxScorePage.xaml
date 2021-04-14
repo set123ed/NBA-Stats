@@ -16,7 +16,7 @@
                     <StackLayout Orientation="Horizontal"  VerticalOptions="Center" HorizontalOptions="Center">
 
                         <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-
+                            <!--<Image Source="{Binding VTeamLogo}" HeightRequest="25" WidthRequest="25"/>-->
                             <Label Text="{Binding VTeamName}" FontSize="20" TextColor="Black"/>
 
                         </StackLayout>
@@ -24,6 +24,7 @@
                         <Label Text="VS" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
 
                         <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
+                            <!--<Image Source="{Binding HTeamLogo}" HeightRequest="25" WidthRequest="25"/>-->
 
                             <Label Text="{Binding HTeamName}" FontSize="20" TextColor="Black"/>
 

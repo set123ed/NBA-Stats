@@ -66,7 +66,9 @@
 
                             </Grid.ColumnDefinitions>
 
-                                    <Label Text="{Binding VTeam.TriCode}" Style="{StaticResource Key=LabelStyle}" TextColor="Black" HorizontalOptions="Center" FontSize="20" Grid.Row="0" Grid.Column="0" />
+                                            <!--<Image Source="{Binding VTeam.TeamLogo}" HeightRequest="100" WidthRequest="100"/>
+                                            <Image Source="{Binding HTeam.TeamLogo}" HeightRequest="100" WidthRequest="100"/>-->
+                                            <Label Text="{Binding VTeam.TriCode}" Style="{StaticResource Key=LabelStyle}" TextColor="Black" HorizontalOptions="Center" FontSize="20" Grid.Row="0" Grid.Column="0" />
 
                                     <Label Text="VS" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black" Grid.ColumnSpan="3" />
 

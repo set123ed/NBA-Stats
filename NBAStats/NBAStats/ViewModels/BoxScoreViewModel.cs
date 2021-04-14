@@ -24,6 +24,8 @@ namespace NBAStats.ViewModels
 
         public string HTeamName { get; set; }
         public string VTeamName { get; set; }
+        public string HTeamLogo { get; set; }
+        public string VTeamLogo { get; set; }
         public string HTeamColor { get; set; } = "Blue";
         public string VTeamColor { get; set; } = "MidnightBlue";
 
@@ -96,6 +98,8 @@ namespace NBAStats.ViewModels
 
                     HTeamName = boxScore.BasicGameData.HTeam.TriCode;
                     VTeamName = boxScore.BasicGameData.VTeam.TriCode;
+                    HTeamLogo = boxScore.BasicGameData.HTeam.TeamLogo;
+                    VTeamLogo = boxScore.BasicGameData.VTeam.TeamLogo;
 
                     ScoreOrTime = Utilities.GetScoreOrTime(boxScore.BasicGameData.VTeam.Score, boxScore.BasicGameData.HTeam.Score, boxScore.BasicGameData.StartTimeEastern);
                     TimePeriodHalftime = Utilities.GetTimePeriod(boxScore.BasicGameData.VTeam.Score, boxScore.BasicGameData.HTeam.Score, boxScore.BasicGameData.Period.CurrentPeriod, boxScore.BasicGameData.Period.IsHalftime, boxScore.BasicGameData.Period.IsEndOfPeriod, boxScore.BasicGameData.IsGameActivated, boxScore.BasicGameData.Clock);

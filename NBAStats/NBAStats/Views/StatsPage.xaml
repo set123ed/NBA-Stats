@@ -42,7 +42,8 @@
                                             </Label.GestureRecognizers>
 
                                         </Label>
-                                        <Label Text="{Binding Team}" FontAttributes="Bold" FontSize="15"  HorizontalOptions="EndAndExpand" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                    <!--<Image Source="{Binding TeamLogo}" HeightRequest="50" WidthRequest="50"/>-->
+                                    <Label Text="{Binding Team}" FontAttributes="Bold" FontSize="15"  HorizontalOptions="EndAndExpand" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
 
                                     </StackLayout>
                                     <StackLayout Grid.Column="1">
@@ -73,7 +74,7 @@
                                 <StackLayout Orientation="Horizontal" Grid.Column="0" HorizontalOptions="FillAndExpand">
                                     <Label Text="{Binding Pos}"   FontSize="15" Grid.Column="0"  VerticalOptions="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Center" Margin="1"/>
                                     <Label Text="{Binding FullName}" FontSize="18" HorizontalOptions="Center"  Margin="1"/>
-                                    
+                                    <!--<Image Source="{Binding TeamLogo}" HeightRequest="50" WidthRequest="50"/>-->
                                 </StackLayout>
                                     <StackLayout Grid.Column="2">
                                     <Label Text="{Binding AverageStats}" FontAttributes="Bold" FontSize="16" HorizontalOptions="Center"  Margin="1"/>
@@ -103,7 +104,8 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-
+                                <!--<StackLayout Orientation="Horizontal">
+                                <Image Source="{Binding TeamLogo}" HeightRequest="50" WidthRequest="50"/>-->
                                 <Label Text="{Binding FullName}" FontSize="14" >
 
                                     <Label.GestureRecognizers>
@@ -111,7 +113,7 @@
                                     </Label.GestureRecognizers>
                                     
                                 </Label>
-
+                            <!--</StackLayout>-->
                             </ViewCell>
 
                         </DataTemplate>
@@ -125,6 +127,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Orientation="Horizontal" Margin="7.5">
+                                    <!--<Image Source="{Binding TeamLogo}" HeightRequest="50" WidthRequest="40"/>-->
                                     <Label Text="{Binding FullName}"  FontSize="14" />
 
 

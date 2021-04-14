@@ -149,6 +149,7 @@ namespace NBAStats.Models
         public string TeamId { get; set; }
         public string FullName { get; set; }
         public string AverageStats { get; set; }
+        public string TeamLogo => $"logo{TeamId}.png";
     }
 
     public class LeaderStatsTeamCollection : ObservableCollection<LeadersStatsTeam>
