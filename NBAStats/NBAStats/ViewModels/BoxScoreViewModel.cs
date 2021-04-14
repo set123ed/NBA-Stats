@@ -39,7 +39,7 @@ namespace NBAStats.ViewModels
         public bool IsBusy { get; set; } = true;
         public bool IsNotBusy => !IsBusy;
 
-        public BoxScoreViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService) : base(navigationService,nbaApiService, nbaDefaultInfoService)
+        public BoxScoreViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService,IDataBaseServices baseServices) : base(navigationService,nbaApiService, nbaDefaultInfoService, baseServices)
         {
             HTeamSelectedCommand = new Command(OnHTeamSelected);
             VTeamSelectedCommand = new Command(OnVTeamSelected);

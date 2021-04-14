@@ -27,7 +27,7 @@ namespace NBAStats.ViewModels
         public bool IsBusy { get; set; } = true;
         public bool IsNotBusy => !IsBusy;
 
-        public StandingViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService) : base(navigationService, nbaApiService, nbaDefaultInfoService)
+        public StandingViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService,IDataBaseServices baseServices) : base(navigationService, nbaApiService, nbaDefaultInfoService,baseServices)
         {
             ShowAllLeagueCommand = new Command(OnShowAllLeague);
             ShowConferenceCommand = new Command(OnShowConference);
