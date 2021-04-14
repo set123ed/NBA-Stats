@@ -6,17 +6,14 @@
 
         <Grid ColumnDefinitions="auto,auto,auto" RowDefinitions="auto,auto,auto">
 
-        <ListView ItemsSource="{Binding Players}" Grid.Row="3" Grid.Column="0">
-                <ListView.ItemTemplate>
+            <ListView ItemsSource="{Binding Players}" Grid.Row="3" Grid.Column="0">
+               <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Vertical">
-                            <Label Text="{Binding FistName}" />
-                            <Label Text="{Binding LastName}" />
-                        </StackLayout>
+                        <Label Text="{Binding FullName}" />
                     </ViewCell>
                 </DataTemplate>
-                </ListView.ItemTemplate>
+               </ListView.ItemTemplate>
             </ListView>
 
         </Grid>

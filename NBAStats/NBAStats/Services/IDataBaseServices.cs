@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NBAStats.Services
 {
-    interface IDataBaseServices
+    public interface IDataBaseServices
     {
         Task<int> SaveTeam(FavoriteTeam favoriteTeam);
         Task<int> SavePlayer(FavoritePlayer favoritePlayer);

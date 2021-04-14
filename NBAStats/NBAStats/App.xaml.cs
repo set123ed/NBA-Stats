@@ -17,7 +17,7 @@ namespace NBAStats
 {
     public partial class App : PrismApplication
     {
-        static DataBaseService DataBase;
+        private DataBaseService DataBase;
         public App(IPlatformInitializer platformInitializer = null) : base(platformInitializer) { }
 
         protected override async void OnInitialized()
@@ -34,6 +34,8 @@ namespace NBAStats
             NbaDefaultInfoService nbaDefaultInfoService = new NbaDefaultInfoService();
 
             containerRegistry.RegisterInstance<INbaDefaultInfoService>(nbaDefaultInfoService);
+            containerRegistry.RegisterInstance<IDataBaseServices>(DataBase);
+            containerRegistry.RegisterSingleton<CreateDatabase>();
 
             containerRegistry.RegisterForNavigation<HomePage, HomeViewModel>(NavigationConstants.HomePage);
             containerRegistry.RegisterForNavigation<BoxScorePage, BoxScoreViewModel>(NavigationConstants.BoxScorePage);
@@ -43,20 +45,9 @@ namespace NBAStats
             containerRegistry.RegisterForNavigation<CalendarPage, CalendarViewModel>(NavigationConstants.CalendarPage);
             containerRegistry.RegisterForNavigation<TeamProfilePage, TeamProfileViewModel>(NavigationConstants.TeamProfilePage);
             containerRegistry.RegisterForNavigation<PlayersListPage,PlayersListViewModel>(NavigationConstants.PlayersList);
-
+            containerRegistry.RegisterForNavigation<FavoritePage, FavoriteViewModel>();
             containerRegistry.RegisterForNavigation<NavigationPage>(NavigationConstants.NavigationPage);
         }
 
-        public static DataBaseService SQliteDB
-        {
-            get
-            {
-                if (DataBase == null)
-                {
-                    DataBase = new DataBaseService(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Stats.db3"));
-                }
-                return DataBase;
-            }
-        }
     }
 }

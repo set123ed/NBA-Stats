@@ -40,7 +40,7 @@ namespace NBAStats.ViewModels
         public bool IsNotBusy => !IsBusy;
 
 
-        public HomeViewModel(IPageDialogService dialogService,INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService) : base(navigationService, nbaApiService, nbaDefaultInfoService)
+        public HomeViewModel(IPageDialogService dialogService,INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService, IDataBaseServices baseServices) : base(navigationService, nbaApiService, nbaDefaultInfoService,baseServices)
         {
             AlertService = dialogService;
 
