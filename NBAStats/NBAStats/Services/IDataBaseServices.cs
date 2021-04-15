@@ -22,6 +22,5 @@ namespace NBAStats.Services
 
         Task<int> DeleteFavoritePlayer(FavoritePlayer favoritePlayer);
 
-
     }
 }

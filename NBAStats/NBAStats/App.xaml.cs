@@ -12,12 +12,13 @@ using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
 
 namespace NBAStats
 {
     public partial class App : PrismApplication
     {
-        private DataBaseService DataBase;
+        private static DataBaseService DataBase;
         public App(IPlatformInitializer platformInitializer = null) : base(platformInitializer) { }
 
         protected override async void OnInitialized()
@@ -32,10 +33,9 @@ namespace NBAStats
             containerRegistry.Register<INbaApiService, NbaApiService>();
 
             NbaDefaultInfoService nbaDefaultInfoService = new NbaDefaultInfoService();
-
+            //DataBaseService DataBase = new DataBaseService();
             containerRegistry.RegisterInstance<INbaDefaultInfoService>(nbaDefaultInfoService);
             containerRegistry.RegisterInstance<IDataBaseServices>(DataBase);
-            containerRegistry.RegisterSingleton<CreateDatabase>();
 
             containerRegistry.RegisterForNavigation<HomePage, HomeViewModel>(NavigationConstants.HomePage);
             containerRegistry.RegisterForNavigation<BoxScorePage, BoxScoreViewModel>(NavigationConstants.BoxScorePage);
@@ -47,6 +47,17 @@ namespace NBAStats
             containerRegistry.RegisterForNavigation<PlayersListPage,PlayersListViewModel>(NavigationConstants.PlayersList);
             containerRegistry.RegisterForNavigation<FavoritePage, FavoriteViewModel>();
             containerRegistry.RegisterForNavigation<NavigationPage>(NavigationConstants.NavigationPage);
+        }
+        public static DataBaseService SQliteDB
+        {
+            get
+            {
+                if (DataBase == null)
+                {
+                    DataBase = new DataBaseService(Path.Combine(FileSystem.AppDataDirectory, "Stats.db3"));
+                }
+                return DataBase;
+            }
         }
 
     }

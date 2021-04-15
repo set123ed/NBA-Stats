@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using NBAStats.Models;
 using System.Data.SQLite;
 using SQLite;
+using System.IO;
+using Xamarin.Essentials;
 
 namespace NBAStats.Services
 {
@@ -12,11 +14,12 @@ namespace NBAStats.Services
     {
         public SQLiteAsyncConnection DataBase;
 
-        public DataBaseService(string dbpath)
+        public DataBaseService(string path)
         {
-            DataBase = new SQLiteAsyncConnection(dbpath);
+            DataBase = new SQLiteAsyncConnection(path);
             DataBase.CreateTableAsync<FavoriteTeam>().Wait();
             DataBase.CreateTableAsync<FavoritePlayer>().Wait();
+
         }
 
         public Task<int> DeleteFavoritePlayer(FavoritePlayer favoritePlayer)
