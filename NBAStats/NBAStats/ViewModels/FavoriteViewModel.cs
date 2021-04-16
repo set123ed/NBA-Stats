@@ -5,6 +5,7 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Text;
 
 namespace NBAStats.ViewModels
@@ -12,8 +13,8 @@ namespace NBAStats.ViewModels
     public class FavoriteViewModel:BaseViewModel
     {
 
-        public string Code { get; set; } = "";
-        public string Name { get; set; } = "";
+        public string Code { get; set; } 
+        public string Name { get; set; } 
         public DelegateCommand SaveData { get; }
         public DelegateCommand DeleteData { get; }
         public ObservableCollection<FavoritePlayer> ListPlayer { get; set; } = new ObservableCollection<FavoritePlayer>();
@@ -28,7 +29,7 @@ namespace NBAStats.ViewModels
             {
                 FavoritePlayer player = new FavoritePlayer
                 {
-                    IdFavoritePlayer = Code,
+                    IdFavoritePlayer =  Code,
                     Name = Name
                 };
                 //var ListPlayers = baseServices.SavePlayer(player);
