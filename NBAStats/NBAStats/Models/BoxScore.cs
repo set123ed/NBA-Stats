@@ -357,6 +357,7 @@ namespace NBAStats.Models
 
         [JsonPropertyName("dnp")]
         public string Dnp { get; set; }
+        public bool IsFavorite { get; set; } = false;
     }
 
     public class StatsBoxScore

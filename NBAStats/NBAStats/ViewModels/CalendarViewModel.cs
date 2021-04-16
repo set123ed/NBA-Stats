@@ -91,7 +91,7 @@ namespace NBAStats.ViewModels
                         game.TimePeriodHalftime = Utilities.GetTimePeriod(game.VTeam.Score, game.HTeam.Score, game.Period.CurrentPeriod, game.Period.IsHalftime, game.Period.IsEndOfPeriod, game.IsGameActivated, game.Clock);
                     }
 
-                    GamesOfTheDate = new ObservableCollection<Game>(gameOfDay.Games);
+                    GamesOfTheDate = Utilities.SetFavoritesTeamsOnGame(gameOfDay.Games, _FavoritesTeams);
 
                 }
 

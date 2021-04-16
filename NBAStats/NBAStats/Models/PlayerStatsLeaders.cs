@@ -41,6 +41,7 @@ namespace NBAStats.Models
         public string AssistsPerGame { get; set; }
         public string ReboundsPerGame { get; set; }
         public string TeamLogo => $"logo{TeamId}.png";
+        public bool IsFavorite { get; set; } = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
     }
@@ -55,7 +56,7 @@ namespace NBAStats.Models
         public string AverageStats { get; set; }
         public string TotalStat { get; set; }
         public string TeamLogo => $"logo{TeamId}.png";
-
+        public bool IsFavorite { get; set; } = false;
     }
 
     public class LeaderStatsPlayerCollection : ObservableCollection<LeadersStatsPlayer>

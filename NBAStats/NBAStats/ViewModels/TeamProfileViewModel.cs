@@ -116,7 +116,7 @@ namespace NBAStats.ViewModels
                 {
                     ObservableCollection<Player> roster = new ObservableCollection<Player>(_playerList.Where(player => player.TeamId == Team.TeamId));
 
-                    Roster = roster;
+                    Roster = Utilities.SetFavoritesPlayers(roster, _FavoritesPlayers);
 
                     int lastGamePlayedIndex = teamSchedule.League.LastStandardGamePlayedIndex;
 

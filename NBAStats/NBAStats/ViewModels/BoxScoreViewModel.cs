@@ -130,29 +130,32 @@ namespace NBAStats.ViewModels
                         }
 
 
-                        HTeamPlayerStats = new ObservableCollection<ActivePlayerBoxScore>(hTeamPlayerStats.OrderByDescending(p => p.Min));
-                        VTeamPlayerStats = new ObservableCollection<ActivePlayerBoxScore>(vTeamPlayerStats.OrderByDescending(p => p.Min));
+                        HTeamPlayerStats = Utilities.SetBoxScoresFavoritesPlayers(hTeamPlayerStats, _FavoritesPlayers);
+                        VTeamPlayerStats = Utilities.SetBoxScoresFavoritesPlayers(vTeamPlayerStats, _FavoritesPlayers);
 
 
                     }
                     else
                     {
+                        List<Player> hTeamRoster = new List<Player>(Utilities.SetFavoritesPlayers(_playerList.Where(p => p.TeamId == hTeamId), _FavoritesPlayers));
+                        List<Player> vTeamRoster = new List<Player>(Utilities.SetFavoritesPlayers(_playerList.Where(p => p.TeamId == vTeamId),_FavoritesPlayers));
 
-                        foreach (Player player in _playerList)
+                        foreach (Player player in hTeamRoster)
                         {
                             ActivePlayerBoxScore playerBoxScore = new ActivePlayerBoxScore();
                             playerBoxScore.PersonId = player.PersonId;
                             playerBoxScore.FullName = player.FullName;
 
-                            if (player.TeamId == hTeamId)
-                            {
-                                hTeamPlayerStats.Add(playerBoxScore);
-                            }
-                            else if (player.TeamId == vTeamId)
-                            {
-                                vTeamPlayerStats.Add(playerBoxScore);
-                            }
+                            hTeamPlayerStats.Add(playerBoxScore);
+                        }
+                        
+                        foreach (Player player in vTeamRoster)
+                        {
+                            ActivePlayerBoxScore playerBoxScore = new ActivePlayerBoxScore();
+                            playerBoxScore.PersonId = player.PersonId;
+                            playerBoxScore.FullName = player.FullName;
 
+                            vTeamPlayerStats.Add(playerBoxScore);
                         }
 
                         HTeamPlayerStats = hTeamPlayerStats;

@@ -78,12 +78,12 @@ namespace NBAStats.ViewModels
 
                 if (standing != null)
                 {
-                    ObservableCollection<TeamStanding> standingList = standing.League.Standard.Teams;
+                    ObservableCollection<TeamStanding> standingList = Utilities.SetFavoriteTeamsOnStanding(standing.League.Standard.Teams,_FavoritesTeams);
 
                     SeasonStage = Config.SeasonStages.First(season => season.Id == standing.League.Standard.SeasonStageId).Stage;
 
                     StandingPerConference eastConference = new StandingPerConference(StringConstants.East);
-                    StandingPerConference westConference = new StandingPerConference(StringConstants.West);// string constanst
+                    StandingPerConference westConference = new StandingPerConference(StringConstants.West);
 
                     int cont = 1;
 

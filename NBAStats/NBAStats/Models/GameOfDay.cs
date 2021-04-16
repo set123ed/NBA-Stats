@@ -45,6 +45,8 @@ namespace NBAStats.Models
         [JsonPropertyName("score")]
         public string Score { get; set; }
         public string TeamLogo => $"logo{TeamId}.png";
+        public bool IsFavorite { get; set; } = false;
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 
@@ -81,6 +83,8 @@ namespace NBAStats.Models
         public string ScoreOrTime { get; set; }
 
         public string TimePeriodHalftime { get; set; }
+
+        public int FavoritesTeamOnGame { get; set; } = 0;
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

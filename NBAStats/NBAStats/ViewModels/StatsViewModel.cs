@@ -143,12 +143,12 @@ namespace NBAStats.ViewModels
             if (!string.IsNullOrEmpty(Filter))
             {
                 TeamList = new ObservableCollection<Team>(_teamList.Where(team => team.FullName.ToLower().Contains(Filter.ToLower())));
-                PlayersList = new ObservableCollection<Player>(_playerList.Where(player => (player.FullName).ToLower().Contains(Filter.ToLower())));
+                PlayersList = Utilities.SetFavoritesPlayers(_playerList.Where(player => (player.FullName).ToLower().Contains(Filter.ToLower())), _FavoritesPlayers);
             }
             else 
             {
                 TeamList = new ObservableCollection<Team>(_teamList);
-                PlayersList = new ObservableCollection<Player>(_playerList);
+                PlayersList = Utilities.SetFavoritesPlayers(_playerList, _FavoritesPlayers);
             }
         }
 
@@ -165,7 +165,10 @@ namespace NBAStats.ViewModels
 
             await GetTeamStats();
 
-            PlayersList = new ObservableCollection<Player>(_playerList);
+            LeaderStatsPlayers = Utilities.SetFavoritesPlayersLeaderStats(LeaderStatsPlayers, _FavoritesPlayers);
+            LeadersStatsTeams = Utilities.SetFavoritesTeamsLeaderStats(LeadersStatsTeams, _FavoritesTeams);
+
+            PlayersList = Utilities.SetFavoritesPlayers(_playerList, _FavoritesPlayers);
             TeamList = new ObservableCollection<Team>(_teamList);
             IsBusy = false;
         }

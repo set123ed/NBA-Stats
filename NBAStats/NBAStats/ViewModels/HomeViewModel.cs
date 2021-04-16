@@ -168,7 +168,7 @@ namespace NBAStats.ViewModels
 
                     }
 
-                    GamesOfDay = new ObservableCollection<Game>(gameOfDay.Games);
+                    GamesOfDay = Utilities.SetFavoritesTeamsOnGame(gameOfDay.Games, _FavoritesTeams);
                 }
             }
             catch (NoInternetConnectionException ex)
@@ -235,7 +235,7 @@ namespace NBAStats.ViewModels
 
                     }
 
-                    ScoringLeaders = playerScoringLeaderList;
+                    ScoringLeaders = Utilities.SetFavoritesRegularPlayer(playerScoringLeaderList,_FavoritesPlayers);
                 }
                 else
                 {
@@ -257,7 +257,7 @@ namespace NBAStats.ViewModels
                         listPlayerRegularStats.Add(newPlayer);
                     }
 
-                    ScoringLeaders = listPlayerRegularStats;
+                    ScoringLeaders = Utilities.SetFavoritesRegularPlayer(listPlayerRegularStats, _FavoritesPlayers);
                 }
 
             }
@@ -279,18 +279,21 @@ namespace NBAStats.ViewModels
                 if (standing != null && teamStatsClass != null)
                 {
                     ObservableCollection<BetterTeams> betterTeams = new ObservableCollection<BetterTeams>();
+                    List<TeamStanding> teamStandings = new List<TeamStanding>(standing.League.Standard.Teams);
+                    teamStandings = new List<TeamStanding>(Utilities.SetFavoriteTeamsOnStanding(teamStandings.GetRange(0, 5),_FavoritesTeams));
 
-                    for (int i = 0; i < 5; i++)
+                    foreach (TeamStanding teamStanding in teamStandings)
                     {
                         BetterTeams better = new BetterTeams();
 
-                        better.TeamStanding = standing.League.Standard.Teams[i];
+                        better.TeamStanding = teamStanding;
                         better.TeamStats = teamStatsClass.LeagueTeamStats.Seasons.RegularSeason.Teams.First(team => team.TeamId == better.TeamStanding.TeamId);
 
                         betterTeams.Add(better);
+
                     }
 
-                    BetterTeams = betterTeams;
+                    BetterTeams = new ObservableCollection<BetterTeams>(betterTeams);
 
                 }
 

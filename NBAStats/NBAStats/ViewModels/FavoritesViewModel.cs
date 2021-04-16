@@ -17,12 +17,15 @@ namespace NBAStats.ViewModels
         public ObservableCollection<FavoritesPlayer> FavoritesPlayers {get;set;}
         public ObservableCollection<FavoritesTeam> FavoritesTeams {get;set;}
 
-        private ObservableCollection<FavoritesPlayer> _fullFavoritesPlayers = new ObservableCollection<FavoritesPlayer>();
-        private ObservableCollection<FavoritesTeam> _fullFavoritesTeams = new ObservableCollection<FavoritesTeam>();
+        private ObservableCollection<FavoritesPlayer> _fullFavoritesPlayers => new ObservableCollection<FavoritesPlayer>(_FavoritesPlayers.OrderBy(player => player.Name));
+        private ObservableCollection<FavoritesTeam> _fullFavoritesTeams => new ObservableCollection<FavoritesTeam>(_FavoritesTeams); 
 
 
         public ObservableCollection<Player> NonFavoritePlayers { get; set; }
         public ObservableCollection<Team> NonFavoritesTeams { get; set; }
+
+        private ObservableCollection<Player> _fullNonFavoritesPlayers = new ObservableCollection<Player>();
+        private ObservableCollection<Team> _fullNonFavoritesTeams = new ObservableCollection<Team>();
 
         public bool ShowFavoritesTeams { get; set; } = true;
         public bool ShowFavoritesPlayers => !ShowFavoritesTeams;
@@ -72,12 +75,12 @@ namespace NBAStats.ViewModels
                 if (ShowFavoritesTeams)
                 {
                     FavoritesTeams = new ObservableCollection<FavoritesTeam>(_fullFavoritesTeams.Where(team => team.Name.ToLower().Contains(Filter.ToLower())));
-                    NonFavoritesTeams = new ObservableCollection<Team>(_teamList.Where(team => team.FullName.ToLower().Contains(Filter.ToLower())));
+                    NonFavoritesTeams = new ObservableCollection<Team>(_fullNonFavoritesTeams.Where(team => team.FullName.ToLower().Contains(Filter.ToLower())));
                 }
                 else
                 {
                     FavoritesPlayers = new ObservableCollection<FavoritesPlayer>(_fullFavoritesPlayers.Where(player => player.Name.ToLower().Contains(Filter.ToLower())));
-                    NonFavoritePlayers = new ObservableCollection<Player>(_playerList.Where(player => player.FullName.ToLower().Contains(Filter.ToLower())));
+                    NonFavoritePlayers = new ObservableCollection<Player>(_fullNonFavoritesPlayers.Where(player => player.FullName.ToLower().Contains(Filter.ToLower())));
                 }
             }
             else
@@ -85,12 +88,12 @@ namespace NBAStats.ViewModels
                 if (ShowFavoritesTeams)
                 {
                     FavoritesTeams = new ObservableCollection<FavoritesTeam>(_fullFavoritesTeams);
-                    NonFavoritesTeams = new ObservableCollection<Team>(_teamList);
+                    NonFavoritesTeams = new ObservableCollection<Team>(_fullNonFavoritesTeams);
                 }
                 else
                 {
                     FavoritesPlayers = new ObservableCollection<FavoritesPlayer>(_fullFavoritesPlayers);
-                    NonFavoritePlayers = new ObservableCollection<Player>(_playerList);
+                    NonFavoritePlayers = new ObservableCollection<Player>(_fullNonFavoritesPlayers);
                 }
 
             }
@@ -105,16 +108,6 @@ namespace NBAStats.ViewModels
                     Filter = "";
                 }
                 ShowFavoritesTeams = true;
-
-                //if (FavoritesPlayers.Count != _fullFavoritesPlayers.Count)
-                //{
-                //    FavoritesPlayers = new ObservableCollection<FavoritesPlayer>(_fullFavoritesPlayers);
-                //}
-
-                //if (NonFavoritePlayers.Count != _playerList.Count)
-                //{
-                //    NonFavoritePlayers = new ObservableCollection<Player>(_playerList);
-                //}
             }
         }
 
@@ -127,16 +120,6 @@ namespace NBAStats.ViewModels
                     Filter = "";
                 }
                 ShowFavoritesTeams = false;
-
-                //if (FavoritesTeams.Count != _fullFavoritesTeams.Count)
-                //{
-                //    FavoritesTeams = new ObservableCollection<FavoritesTeam>(_fullFavoritesTeams);
-                //}
-
-                //if (NonFavoritesTeams.Count != _teamList.Count)
-                //{
-                //    NonFavoritesTeams = new ObservableCollection<Team>(_teamList);
-                //}
             }
         }
 
@@ -168,14 +151,18 @@ namespace NBAStats.ViewModels
         {
             await GetDefaultData();
 
-            FavoritesPlayers = new ObservableCollection<FavoritesPlayer>(await DatabaseService.GetFavoritePlayers());
-            _fullFavoritesPlayers = new ObservableCollection<FavoritesPlayer>(FavoritesPlayers);
+            FavoritesPlayers = new ObservableCollection<FavoritesPlayer>(_fullFavoritesPlayers);
 
-            FavoritesTeams = new ObservableCollection<FavoritesTeam>(await DatabaseService.GetFavoriteTeams());
-            _fullFavoritesTeams = new ObservableCollection<FavoritesTeam>(FavoritesTeams);
+            FavoritesTeams = new ObservableCollection<FavoritesTeam>(_FavoritesTeams);
 
-            NonFavoritePlayers = new ObservableCollection<Player>(_playerList);
-            NonFavoritesTeams = new ObservableCollection<Team>(_teamList);
+            var favoritesPlayersId = FavoritesPlayers.Select(player => player.PlayerId).ToList();
+            _fullNonFavoritesPlayers = new ObservableCollection<Player>(_playerList.Where(player => !favoritesPlayersId.Contains(player.PersonId)).OrderBy(player => player.FullName));
+
+            var favoritesTeamsId = FavoritesTeams.Select(team => team.TeamId).ToList();
+            _fullNonFavoritesTeams = new ObservableCollection<Team>(_teamList.Where(team => !favoritesTeamsId.Contains(team.TeamId)));
+
+            NonFavoritePlayers = new ObservableCollection<Player>(_fullNonFavoritesPlayers);
+            NonFavoritesTeams = new ObservableCollection<Team>(_fullNonFavoritesTeams);
         }
 
         private async Task AddFavoritePlayer()
@@ -196,8 +183,17 @@ namespace NBAStats.ViewModels
                 {
                     await DatabaseService.SavePlayer(newFavoritePlayer);
                     NonFavoritePlayers.Remove(player);
-                    FavoritesPlayers = new ObservableCollection<FavoritesPlayer>(await DatabaseService.GetFavoritePlayers());
-                    _fullFavoritesPlayers = new ObservableCollection<FavoritesPlayer>(FavoritesPlayers);
+                    _fullNonFavoritesPlayers.Remove(player);
+
+                    if (!string.IsNullOrEmpty(Filter) && ShowFavoritesPlayers)
+                    {
+                        FavoritesPlayers = new ObservableCollection<FavoritesPlayer>(_fullFavoritesPlayers.Where(p => p.Name.ToLower().Contains(Filter.ToLower())));
+                    }
+                    else
+                    {
+                        FavoritesPlayers = new ObservableCollection<FavoritesPlayer>(_fullFavoritesPlayers);
+                    }
+
                     CurrentNonFavoritePlayerSelected = null;
                 }
                 else
@@ -226,8 +222,16 @@ namespace NBAStats.ViewModels
                 {
                     await DatabaseService.SaveTeam(newFavoriteTeam);
                     NonFavoritesTeams.Remove(team);
-                    FavoritesTeams = new ObservableCollection<FavoritesTeam>(await DatabaseService.GetFavoriteTeams());
-                    _fullFavoritesTeams = new ObservableCollection<FavoritesTeam>(FavoritesTeams);
+                    _fullNonFavoritesTeams.Remove(team);
+
+                    if (!string.IsNullOrEmpty(Filter) && ShowFavoritesTeams)
+                    {
+                        FavoritesTeams = new ObservableCollection<FavoritesTeam>(_fullFavoritesTeams.Where(t => t.Name.ToLower().Contains(Filter.ToLower())));
+                    }
+                    else
+                    {
+                        FavoritesTeams = new ObservableCollection<FavoritesTeam>(_fullFavoritesTeams);
+                    }
                     CurrentNonFavoriteTeamSelected = null;
                 }
                 else
@@ -243,10 +247,25 @@ namespace NBAStats.ViewModels
             {
                 await DatabaseService.DeleteFavoritePlayer(CurrentFavoritePlayerSelected);
 
+                Player favoritePlayerDeleted = _playerList.First(player => player.PersonId == CurrentFavoritePlayerSelected.PlayerId);
                 CurrentFavoritePlayerSelected = null;
 
-                FavoritesPlayers = new ObservableCollection<FavoritesPlayer>(await DatabaseService.GetFavoritePlayers());
-                _fullFavoritesPlayers = new ObservableCollection<FavoritesPlayer>(FavoritesPlayers);
+                NonFavoritePlayers.Add(favoritePlayerDeleted);
+                _fullNonFavoritesPlayers.Add(favoritePlayerDeleted);
+
+                if (!string.IsNullOrEmpty(Filter) && ShowFavoritesPlayers)
+                {
+                    NonFavoritePlayers = new ObservableCollection<Player>(NonFavoritePlayers.OrderBy(player => player.FullName).Where(player => player.FullName.ToLower().Contains(Filter.ToLower())));
+                    FavoritesPlayers = new ObservableCollection<FavoritesPlayer>(_fullFavoritesPlayers.Where(player => player.Name.ToLower().Contains(Filter.ToLower())));
+                }
+                else
+                {
+                    NonFavoritePlayers = new ObservableCollection<Player>(NonFavoritePlayers.OrderBy(player => player.FullName));
+                    FavoritesPlayers = new ObservableCollection<FavoritesPlayer>(_fullFavoritesPlayers);
+                }
+
+                _fullNonFavoritesPlayers = new ObservableCollection<Player>(_fullNonFavoritesPlayers.OrderBy(player => player.FullName));
+
 
             }
 
@@ -257,10 +276,25 @@ namespace NBAStats.ViewModels
             {
                 await DatabaseService.DeleteFavoriteTeams(CurrentFavoriteTeamSelected);
 
+                Team favoriteTeamDeleted = _teamList.First(team => team.TeamId == CurrentFavoriteTeamSelected.TeamId);
                 CurrentFavoriteTeamSelected = null;
 
-                FavoritesTeams = new ObservableCollection<FavoritesTeam>(await DatabaseService.GetFavoriteTeams());
-                _fullFavoritesTeams = new ObservableCollection<FavoritesTeam>(FavoritesTeams);
+                NonFavoritesTeams.Add(favoriteTeamDeleted);
+                _fullNonFavoritesTeams.Add(favoriteTeamDeleted);
+
+                if (!string.IsNullOrEmpty(Filter) && ShowFavoritesTeams)
+                {
+                    NonFavoritesTeams = new ObservableCollection<Team>(NonFavoritesTeams.OrderBy(team => team.FullName).Where(team => team.FullName.ToLower().Contains(Filter.ToLower())));
+                    FavoritesTeams = new ObservableCollection<FavoritesTeam>(_fullFavoritesTeams.Where(team => team.Name.ToLower().Contains(Filter.ToLower())));
+                }
+                else
+                {
+                    NonFavoritesTeams = new ObservableCollection<Team>(NonFavoritesTeams.OrderBy(team => team.FullName));
+                    FavoritesTeams = new ObservableCollection<FavoritesTeam>(_fullFavoritesTeams);
+                }
+
+                _fullNonFavoritesTeams = new ObservableCollection<Team>(_fullNonFavoritesTeams.OrderBy(team => team.FullName));
+
             }
 
         }

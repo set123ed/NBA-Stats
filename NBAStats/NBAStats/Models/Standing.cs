@@ -129,6 +129,7 @@ namespace NBAStats.Models
         public string Home => $"{HomeWin} - {HomeLoss}";
         public string Road => $"{AwayWin} - {AwayLoss}";
         public string TeamLogo => $"logo{TeamId}.png";
+        public bool IsFavorite { get; set; } = false;
     }
 
     public class Standard

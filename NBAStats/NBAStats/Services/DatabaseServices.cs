@@ -104,7 +104,7 @@ namespace NBAStats.Services
         public async Task<int> DeleteFavoriteTeams(FavoritesTeam favoriteTeam)
         {
             int result = await db.DeleteAsync(favoriteTeam);
-            FavoritesPlayers = await db.Table<FavoritesPlayer>().ToListAsync();
+            FavoritesTeams = await db.Table<FavoritesTeam>().ToListAsync();
 
             return result;
         }
@@ -112,7 +112,8 @@ namespace NBAStats.Services
         public async Task<int> DeleteFavoritePlayer(FavoritesPlayer favoritePlayer)
         {
             int result = await db.DeleteAsync(favoritePlayer);
-            FavoritesTeams = await db.Table<FavoritesTeam>().ToListAsync();
+            FavoritesPlayers = await db.Table<FavoritesPlayer>().ToListAsync();
+
             return result;
         }
 

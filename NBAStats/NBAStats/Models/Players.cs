@@ -125,6 +125,7 @@ namespace NBAStats.Models
         public string YearDebutActualTeam => Teams[Teams.Count - 1].SeasonStart;
         public string TeamLogo => $"logo{TeamId}.png";
 
+        public bool IsFavorite { get; set; } = false;
     }
 
     public class LeaguePlayer
