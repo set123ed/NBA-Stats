@@ -36,19 +36,7 @@
                         </Grid>
                     </Frame>
 
-                    <!--<contrils:CarouselViewControl Grid.Row="1" Margin="-10" Grid.ColumnSpan="2"  Orientation="Horizontal" InterPageSpacing="10"
-                                  ShowIndicators="True" Position="{Binding ImagePosition}">
-                        <contrils:CarouselViewControl.ItemsSource>
-                            <x:Array Type="{x:Type View}">
-                                <Image Source="foto1.jpg"/>
-                                <Image Source="foto2.jpg"/>
-                                <Image Source="foto3.jpg"/>
-                                <Image Source="foto4.jpg"/>
-                                <Image Source="foto5.jpg"/>
-                            </x:Array>
-                        </contrils:CarouselViewControl.ItemsSource>
-                    </contrils:CarouselViewControl>-->
-
+                  
 
                         <contrils:CarouselViewControl Grid.Row="1" ItemsSource="{Binding GamesOfDay}" Grid.ColumnSpan="2" Orientation="Horizontal"
                                                       InterPageSpacing="10" Position="{Binding GamePosition}" >
@@ -61,12 +49,13 @@
                                         <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.GameSelectedCommand}" CommandParameter="{Binding}"/>
                                     </Grid.GestureRecognizers>
                                         
-                                    <Frame Style="{StaticResource Key=FrameStyle1}" BackgroundColor="White" HasShadow="True"  Margin="10,10,10,40"  >
+                                    <Frame Style="{StaticResource Key=FrameStyle1}" BackgroundColor="White" Margin="0,0,0,20" HasShadow="True"    >
                                         <Frame.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.GameSelectedCommand}" CommandParameter="{Binding}"/>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference HomeP}, Path=BindingContext.GameSelectedCommand}"  CommandParameter="{Binding}"/>
                                         </Frame.GestureRecognizers>
                                             <Grid>
                                                 <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
@@ -76,18 +65,17 @@
                                                     <ColumnDefinition Width="160"/>
                                                     <ColumnDefinition Width="160"/>
                                                 </Grid.ColumnDefinitions>
-                                                <!--<Image Source="{Binding VTeam.TeamLogo}" HeightRequest="50" WidthRequest="50"/>-->
+                                                <Image Source="{Binding VTeam.TeamLogo}" Grid.Row="0" HeightRequest="50" WidthRequest="50"/>
+                                                <Label Text="{Binding VTeam.TriCode}" FontSize="20" Grid.Row="1" Style="{StaticResource Key=LabelStyle}"  HorizontalOptions="Start" 
+                                                       VerticalTextAlignment="Start"  Padding="65,0,0,0" Grid.Column="0"/>
+                                                <Label Text="VS" Style="{StaticResource Key=LabelStyle}"  FontSize="18" VerticalOptions="Center" Grid.Row="0"  HorizontalOptions="Center" Grid.ColumnSpan="2"/>
 
-                                                <Label Text="{Binding VTeam.TriCode}" Style="{StaticResource Key=LabelStyle}" Grid.Row="0" HorizontalOptions="Start" VerticalTextAlignment="Start"  Padding="50,0,0,0" Grid.Column="0"/>
+                                                <Image Grid.Column="1" Grid.Row="0" Source="{Binding HTeam.TeamLogo}" HeightRequest="50" WidthRequest="50"/>
 
-                                            <Label Text="VS" Style="{StaticResource Key=LabelStyle}" FontSize="18" VerticalOptions="Center" Grid.Row="0"  HorizontalOptions="Center" Grid.ColumnSpan="2"/>
+                                                <Label Text="{Binding HTeam.TriCode}" FontSize="20" Grid.Row="1"  Style="{StaticResource Key=LabelStyle}"  Padding="0,0,60,0" Grid.Column="1" HorizontalOptions="End"/>
 
-                                                <!--<Image Source="{Binding HTeam.TeamLogo}" HeightRequest="50" WidthRequest="50"/>-->
-
-                                                <Label Text="{Binding HTeam.TriCode}"  Style="{StaticResource Key=LabelStyle}"  Padding="0,0,50,0" Grid.Column="1" HorizontalOptions="End"/>
-
-                                            <Label Text="{Binding ScoreOrTime}" HorizontalOptions="Center" VerticalTextAlignment="Start" Padding="0,10,0,0"
-                                                            FontSize="20" TextColor="Black" FontAttributes="Bold" Grid.Row="2" Grid.ColumnSpan="2" />
+                                            <Label Text="{Binding ScoreOrTime}" HorizontalOptions="Center" VerticalTextAlignment="Start" Padding="10,0,0,0"
+                                                            FontSize="17" TextColor="Black" FontAttributes="Bold" Grid.Row="3" Grid.ColumnSpan="2" />
                                             </Grid>
                                          </Frame>
                                         </Grid>
@@ -221,11 +209,13 @@
 
                                                 </Grid.ColumnDefinitions>
 
-                                                <!--<Image Source="{Binding TeamStanding.TeamLogo}" HeightRequest="100" WidthRequest="100"/>-->
-                                                <Label Text="{Binding TeamStanding.TeamSitesOnly.TeamNickname}" Style="{StaticResource Key=LabelStyle}"
+                                                <Image Source="{Binding TeamStanding.TeamLogo}" Grid.ColumnSpan="2" Margin="0,-20,0,30"  HeightRequest="60" />
+                                               
+                                                <Label Text="{Binding TeamStanding.TeamSitesOnly.TeamNickname}" Margin="0,0,0,-30" Style="{StaticResource Key=LabelStyle}"
                                                   Grid.ColumnSpan="2" Grid.Row="0"  VerticalOptions="Center" HorizontalOptions="Center"/>
+                                                
                                                 <Label Text="{Binding TeamStanding.TeamSitesOnly.TeamName}" Style="{StaticResource Key=LabelStyle}"
-                                                  Grid.ColumnSpan="2" FontSize="20" Grid.Row="1"  VerticalOptions="Center" HorizontalOptions="Center"/>
+                                                  Grid.ColumnSpan="2" FontSize="15" Grid.Row="1"  VerticalOptions="Center" HorizontalOptions="Center"/>
 
                                                 <Label Text="{Binding TeamStanding.Win}" Style="{StaticResource Key=LabelStyleDetails}" Grid.Column="1" Grid.Row="2"
                                                    VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" />
