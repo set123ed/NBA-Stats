@@ -142,12 +142,12 @@ namespace NBAStats.ViewModels
         {
             if (!string.IsNullOrEmpty(Filter))
             {
-                TeamList = new ObservableCollection<Team>(_teamList.Where(team => team.FullName.ToLower().Contains(Filter.ToLower())));
+                TeamList = Utilities.SetFavoritesTeam(_teamList.Where(team => team.FullName.ToLower().Contains(Filter.ToLower())),_FavoritesTeams);
                 PlayersList = Utilities.SetFavoritesPlayers(_playerList.Where(player => (player.FullName).ToLower().Contains(Filter.ToLower())), _FavoritesPlayers);
             }
             else 
             {
-                TeamList = new ObservableCollection<Team>(_teamList);
+                TeamList = Utilities.SetFavoritesTeam(_teamList,_FavoritesTeams);
                 PlayersList = Utilities.SetFavoritesPlayers(_playerList, _FavoritesPlayers);
             }
         }
@@ -169,7 +169,7 @@ namespace NBAStats.ViewModels
             LeadersStatsTeams = Utilities.SetFavoritesTeamsLeaderStats(LeadersStatsTeams, _FavoritesTeams);
 
             PlayersList = Utilities.SetFavoritesPlayers(_playerList, _FavoritesPlayers);
-            TeamList = new ObservableCollection<Team>(_teamList);
+            TeamList = Utilities.SetFavoritesTeam(_teamList,_FavoritesTeams);
             IsBusy = false;
         }
 
@@ -480,6 +480,8 @@ namespace NBAStats.ViewModels
 
                     statsOfTeams.Remove(firstAllStarTeam);
                     statsOfTeams.Remove(lastAllStarTeam);
+
+                    _teamList = new List<Team>(_teamList.Where(t => !t.IsAllStar));
 
                     LeadersStatsTeams.Add(GetTeamPpgLeaders(statsOfTeams));
                     LeadersStatsTeams.Add(GetTeamApgLeaders(statsOfTeams));

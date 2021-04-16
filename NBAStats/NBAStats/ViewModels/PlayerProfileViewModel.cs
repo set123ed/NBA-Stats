@@ -34,6 +34,7 @@ namespace NBAStats.ViewModels
         {
             if (parameters.TryGetValue(ParametersConstants.PlayerId, out string personId))
             {
+                
                 _playerId = personId;
 
                 if (!string.IsNullOrEmpty(_playerId))
@@ -89,6 +90,10 @@ namespace NBAStats.ViewModels
                     ActualTeam = _teamList.First(team => team.TeamId == PlayerStats.TeamId);
 
                     Player playerInfo = _playerList.First(player => player.PersonId == personId);
+
+                    var favoritesPlayersId = _FavoritesPlayers.Select(p => p.PlayerId).ToList();
+
+                    playerInfo.IsFavorite = favoritesPlayersId.Contains(playerInfo.PersonId);
 
                     ActualTeamInfo = StringConstants.GetActualTeamInfo(ActualTeam.Tricode);
 

@@ -14,6 +14,7 @@ namespace NBAStats.Models
         public string Score { get; set; }
         public string Tricode { get; set; }
         public string TeamLogo => $"logo{TeamId}.png";
+        public bool IsFavorite { get; set; } = false;
     }
 
 
@@ -76,6 +77,7 @@ namespace NBAStats.Models
         public string SeasonStage { get; set; }
         
         public string Result { get; set; }
+
     }
 
     public class GameScheduleCollection : ObservableCollection<GameTeamSchedule>

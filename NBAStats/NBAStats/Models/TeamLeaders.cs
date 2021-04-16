@@ -73,5 +73,6 @@ namespace NBAStats.Models
         public string FullName { get; set; }
         public string StatName { get; set; }
         public string StatAvg { get; set; }
+        public bool IsFavorite { get; set; } = false;
     }
 }

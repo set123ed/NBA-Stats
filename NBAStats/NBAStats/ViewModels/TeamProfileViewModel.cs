@@ -62,6 +62,8 @@ namespace NBAStats.ViewModels
         {
             if (parameters.TryGetValue(ParametersConstants.Team, out Team team))
             {
+                var favoritesTeamsId = _FavoritesTeams.Select(t => t.TeamId).ToList();
+                team.IsFavorite = favoritesTeamsId.Contains(team.TeamId);
                 Team = team;
                 await GetDefaultData();
                 await GetTeamInfo();
@@ -210,7 +212,7 @@ namespace NBAStats.ViewModels
                     GameSchedule.Add(lastGamesPlayed);
                     GameSchedule.Add(nextGamesToPlay);
 
-
+                    GameSchedule = Utilities.SetFavoritesTeamsOnSchedule(GameSchedule, _FavoritesTeams);
                 }
 
             }
@@ -226,6 +228,7 @@ namespace NBAStats.ViewModels
             try
             {
                 TeamLeaders teamLeaders = await NbaApiService.GetTeamLeaders(_seasonYearApiData, Team.UrlName);
+                var favoritesPlayersId = _FavoritesPlayers.Select(player => player.PlayerId).ToList();
 
                 if (teamLeaders != null)
                 {
@@ -234,63 +237,72 @@ namespace NBAStats.ViewModels
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ppg[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ppg[0].PersonId).FullName,
                         StatName = StringConstants.PointsPerGame,
-                        StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ppg[0].Value
+                        StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ppg[0].Value,
+                        IsFavorite = favoritesPlayersId.Contains(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ppg[0].PersonId)
                     };
                     TeamLeadersPlayers playerApg = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Apg[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Apg[0].PersonId).FullName,
                         StatName = StringConstants.AssistsPerGame,
-                        StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Apg[0].Value
+                        StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Apg[0].Value,
+                        IsFavorite = favoritesPlayersId.Contains(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Apg[0].PersonId)
                     };
                     TeamLeadersPlayers playerRpg = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Trpg[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Trpg[0].PersonId).FullName,
                         StatName = StringConstants.ReboundsPerGame,
-                        StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Trpg[0].Value
+                        StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Trpg[0].Value,
+                        IsFavorite = favoritesPlayersId.Contains(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Trpg[0].PersonId)
                     };
                     TeamLeadersPlayers playerSpg = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Spg[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Spg[0].PersonId).FullName,
                         StatName = StringConstants.StealsPerGame,
-                        StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Spg[0].Value
+                        StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Spg[0].Value,
+                        IsFavorite = favoritesPlayersId.Contains(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Spg[0].PersonId)
                     };
                     TeamLeadersPlayers playerBpg = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Bpg[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Bpg[0].PersonId).FullName,
                         StatName = StringConstants.BlocksPerGame,
-                        StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Bpg[0].Value
+                        StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Bpg[0].Value,
+                        IsFavorite = favoritesPlayersId.Contains(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Bpg[0].PersonId)
                     };
                     TeamLeadersPlayers playerFgp = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Fgp[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Fgp[0].PersonId).FullName,
                         StatName = StringConstants.FgpPerGame,
-                        StatAvg = Math.Round(Convert.ToDecimal(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Fgp[0].Value) * 100, 1).ToString() + "%"
+                        StatAvg = Math.Round(Convert.ToDecimal(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Fgp[0].Value) * 100, 1).ToString() + "%",
+                        IsFavorite = favoritesPlayersId.Contains(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Fgp[0].PersonId)
                     };
                     TeamLeadersPlayers playerFtp = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ftp[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ftp[0].PersonId).FullName,
                         StatName = StringConstants.FtpPerGame,
-                        StatAvg = Math.Round(Convert.ToDecimal(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ftp[0].Value) * 100, 1).ToString() + "%"
+                        StatAvg = Math.Round(Convert.ToDecimal(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ftp[0].Value) * 100, 1).ToString() + "%",
+                        IsFavorite = favoritesPlayersId.Contains(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Ftp[0].PersonId)
                     };
                     TeamLeadersPlayers playerTpp = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpp[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpp[0].PersonId).FullName,
                         StatName = StringConstants.TppPerGame,
-                        StatAvg = Math.Round(Convert.ToDecimal(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpp[0].Value) * 100, 1).ToString() + "%"
+                        StatAvg = Math.Round(Convert.ToDecimal(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpp[0].Value) * 100, 1).ToString() + "%",
+                        IsFavorite = favoritesPlayersId.Contains(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpp[0].PersonId)
                     };
                     TeamLeadersPlayers playerTpg = new TeamLeadersPlayers
                     {
                         PlayerId = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpg[0].PersonId,
                         FullName = Roster.First(player => player.PersonId == teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpg[0].PersonId).FullName,
                         StatName = StringConstants.TurnoversPerGame,
-                        StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpg[0].Value
+                        StatAvg = teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpg[0].Value,
+                        IsFavorite = favoritesPlayersId.Contains(teamLeaders.LeagueTeamLeaders.NbaTeamLeaders.Tpg[0].PersonId)
                     };
 
                     ObservableCollection<TeamLeadersPlayers> teamLeadersPlayers = new ObservableCollection<TeamLeadersPlayers>();

@@ -44,6 +44,7 @@ namespace NBAStats
         public const string FinalGame = "FINAL";
         public const string LeftTime = "LEFT";
 
+        public const string Logo = "logo";
 
         public static string GetActualTeamInfo(string teamTricode)
         {

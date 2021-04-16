@@ -183,5 +183,21 @@ namespace NBAStats
 
             return new ObservableCollection<LeaderStatsTeamCollection>(teamsPerStat);
         }
+
+        public static ObservableCollection<GameScheduleCollection> SetFavoritesTeamsOnSchedule (IEnumerable<GameScheduleCollection> schedule, IEnumerable<FavoritesTeam> favoritesTeams)
+        {
+            var favoritesTeamsId = favoritesTeams.Select(team => team.TeamId).ToList();
+
+            foreach (ObservableCollection<GameTeamSchedule> games in schedule)
+            {
+                foreach (GameTeamSchedule game in games)
+                {
+                    game.VTeam.IsFavorite = favoritesTeamsId.Contains(game.VTeam.TeamId);
+                    game.HTeam.IsFavorite = favoritesTeamsId.Contains(game.HTeam.TeamId);
+                }
+            }
+
+            return new ObservableCollection<GameScheduleCollection>(schedule);
+        }
     }
 }
