@@ -16,7 +16,7 @@ namespace NBAStats.ViewModels
 
         public ObservableCollection<Player> Players { get; set; } = new ObservableCollection<Player>();
 
-        public PlayersListViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService,IDataBaseServices baseServices) : base(navigationService, nbaApiService, nbaDefaultInfoService,baseServices)
+        public PlayersListViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService,IDatabaseService baseServices) : base(navigationService, nbaApiService, nbaDefaultInfoService,baseServices)
         {
             getdata();
         }

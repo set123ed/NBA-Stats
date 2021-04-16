@@ -26,7 +26,7 @@ namespace NBAStats.ViewModels
 
         public bool IsBusy { get; set; } = true;
         public bool IsNotBusy => !IsBusy;
-        public CalendarViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService, IDataBaseServices baseServices) : base(navigationService, nbaApiService, nbaDefaultInfoService, baseServices)
+        public CalendarViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService, IDatabaseService baseServices) : base(navigationService, nbaApiService, nbaDefaultInfoService, baseServices)
         {
             DateSelectedChangeCommand = new Command(OnDateSelectedChange);
             RefreshGamesCommand = new Command(OnRefreshGames);

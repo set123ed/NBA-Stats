@@ -18,7 +18,7 @@ namespace NBAStats.ViewModels
         public DelegateCommand DeleteData { get; }
         public ObservableCollection<FavoritePlayer> ListPlayer { get; set; } = new ObservableCollection<FavoritePlayer>();
 
-        public FavoriteViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService, IDataBaseServices baseServices) : base(navigationService, nbaApiService, nbaDefaultInfoService, baseServices)
+        public FavoriteViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService, IDatabaseService baseServices) : base(navigationService, nbaApiService, nbaDefaultInfoService, baseServices)
         {
             SaveData = new DelegateCommand(SaveFavoritePlayer);
         }
@@ -31,8 +31,8 @@ namespace NBAStats.ViewModels
                     IdFavoritePlayer = Code,
                     Name = Name
                 };
-                var ListPlayers = baseServices.SavePlayer(player);
-                ListPlayer = new  ObservableCollection<FavoritePlayer>((IEnumerable<FavoritePlayer>)ListPlayers);
+                //var ListPlayers = baseServices.SavePlayer(player);
+                //ListPlayer = new  ObservableCollection<FavoritePlayer>((IEnumerable<FavoritePlayer>)ListPlayers);
             }
         }
 

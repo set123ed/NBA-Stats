@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NBAStats.Views.FavoritesPage"
+             xmlns:prism="http://prismlibrary.com"
+             x:Name="favoritesPage">
+    <ContentPage.Content>
+        <Grid ColumnDefinitions="*,*" RowDefinitions="0.15*,auto,*,0.15*">
+
+            <Button Text="Teams" Grid.Column="0" Grid.Row="0" Command="{Binding ShowFavoritesTeamsCommand}" VerticalOptions="Center" HorizontalOptions="Center"/>
+            <Button Text="Players" Grid.Column="1" Grid.Row="0" Command="{Binding ShowFavoritesPlayersCommand}" VerticalOptions="Center" HorizontalOptions="Center"/>
+            
+            <Frame Grid.Row="1" Padding="3" CornerRadius="25" BackgroundColor="LightBlue" Grid.ColumnSpan="2">
+                <StackLayout Orientation="Horizontal" >
+                    <SearchBar Placeholder="Search a player" Text="{Binding Filter}" SearchCommand="{Binding SearcherCommand}" Keyboard="Text" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                        <SearchBar.Behaviors>
+                            <prism:EventToCommandBehavior EventName="TextChanged" Command="{Binding SearcherCommand}"/>
+                        </SearchBar.Behaviors>
+                    </SearchBar>
+                    <Button Text="Clear" Margin="0,0,10,0" VerticalOptions="Center"  Command="{Binding ClearCommand}" HorizontalOptions="End"/>
+                </StackLayout>
+            </Frame>
+
+            <Grid RowDefinitions="*,*" IsVisible="{Binding ShowFavoritesTeams}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+                <ListView ItemsSource="{Binding FavoritesTeams}" Grid.Row="0" SelectedItem="{Binding CurrentFavoriteTeamSelected, Mode=TwoWay}">
+
+                    <ListView.Header>
+                        <Label Text="Favorites players"/>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ImageCell ImageSource="{Binding TeamLogo}" Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <ListView ItemsSource="{Binding NonFavoritesTeams}" Grid.Row="1" SelectionMode="Single" SelectedItem="{Binding CurrentNonFavoriteTeamSelected, Mode=TwoWay}">
+
+                    <ListView.Header>
+                        <Label Text="Rest of teams"/>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+
+                            <ImageCell ImageSource="{Binding TeamLogo}" Text="{Binding FullName}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+
+            <Grid RowDefinitions="*,*" IsVisible="{Binding ShowFavoritesPlayers}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+                <ListView ItemsSource="{Binding FavoritesPlayers}" SelectedItem="{Binding CurrentFavoritePlayerSelected, Mode=TwoWay}" Grid.Row="0">
+                    <ListView.Header>
+                        <Label Text="Favorites players"/>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ImageCell ImageSource="{Binding TeamLogo}" Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <ListView ItemsSource="{Binding NonFavoritePlayers}" SelectedItem="{Binding CurrentNonFavoritePlayerSelected, Mode=TwoWay}" Grid.Row="1">
+                    <ListView.Header>
+                        <Label Text="Rest of teams"/>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ImageCell ImageSource="{Binding TeamLogo}" Text="{Binding FullName}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+
+            <Button Text="Add" Command="{Binding AddCommand}" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="0" Grid.Row="3"/>
+            <Button Text="Delete" Command="{Binding DeleteCommand}" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="1" Grid.Row="3"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

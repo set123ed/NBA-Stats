@@ -17,25 +17,32 @@ namespace NBAStats
 {
     public partial class App : PrismApplication
     {
-        private DataBaseService DataBase;
+        //private DataBaseService DataBase;
         public App(IPlatformInitializer platformInitializer = null) : base(platformInitializer) { }
 
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            await NavigationService.NavigateAsync($"{NavigationConstants.TabbedPage}");
+            await NavigationService.NavigateAsync($"{NavigationConstants.FavoritesPage}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NBATabbedPage>(NavigationConstants.TabbedPage);
+
             containerRegistry.Register<INbaApiService, NbaApiService>();
 
             NbaDefaultInfoService nbaDefaultInfoService = new NbaDefaultInfoService();
 
             containerRegistry.RegisterInstance<INbaDefaultInfoService>(nbaDefaultInfoService);
-            containerRegistry.RegisterInstance<IDataBaseServices>(DataBase);
-            containerRegistry.RegisterSingleton<CreateDatabase>();
+
+
+            DatabaseServices databaseServices = new DatabaseServices();
+            containerRegistry.RegisterInstance<IDatabaseService>(databaseServices);
+            containerRegistry.RegisterForNavigation<FavoritesPage, FavoritesViewModel>(NavigationConstants.FavoritesPage);
+
+            //containerRegistry.RegisterInstance<IDataBaseServices>(DataBase);
+            //containerRegistry.RegisterSingleton<CreateDatabase>();
 
             containerRegistry.RegisterForNavigation<HomePage, HomeViewModel>(NavigationConstants.HomePage);
             containerRegistry.RegisterForNavigation<BoxScorePage, BoxScoreViewModel>(NavigationConstants.BoxScorePage);

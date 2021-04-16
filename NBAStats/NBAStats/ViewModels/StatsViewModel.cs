@@ -35,7 +35,7 @@ namespace NBAStats.ViewModels
         public bool IsBusy { get; set; } = true;
         public bool IsNotBusy => !IsBusy;
 
-        public StatsViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService,IDataBaseServices baseServices) : base(navigationService, nbaApiService, nbaDefaultInfoService,baseServices)
+        public StatsViewModel(INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService,IDatabaseService baseServices) : base(navigationService, nbaApiService, nbaDefaultInfoService,baseServices)
         {
             SearcherCommand = new Command(OnSearch);
             ClearCommand = new Command(OnClear);

@@ -22,13 +22,13 @@ namespace NBAStats.ViewModels
         protected INbaApiService NbaApiService { get;}
         protected INavigationService NavigationService { get; }
         protected INbaDefaultInfoService NbaDefaultInfoService { get; }
-        protected IDataBaseServices baseServices { get; }
-        protected BaseViewModel(INavigationService navigationService, INbaApiService nbaApiService, INbaDefaultInfoService nbaDefaultInfoService,IDataBaseServices DatabaseServices)
+        protected IDatabaseService DatabaseService { get; }
+        protected BaseViewModel(INavigationService navigationService, INbaApiService nbaApiService, INbaDefaultInfoService nbaDefaultInfoService,IDatabaseService databaseService)
         {
             NbaApiService = nbaApiService;
             NavigationService = navigationService;
             NbaDefaultInfoService = nbaDefaultInfoService;
-            DatabaseServices = baseServices;
+            DatabaseService = databaseService;
         }
         public async Task GetDefaultData()
         {
