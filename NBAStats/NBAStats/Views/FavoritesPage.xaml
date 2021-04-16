@@ -5,7 +5,7 @@
              xmlns:prism="http://prismlibrary.com"
              x:Name="favoritesPage">
     <ContentPage.Content>
-        <Grid ColumnDefinitions="*,*" RowDefinitions="0.15*,auto,*,0.15*">
+        <Grid ColumnDefinitions="*,*" BackgroundColor="White" RowDefinitions="0.15*,auto,*,0.15*">
 
             <Button Text="Teams" Grid.Column="0" Grid.Row="0" Command="{Binding ShowFavoritesTeamsCommand}" VerticalOptions="Center" HorizontalOptions="Center"/>
             <Button Text="Players" Grid.Column="1" Grid.Row="0" Command="{Binding ShowFavoritesPlayersCommand}" VerticalOptions="Center" HorizontalOptions="Center"/>
