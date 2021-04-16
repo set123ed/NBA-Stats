@@ -14,6 +14,8 @@ namespace NBAStats.Services
         private bool _initialized = false;
         private static SQLiteAsyncConnection db;
 
+        public List<FavoritesPlayer> FavoritesPlayers { get; set; }
+        public List<FavoritesTeam> FavoritesTeams { get; set; }
         public DatabaseServices()
         {
             Initialize();
@@ -37,6 +39,9 @@ namespace NBAStats.Services
 
                     await db.CreateTableAsync<FavoritesPlayer>();
                     await db.CreateTableAsync<FavoritesTeam>();
+
+                    FavoritesTeams = await db.Table<FavoritesTeam>().ToListAsync();
+                    FavoritesPlayers = await db.Table<FavoritesPlayer>().ToListAsync();
                 }
             }
             catch (Exception e)
@@ -49,7 +54,9 @@ namespace NBAStats.Services
         {
             try
             {
-                return await db.InsertAsync(favoriteTeam);
+                int result = await db.InsertAsync(favoriteTeam);
+                FavoritesTeams = await db.Table<FavoritesTeam>().ToListAsync();
+                return result;
             }
             catch (Exception)
             {
@@ -62,7 +69,10 @@ namespace NBAStats.Services
         {
             try
             {
-                return await db.InsertAsync(favoritePlayer);
+                int result = await db.InsertAsync(favoritePlayer);
+                FavoritesPlayers = await db.Table<FavoritesPlayer>().ToListAsync();
+
+                return result;
             }
             catch (Exception)
             {
@@ -93,12 +103,17 @@ namespace NBAStats.Services
 
         public async Task<int> DeleteFavoriteTeams(FavoritesTeam favoriteTeam)
         {
-            return await db.DeleteAsync(favoriteTeam);
+            int result = await db.DeleteAsync(favoriteTeam);
+            FavoritesPlayers = await db.Table<FavoritesPlayer>().ToListAsync();
+
+            return result;
         }
 
         public async Task<int> DeleteFavoritePlayer(FavoritesPlayer favoritePlayer)
         {
-            return await db.DeleteAsync(favoritePlayer);
+            int result = await db.DeleteAsync(favoritePlayer);
+            FavoritesTeams = await db.Table<FavoritesTeam>().ToListAsync();
+            return result;
         }
 
         public async Task<bool> FavoritePlayerExists(FavoritesPlayer player)

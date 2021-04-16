@@ -14,6 +14,8 @@ namespace NBAStats.ViewModels
     {
         protected string _seasonYearApiData = null;
         protected string _seasonApiStats = null;
+        protected List<FavoritesPlayer> _FavoritesPlayers => new List<FavoritesPlayer>(DatabaseService.FavoritesPlayers);
+        protected List<FavoritesTeam> _FavoritesTeams => new List<FavoritesTeam>(DatabaseService.FavoritesTeams);
         protected List<Player> _playerList = new List<Player>();
         protected List<Team> _teamList = new List<Team>();
 

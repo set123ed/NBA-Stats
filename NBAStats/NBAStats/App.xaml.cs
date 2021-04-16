@@ -23,7 +23,7 @@ namespace NBAStats
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            await NavigationService.NavigateAsync($"{NavigationConstants.FavoritesPage}");
+            await NavigationService.NavigateAsync($"{NavigationConstants.TabbedPage}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

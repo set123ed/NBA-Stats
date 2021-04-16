@@ -44,11 +44,6 @@ namespace NBAStats.ViewModels
         {
             AlertService = dialogService;
 
-           
-
-
-       
-
             TeamSelectedCommand = new Command<string>(OnSelectedTeam);
             RefreshGamesOfDayCommand = new Command(OnRefreshGamesOfDay);
             GameSelectedCommand = new Command<Game>(OnGameSelected);

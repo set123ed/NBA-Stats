@@ -22,5 +22,5 @@
     <views:CalendarPage Title="Calendar" IconImageSource="calendar" />
     <views:StandingPage Title="Standing" IconImageSource="trophy" />
     <views:StatsPage Title="Stats" IconImageSource="stats" />
-    <views:FavoritePage Title="Favorite"/>
+    <views:FavoritesPage Title="Favorites"/>
 </TabbedPage>

@@ -8,6 +8,8 @@ namespace NBAStats.Services
 {
     public interface IDatabaseService
     {
+        List<FavoritesPlayer> FavoritesPlayers { get; }
+        List<FavoritesTeam> FavoritesTeams { get; }
         Task<int> SaveTeam(FavoritesTeam favoriteTeam);
         Task<int> SavePlayer(FavoritesPlayer favoritePlayer);
 
