@@ -12,7 +12,7 @@ This is an app that will show you stats of the games, players and teams of NBA l
 
 # Screenshots
 
-![1](https://user-images.githubusercontent.com/49078581/115101173-eb8acc80-9f0f-11eb-9260-2e61b6993737.PNG) ![2](https://user-images.githubusercontent.com/49078581/115101167-e9c10900-9f0f-11eb-94dc-592304bfc396.PNG) 
+[Home](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.37.35%20a.%C2%A0m..png?raw=true) [Calendar](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.39.04%20a.%C2%A0m..png?raw=true) 
 
 ![3](https://user-images.githubusercontent.com/49078581/115101168-ea599f80-9f0f-11eb-8cf7-e6d084b85b67.PNG) ![4](https://user-images.githubusercontent.com/49078581/115101170-eaf23600-9f0f-11eb-8808-7604fbc2bd6d.PNG) 
 
