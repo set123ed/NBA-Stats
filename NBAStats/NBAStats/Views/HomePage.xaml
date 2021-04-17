@@ -70,8 +70,6 @@
                                                        VerticalTextAlignment="Start"  Padding="65,0,0,0" Grid.Column="0"/>
                                                 <Label Text="VS" Style="{StaticResource Key=LabelStyle}"  FontSize="18" VerticalOptions="Center" Grid.Row="0"  HorizontalOptions="Center" Grid.ColumnSpan="2"/>
 
-                                                <Label Text="{Binding  TimePeriodHalftime}" FontSize="20" Grid.Row="0"  Style="{StaticResource Key=LabelStyle}"  Padding="0,0,60,0" Grid.Column="1" HorizontalOptions="End"/>
-
                                                 <Image Grid.Column="1" Grid.Row="0" Source="{Binding HTeam.TeamLogo}" HeightRequest="50" WidthRequest="50"/>
 
                                                 <Label Text="{Binding HTeam.TriCode}" FontSize="20" Grid.Row="1"  Style="{StaticResource Key=LabelStyle}"  Padding="0,0,60,0" Grid.Column="1" HorizontalOptions="End"/>

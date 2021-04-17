@@ -36,8 +36,8 @@
 
 
 
-                    <Button Text="{Binding VTeamName}" Style="{StaticResource Key=ButtonStyleOut}"  Grid.Row="1"  TextColor="White" BackgroundColor="{Binding VTeamColor}" Command="{Binding VTeamSelectedCommand}" Margin="0,0,60,0"  HorizontalOptions="End" VerticalOptions="Center"/>
-                    <Button Text="{Binding HTeamName}" Style="{StaticResource Key=ButtonStyleOut}" Grid.Row="1" TextColor="White" BackgroundColor="{Binding HTeamColor}" Command="{Binding HTeamSelectedCommand}" Margin="70,0,0,0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    <Button Text="{Binding VTeamName}" Style="{StaticResource Key=ButtonStyleOut}"  Grid.Row="1"  TextColor="White" BackgroundColor="{Binding VTeamColor}" Command="{Binding VTeamSelectedCommand}" Margin="0,0,180,0" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <Button Text="{Binding HTeamName}" Style="{StaticResource Key=ButtonStyleOut}" Grid.Row="1" TextColor="White" BackgroundColor="{Binding HTeamColor}" Command="{Binding HTeamSelectedCommand}" Margin="200,0,0,0" HorizontalOptions="Center" VerticalOptions="Center"/>
 
 
                     <ScrollView Orientation="Horizontal" IsVisible="{Binding ShowHTeam}" Grid.Column="0" Grid.Row="2"  >
@@ -69,6 +69,7 @@
                                         <Label Text="DREB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="TOV" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="PF" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+
                                     </Grid>
 
                                 </ListView.Header>
@@ -220,7 +221,7 @@
 
                                 <ListView.Footer >
                                     <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*" BindingContext="{Binding VTeamTotalStats}" BackgroundColor="#E0E0E0">
-                                        <Label Text="TOTALS"  Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="TOTALS" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="{Binding PlusMinus}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="{Binding Min}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
                                         <Label Text="{Binding Points}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
