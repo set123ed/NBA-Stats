@@ -41,7 +41,7 @@
 
                     <ScrollView Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2" IsVisible="{Binding ShowConference}" >
                         <StackLayout Orientation="Horizontal">
-                            <ListView  BackgroundColor="White" ItemsSource="{Binding StandingPerConference}"  IsGroupingEnabled="True" GroupDisplayBinding="{Binding Conference}" HasUnevenRows="True" WidthRequest="1000">
+                            <ListView  BackgroundColor="White" CachingStrategy="RecycleElement" ItemsSource="{Binding StandingPerConference}"  IsGroupingEnabled="True" GroupDisplayBinding="{Binding Conference}" HasUnevenRows="True" WidthRequest="1000">
                                 
                                 
                                 <ListView.Header>
@@ -93,7 +93,7 @@
 
                         <StackLayout Orientation="Horizontal">
 
-                            <ListView  ItemsSource="{Binding StandingAllLeague}" HasUnevenRows="True" WidthRequest="1000">
+                            <ListView  ItemsSource="{Binding StandingAllLeague}" CachingStrategy="RecycleElement" HasUnevenRows="True" WidthRequest="1000">
                                 <ListView.Header>
                                     <Grid ColumnDefinitions="*,2*,*,*,*,*,*,*,*,*">
                                         <Label Text="RANK" Grid.Column="0" Style="{StaticResource Key=LabelList}" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>

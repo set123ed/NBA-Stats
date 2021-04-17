@@ -16,12 +16,11 @@ namespace NBAStats.ViewModels
 {
     public class HomeViewModel : BaseViewModel
     {
-        int _position;
         public int GamePosition { get; set; }
 
-        private int _gamesOfTodayCount => GamesOfDay.Count;
+        private int GamesOfTodayCount => GamesOfDay.Count;
 
-        private string _todayDate = DateTime.Today.ToString("yyyyMMdd");
+        private readonly string _todayDate = DateTime.Today.ToString("yyyyMMdd");
         public ObservableCollection<Game> GamesOfDay { get; set; } = new ObservableCollection<Game>();
         public ObservableCollection<PlayerRegularStats> ScoringLeaders { get; set; }
         public ObservableCollection<BetterTeams> BetterTeams { get; set; }
@@ -124,7 +123,7 @@ namespace NBAStats.ViewModels
         {
             Device.StartTimer(TimeSpan.FromSeconds(5), (Func<bool>)(() =>
             {
-                GamePosition = (GamePosition + 1) % _gamesOfTodayCount;
+                GamePosition = (GamePosition + 1) % GamesOfTodayCount;
                 return true;
             }));
         }
@@ -155,6 +154,7 @@ namespace NBAStats.ViewModels
                 GameOfDay gameOfDay = await NbaApiService.GetGamesOfDay(_todayDate);
                 if (gameOfDay != null)
                 {
+                    _gamesBeingPlayed.Clear();
                     foreach (Game game in gameOfDay.Games)
                     {
                         game.ScoreOrTime = Utilities.GetScoreOrTime(game.VTeam.Score, game.HTeam.Score, game.StartTimeEastern);
@@ -168,7 +168,7 @@ namespace NBAStats.ViewModels
 
                     }
 
-                    GamesOfDay = Utilities.SetFavoritesTeamsOnGame(gameOfDay.Games, _FavoritesTeams);
+                    GamesOfDay = Utilities.SetFavoritesTeamsOnGame(gameOfDay.Games, AllFavoritesTeams);
                 }
             }
             catch (NoInternetConnectionException ex)
@@ -235,7 +235,7 @@ namespace NBAStats.ViewModels
 
                     }
 
-                    ScoringLeaders = Utilities.SetFavoritesRegularPlayer(playerScoringLeaderList,_FavoritesPlayers);
+                    ScoringLeaders = Utilities.SetFavoritesRegularPlayer(playerScoringLeaderList,AllFavoritesPlayers);
                 }
                 else
                 {
@@ -257,7 +257,7 @@ namespace NBAStats.ViewModels
                         listPlayerRegularStats.Add(newPlayer);
                     }
 
-                    ScoringLeaders = Utilities.SetFavoritesRegularPlayer(listPlayerRegularStats, _FavoritesPlayers);
+                    ScoringLeaders = Utilities.SetFavoritesRegularPlayer(listPlayerRegularStats, AllFavoritesPlayers);
                 }
 
             }
@@ -280,7 +280,7 @@ namespace NBAStats.ViewModels
                 {
                     ObservableCollection<BetterTeams> betterTeams = new ObservableCollection<BetterTeams>();
                     List<TeamStanding> teamStandings = new List<TeamStanding>(standing.League.Standard.Teams);
-                    teamStandings = new List<TeamStanding>(Utilities.SetFavoriteTeamsOnStanding(teamStandings.GetRange(0, 5),_FavoritesTeams));
+                    teamStandings = new List<TeamStanding>(Utilities.SetFavoriteTeamsOnStanding(teamStandings.GetRange(0, 5),AllFavoritesTeams));
 
                     foreach (TeamStanding teamStanding in teamStandings)
                     {

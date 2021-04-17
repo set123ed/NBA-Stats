@@ -17,7 +17,6 @@ namespace NBAStats
 {
     public partial class App : PrismApplication
     {
-        //private DataBaseService DataBase;
         public App(IPlatformInitializer platformInitializer = null) : base(platformInitializer) { }
 
         protected override async void OnInitialized()
@@ -31,18 +30,10 @@ namespace NBAStats
             containerRegistry.RegisterForNavigation<NBATabbedPage>(NavigationConstants.TabbedPage);
 
             containerRegistry.Register<INbaApiService, NbaApiService>();
+            containerRegistry.RegisterInstance<INbaDefaultInfoService>(new NbaDefaultInfoService());
+            containerRegistry.RegisterInstance<IDatabaseService>(new DatabaseService());
 
-            NbaDefaultInfoService nbaDefaultInfoService = new NbaDefaultInfoService();
-
-            containerRegistry.RegisterInstance<INbaDefaultInfoService>(nbaDefaultInfoService);
-
-
-            DatabaseServices databaseServices = new DatabaseServices();
-            containerRegistry.RegisterInstance<IDatabaseService>(databaseServices);
             containerRegistry.RegisterForNavigation<FavoritesPage, FavoritesViewModel>(NavigationConstants.FavoritesPage);
-
-            //containerRegistry.RegisterInstance<IDataBaseServices>(DataBase);
-            //containerRegistry.RegisterSingleton<CreateDatabase>();
 
             containerRegistry.RegisterForNavigation<HomePage, HomeViewModel>(NavigationConstants.HomePage);
             containerRegistry.RegisterForNavigation<BoxScorePage, BoxScoreViewModel>(NavigationConstants.BoxScorePage);
@@ -52,7 +43,6 @@ namespace NBAStats
             containerRegistry.RegisterForNavigation<CalendarPage, CalendarViewModel>(NavigationConstants.CalendarPage);
             containerRegistry.RegisterForNavigation<TeamProfilePage, TeamProfileViewModel>(NavigationConstants.TeamProfilePage);
             containerRegistry.RegisterForNavigation<PlayersListPage,PlayersListViewModel>(NavigationConstants.PlayersList);
-            containerRegistry.RegisterForNavigation<FavoritePage, FavoriteViewModel>();
             containerRegistry.RegisterForNavigation<NavigationPage>(NavigationConstants.NavigationPage);
         }
 

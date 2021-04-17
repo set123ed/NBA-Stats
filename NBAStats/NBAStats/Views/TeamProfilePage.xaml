@@ -146,7 +146,7 @@
 
                     <Label Text="Roster"  Margin="10" FontSize="15"  Style="{StaticResource Key=LabelStyle}" Grid.Row="5"/>
 
-                <ListView Grid.Row="6" Grid.ColumnSpan="3" ItemsSource="{Binding Roster}" HasUnevenRows="True">
+                    <ListView Grid.Row="6" Grid.ColumnSpan="3" CachingStrategy="RecycleElement" ItemsSource="{Binding Roster}" HasUnevenRows="True">
                     <ListView.Header>
                         <Grid ColumnDefinitions="*,*">
                                 <Label Text="Player"   Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>

@@ -4,7 +4,9 @@
              x:Class="NBAStats.Views.FavoritesPage"
              xmlns:prism="http://prismlibrary.com"
              x:Name="favoritesPage">
+
     <ContentPage.Content>
+        
         <Grid ColumnDefinitions="*,*" BackgroundColor="White" RowDefinitions="0.15*,auto,*,0.15*">
 
             <Button Text="Teams" Grid.Column="0" Grid.Row="0" Command="{Binding ShowFavoritesTeamsCommand}" VerticalOptions="Center" HorizontalOptions="Center"/>
@@ -22,10 +24,10 @@
             </Frame>
 
             <Grid RowDefinitions="*,*" IsVisible="{Binding ShowFavoritesTeams}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
-                <ListView ItemsSource="{Binding FavoritesTeams}" Grid.Row="0" SelectedItem="{Binding CurrentFavoriteTeamSelected, Mode=TwoWay}">
+                <ListView ItemsSource="{Binding FavoritesTeams}" CachingStrategy="RecycleElement" Grid.Row="0" SelectedItem="{Binding CurrentFavoriteTeamSelected, Mode=TwoWay}">
 
                     <ListView.Header>
-                        <Label Text="Favorites players"/>
+                        <Label Text="Favorites teams"/>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -34,7 +36,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <ListView ItemsSource="{Binding NonFavoritesTeams}" Grid.Row="1" SelectionMode="Single" SelectedItem="{Binding CurrentNonFavoriteTeamSelected, Mode=TwoWay}">
+                <ListView ItemsSource="{Binding NonFavoritesTeams}" CachingStrategy="RecycleElement" Grid.Row="1" SelectionMode="Single" SelectedItem="{Binding CurrentNonFavoriteTeamSelected, Mode=TwoWay}">
 
                     <ListView.Header>
                         <Label Text="Rest of teams"/>
@@ -49,7 +51,7 @@
             </Grid>
 
             <Grid RowDefinitions="*,*" IsVisible="{Binding ShowFavoritesPlayers}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
-                <ListView ItemsSource="{Binding FavoritesPlayers}" SelectedItem="{Binding CurrentFavoritePlayerSelected, Mode=TwoWay}" Grid.Row="0">
+                <ListView ItemsSource="{Binding FavoritesPlayers}" CachingStrategy="RecycleElement" SelectedItem="{Binding CurrentFavoritePlayerSelected, Mode=TwoWay}" Grid.Row="0">
                     <ListView.Header>
                         <Label Text="Favorites players"/>
                     </ListView.Header>
@@ -60,9 +62,9 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <ListView ItemsSource="{Binding NonFavoritePlayers}" SelectedItem="{Binding CurrentNonFavoritePlayerSelected, Mode=TwoWay}" Grid.Row="1">
+                <ListView ItemsSource="{Binding NonFavoritePlayers}" CachingStrategy="RecycleElement" SelectedItem="{Binding CurrentNonFavoritePlayerSelected, Mode=TwoWay}" Grid.Row="1">
                     <ListView.Header>
-                        <Label Text="Rest of teams"/>
+                        <Label Text="Rest of players"/>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>

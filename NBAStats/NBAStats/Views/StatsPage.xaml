@@ -22,7 +22,7 @@
 
                 </StackLayout>
 
-                    <ListView ItemsSource="{Binding LeaderStatsPlayers}" Grid.Row="1" HasUnevenRows="True" IsGroupingEnabled="True" GroupDisplayBinding="{Binding Stat}" IsVisible="{Binding ShowPlayers}">
+            <ListView ItemsSource="{Binding LeaderStatsPlayers}" CachingStrategy="RecycleElement" Grid.Row="1" HasUnevenRows="True" IsGroupingEnabled="True" GroupDisplayBinding="{Binding Stat}" IsVisible="{Binding ShowPlayers}">
                     <ListView.Header>
                         <Grid ColumnDefinitions="1.5*,0.3*">
                           
@@ -59,7 +59,7 @@
                 </ListView>
 
 
-                    <ListView ItemsSource="{Binding LeadersStatsTeams}"  Grid.Row="1" HasUnevenRows="True" IsGroupingEnabled="True" GroupDisplayBinding="{Binding Stat}" IsVisible="{Binding ShowTeams}">
+            <ListView ItemsSource="{Binding LeadersStatsTeams}" CachingStrategy="RecycleElement" Grid.Row="1" HasUnevenRows="True" IsGroupingEnabled="True" GroupDisplayBinding="{Binding Stat}" IsVisible="{Binding ShowTeams}">
                     <ListView.Header>
                         <Grid ColumnDefinitions="1.5*,0.3*" >
 

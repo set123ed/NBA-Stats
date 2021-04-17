@@ -62,7 +62,7 @@ namespace NBAStats.ViewModels
         {
             if (parameters.TryGetValue(ParametersConstants.Team, out Team team))
             {
-                var favoritesTeamsId = _FavoritesTeams.Select(t => t.TeamId).ToList();
+                var favoritesTeamsId = AllFavoritesTeams.Select(t => t.TeamId).ToList();
                 team.IsFavorite = favoritesTeamsId.Contains(team.TeamId);
                 Team = team;
                 await GetDefaultData();
@@ -118,7 +118,7 @@ namespace NBAStats.ViewModels
                 {
                     ObservableCollection<Player> roster = new ObservableCollection<Player>(_playerList.Where(player => player.TeamId == Team.TeamId));
 
-                    Roster = Utilities.SetFavoritesPlayers(roster, _FavoritesPlayers);
+                    Roster = Utilities.SetFavoritesPlayers(roster, AllFavoritesPlayers);
 
                     int lastGamePlayedIndex = teamSchedule.League.LastStandardGamePlayedIndex;
 
@@ -212,7 +212,7 @@ namespace NBAStats.ViewModels
                     GameSchedule.Add(lastGamesPlayed);
                     GameSchedule.Add(nextGamesToPlay);
 
-                    GameSchedule = Utilities.SetFavoritesTeamsOnSchedule(GameSchedule, _FavoritesTeams);
+                    GameSchedule = Utilities.SetFavoritesTeamsOnSchedule(GameSchedule, AllFavoritesTeams);
                 }
 
             }
@@ -228,7 +228,7 @@ namespace NBAStats.ViewModels
             try
             {
                 TeamLeaders teamLeaders = await NbaApiService.GetTeamLeaders(_seasonYearApiData, Team.UrlName);
-                var favoritesPlayersId = _FavoritesPlayers.Select(player => player.PlayerId).ToList();
+                var favoritesPlayersId = AllFavoritesPlayers.Select(player => player.PlayerId).ToList();
 
                 if (teamLeaders != null)
                 {

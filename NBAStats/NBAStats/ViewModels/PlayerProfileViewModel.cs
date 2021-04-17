@@ -91,7 +91,7 @@ namespace NBAStats.ViewModels
 
                     Player playerInfo = _playerList.First(player => player.PersonId == personId);
 
-                    var favoritesPlayersId = _FavoritesPlayers.Select(p => p.PlayerId).ToList();
+                    var favoritesPlayersId = AllFavoritesPlayers.Select(p => p.PlayerId).ToList();
 
                     playerInfo.IsFavorite = favoritesPlayersId.Contains(playerInfo.PersonId);
 

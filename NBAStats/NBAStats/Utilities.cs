@@ -93,8 +93,8 @@ namespace NBAStats
         {
             var favoritesPlayersId = favoritesPlayers.Select(p => p.PlayerId).ToList();
             List<ActivePlayerBoxScore> playersThatPlay = new List<ActivePlayerBoxScore>(players);
-            List<ActivePlayerBoxScore> playersThatNotPlay = new List<ActivePlayerBoxScore>(playersThatPlay.Where(p => string.IsNullOrEmpty(p.Min)));
-            playersThatPlay.RemoveAll(p => string.IsNullOrEmpty(p.Min));
+            List<ActivePlayerBoxScore> playersThatNotPlay = new List<ActivePlayerBoxScore>(playersThatPlay.Where(p => string.IsNullOrEmpty(p.Min) || p.Min == "0"));
+            playersThatPlay.RemoveAll(p => string.IsNullOrEmpty(p.Min) || p.Min == "0");
 
             foreach (ActivePlayerBoxScore player in playersThatPlay)
             {

@@ -142,13 +142,13 @@ namespace NBAStats.ViewModels
         {
             if (!string.IsNullOrEmpty(Filter))
             {
-                TeamList = Utilities.SetFavoritesTeam(_teamList.Where(team => team.FullName.ToLower().Contains(Filter.ToLower())),_FavoritesTeams);
-                PlayersList = Utilities.SetFavoritesPlayers(_playerList.Where(player => (player.FullName).ToLower().Contains(Filter.ToLower())), _FavoritesPlayers);
+                TeamList = Utilities.SetFavoritesTeam(_teamList.Where(team => team.FullName.ToLower().Contains(Filter.ToLower())),AllFavoritesTeams);
+                PlayersList = Utilities.SetFavoritesPlayers(_playerList.Where(player => (player.FullName).ToLower().Contains(Filter.ToLower())), AllFavoritesPlayers);
             }
             else 
             {
-                TeamList = Utilities.SetFavoritesTeam(_teamList,_FavoritesTeams);
-                PlayersList = Utilities.SetFavoritesPlayers(_playerList, _FavoritesPlayers);
+                TeamList = Utilities.SetFavoritesTeam(_teamList,AllFavoritesTeams);
+                PlayersList = Utilities.SetFavoritesPlayers(_playerList, AllFavoritesPlayers);
             }
         }
 
@@ -165,11 +165,11 @@ namespace NBAStats.ViewModels
 
             await GetTeamStats();
 
-            LeaderStatsPlayers = Utilities.SetFavoritesPlayersLeaderStats(LeaderStatsPlayers, _FavoritesPlayers);
-            LeadersStatsTeams = Utilities.SetFavoritesTeamsLeaderStats(LeadersStatsTeams, _FavoritesTeams);
+            LeaderStatsPlayers = Utilities.SetFavoritesPlayersLeaderStats(LeaderStatsPlayers, AllFavoritesPlayers);
+            LeadersStatsTeams = Utilities.SetFavoritesTeamsLeaderStats(LeadersStatsTeams, AllFavoritesTeams);
 
-            PlayersList = Utilities.SetFavoritesPlayers(_playerList, _FavoritesPlayers);
-            TeamList = Utilities.SetFavoritesTeam(_teamList,_FavoritesTeams);
+            PlayersList = Utilities.SetFavoritesPlayers(_playerList, AllFavoritesPlayers);
+            TeamList = Utilities.SetFavoritesTeam(_teamList,AllFavoritesTeams);
             IsBusy = false;
         }
 

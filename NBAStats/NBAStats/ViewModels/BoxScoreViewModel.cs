@@ -22,6 +22,7 @@ namespace NBAStats.ViewModels
         public ObservableCollection<ActivePlayerBoxScore> VTeamPlayerStats { get; set; }
         public TotalTeamStatsBoxScore VTeamTotalStats { get; set; }
 
+        public bool IsBoxScoreRefreshing { get; set; } = false;
         public string HTeamName { get; set; }
         public string VTeamName { get; set; }
         public string HTeamLogo { get; set; }
@@ -32,7 +33,7 @@ namespace NBAStats.ViewModels
         public ICommand HTeamSelectedCommand { get; }
         public ICommand VTeamSelectedCommand { get; }
         public ICommand SelectedPlayerCommand { get; }
-        
+        public ICommand RefreshBoxScoreCommand { get; }
         public bool ShowVTeam { get; set; }
         public bool ShowHTeam => !ShowVTeam;
         public string ScoreOrTime { get; set; }
@@ -45,22 +46,20 @@ namespace NBAStats.ViewModels
         {
             HTeamSelectedCommand = new Command(OnHTeamSelected);
             VTeamSelectedCommand = new Command(OnVTeamSelected);
-            SelectedPlayerCommand = new Command<string>(OnSelectedPlayer);
+            SelectedPlayerCommand = new Command<ActivePlayerBoxScore>(OnSelectedPlayer);
+            RefreshBoxScoreCommand = new Command(OnRefreshBoxScore);
         }
-        //pasar id
-        private async void OnSelectedPlayer(string playerName)
+        private async void OnRefreshBoxScore()
         {
-            ActivePlayerBoxScore playerSelected = new ActivePlayerBoxScore();
-
-            if (ShowHTeam)
+            IsBoxScoreRefreshing = true;
+            if (TimePeriodHalftime != StringConstants.FinalGame)
             {
-                playerSelected = HTeamPlayerStats.First(player => player.FullName == playerName);
+                await GetBoxScore();
             }
-            else
-            {
-                playerSelected = VTeamPlayerStats.First(player => player.FullName == playerName);
-            }
-
+            IsBoxScoreRefreshing = false;
+        }
+        private async void OnSelectedPlayer(ActivePlayerBoxScore playerSelected)
+        {
             var parameters = new NavigationParameters();
             parameters.Add(ParametersConstants.PlayerId, playerSelected.PersonId);
 
@@ -130,15 +129,15 @@ namespace NBAStats.ViewModels
                         }
 
 
-                        HTeamPlayerStats = Utilities.SetBoxScoresFavoritesPlayers(hTeamPlayerStats, _FavoritesPlayers);
-                        VTeamPlayerStats = Utilities.SetBoxScoresFavoritesPlayers(vTeamPlayerStats, _FavoritesPlayers);
+                        HTeamPlayerStats = Utilities.SetBoxScoresFavoritesPlayers(hTeamPlayerStats, AllFavoritesPlayers);
+                        VTeamPlayerStats = Utilities.SetBoxScoresFavoritesPlayers(vTeamPlayerStats, AllFavoritesPlayers);
 
 
                     }
                     else
                     {
-                        List<Player> hTeamRoster = new List<Player>(Utilities.SetFavoritesPlayers(_playerList.Where(p => p.TeamId == hTeamId), _FavoritesPlayers));
-                        List<Player> vTeamRoster = new List<Player>(Utilities.SetFavoritesPlayers(_playerList.Where(p => p.TeamId == vTeamId),_FavoritesPlayers));
+                        List<Player> hTeamRoster = new List<Player>(Utilities.SetFavoritesPlayers(_playerList.Where(p => p.TeamId == hTeamId), AllFavoritesPlayers));
+                        List<Player> vTeamRoster = new List<Player>(Utilities.SetFavoritesPlayers(_playerList.Where(p => p.TeamId == vTeamId),AllFavoritesPlayers));
 
                         foreach (Player player in hTeamRoster)
                         {

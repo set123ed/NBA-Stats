@@ -234,7 +234,7 @@
                 <ScrollView Orientation="Horizontal" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2">
                     <StackLayout Orientation="Horizontal">
 
-                        <ListView ItemsSource="{Binding Seasons}" IsGroupingEnabled="True" GroupDisplayBinding="{Binding SeasonYear}" WidthRequest="2000">
+                            <ListView ItemsSource="{Binding Seasons}" CachingStrategy="RecycleElement" IsGroupingEnabled="True" GroupDisplayBinding="{Binding SeasonYear}" WidthRequest="2000">
                             <ListView.Header>
                                 <Grid ColumnSpacing="0">
 

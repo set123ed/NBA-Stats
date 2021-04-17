@@ -14,8 +14,8 @@ namespace NBAStats.Services
         private List<Player> _playerList = new List<Player>();
         private List<Team> _teamList = new List<Team>();
 
-        private string _seasonYearApiData { get; set; } = null;
-        private string _seasonApiStats { get; set; } = null;
+        private string _seasonYearApiData = null;
+        private string _seasonApiStats = null;
 
         private bool _isGetTeamsRunning = false;
         private bool _isGetPlayersRunning = false;

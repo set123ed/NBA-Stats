@@ -1,78 +1,146 @@
-﻿using System;
+﻿using NBAStats.Models;
+using SQLite;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using NBAStats.Models;
-using System.Data.SQLite;
-using SQLite;
-using System.IO;
-using Xamarin.Essentials;
+using System.Linq;
 
 namespace NBAStats.Services
 {
-    public class DataBaseService : IDataBaseServices
+    public class DatabaseService : IDatabaseService
     {
-        public SQLiteAsyncConnection DataBase;
+        private bool _initialized = false;
+        private static SQLiteAsyncConnection db;
 
-        public DataBaseService(string path)
+        public List<FavoritesPlayer> FavoritesPlayers { get; set; }
+        public List<FavoritesTeam> FavoritesTeams { get; set; }
+        public DatabaseService()
         {
-            DataBase = new SQLiteAsyncConnection(path);
-            DataBase.CreateTableAsync<FavoriteTeam>().Wait();
-            DataBase.CreateTableAsync<FavoritePlayer>().Wait();
+            Initialize();
+        }
+        private async void Initialize()
+        {
+            try
+            {
+                if (!_initialized)
+                {
+                    _initialized = true;
 
+                    if (db != null)
+                    {
+                        return;
+                    }
+
+                    var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Favorites.db");
+
+                    db = new SQLiteAsyncConnection(databasePath);
+
+                    await db.CreateTableAsync<FavoritesPlayer>();
+                    await db.CreateTableAsync<FavoritesTeam>();
+
+                    FavoritesTeams = await db.Table<FavoritesTeam>().ToListAsync();
+                    FavoritesPlayers = await db.Table<FavoritesPlayer>().ToListAsync();
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
-        public Task<int> DeleteFavoritePlayer(FavoritePlayer favoritePlayer)
+        public async Task<int> SaveTeam(FavoritesTeam favoriteTeam)
         {
-            return DataBase.DeleteAsync(favoritePlayer);
+            try
+            {
+                int result = await db.InsertAsync(favoriteTeam);
+                FavoritesTeams = await db.Table<FavoritesTeam>().ToListAsync();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public Task<int> DeleteFavoriteTeams(FavoriteTeam favoriteTeam)
+        public async Task<int> SavePlayer(FavoritesPlayer favoritePlayer)
         {
-            return DataBase.DeleteAsync(favoriteTeam);
+            try
+            {
+                int result = await db.InsertAsync(favoritePlayer);
+                FavoritesPlayers = await db.Table<FavoritesPlayer>().ToListAsync();
+
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public Task<List<FavoritePlayer>> GetFavoritePalyer()
+        public async Task<FavoritesPlayer> GetPlayerById(string playerId)
         {
-            return DataBase.Table<FavoritePlayer>().ToListAsync();
+            return await db.Table<FavoritesPlayer>().FirstOrDefaultAsync(player => player.PlayerId == playerId);
         }
 
-        public Task<List<FavoriteTeam>> GetFavoriteTeams()
+        public async Task<FavoritesTeam> GetTeamById(string teamId)
         {
-            return DataBase.Table<FavoriteTeam>().ToListAsync();
+            return await db.Table<FavoritesTeam>().FirstOrDefaultAsync(team => team.TeamId == teamId);
         }
 
-        public Task<FavoritePlayer> GetPlayerById(string idpalyer)
+        public async Task<List<FavoritesPlayer>> GetFavoritePlayers()
         {
-            return DataBase.Table<FavoritePlayer>().Where(Player => Player.IdFavoritePlayer == idpalyer).FirstOrDefaultAsync();
+            return await db.Table<FavoritesPlayer>().ToListAsync();
         }
 
-        public Task<FavoriteTeam> GetTeamById(string idteam)
+        public async Task<List<FavoritesTeam>> GetFavoriteTeams()
         {
-            return DataBase.Table<FavoriteTeam>().Where(Team => Team.IdFavoriteTeam == idteam).FirstOrDefaultAsync();
+            return await db.Table<FavoritesTeam>().ToListAsync();
         }
 
-        public Task<int> SavePlayer(FavoritePlayer favoritePlayer)
+        public async Task<int> DeleteFavoriteTeams(FavoritesTeam favoriteTeam)
         {
-            if(favoritePlayer != null){
+            int result = await db.DeleteAsync(favoriteTeam);
+            FavoritesTeams = await db.Table<FavoritesTeam>().ToListAsync();
 
-                return DataBase.InsertAsync(favoritePlayer);
+            return result;
+        }
+
+        public async Task<int> DeleteFavoritePlayer(FavoritesPlayer favoritePlayer)
+        {
+            int result = await db.DeleteAsync(favoritePlayer);
+            FavoritesPlayers = await db.Table<FavoritesPlayer>().ToListAsync();
+
+            return result;
+        }
+
+        public async Task<bool> FavoritePlayerExists(FavoritesPlayer player)
+        {
+            List<FavoritesPlayer> favoritesPlayers = await db.Table<FavoritesPlayer>().ToListAsync();
+
+            if (favoritesPlayers.Contains(player))
+            {
+                return true;
             }
             else
             {
-                return null;
+                return false;
             }
         }
 
-        public Task<int> SaveTeam(FavoriteTeam favoriteTeam)
+        public async Task<bool> FavoriteTeamExists(FavoritesTeam team)
         {
-            if(favoriteTeam != null)
+            List<FavoritesTeam> favoritesTeams = await db.Table<FavoritesTeam>().ToListAsync();
+            if (favoritesTeams.Contains(team))
             {
-                return DataBase.InsertAsync(favoriteTeam);
+                return true;
             }
             else
             {
-                return null;
+                return false;
             }
         }
     }

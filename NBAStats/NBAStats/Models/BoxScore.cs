@@ -176,7 +176,7 @@ namespace NBAStats.Models
 
         [JsonPropertyName("linescore")]
         public IList<LinescoreBoxScore> Linescore { get; set; }
-        public string TeamLogo => $"logo{TeamId}.png";
+        public string TeamLogo => $"{StringConstants.Logo}{TeamId}.png";
     }
 
     public class BasicGameData

@@ -43,7 +43,7 @@ namespace NBAStats.Models
 
         [JsonPropertyName("divName")]
         public string DivName { get; set; }
-        public string TeamLogo => $"logo{TeamId}.png";
+        public string TeamLogo => $"{StringConstants.Logo}{TeamId}.png";
         public bool IsFavorite { get; set; } = false;
     }
 

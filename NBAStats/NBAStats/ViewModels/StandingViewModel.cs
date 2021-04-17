@@ -78,7 +78,7 @@ namespace NBAStats.ViewModels
 
                 if (standing != null)
                 {
-                    ObservableCollection<TeamStanding> standingList = Utilities.SetFavoriteTeamsOnStanding(standing.League.Standard.Teams,_FavoritesTeams);
+                    ObservableCollection<TeamStanding> standingList = Utilities.SetFavoriteTeamsOnStanding(standing.League.Standard.Teams,AllFavoritesTeams);
 
                     SeasonStage = Config.SeasonStages.First(season => season.Id == standing.League.Standard.SeasonStageId).Stage;
 

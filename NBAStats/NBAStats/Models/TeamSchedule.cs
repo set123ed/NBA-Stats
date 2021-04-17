@@ -13,7 +13,7 @@ namespace NBAStats.Models
         [JsonPropertyName("score")]
         public string Score { get; set; }
         public string Tricode { get; set; }
-        public string TeamLogo => $"logo{TeamId}.png";
+        public string TeamLogo => $"{StringConstants.Logo}{TeamId}.png";
         public bool IsFavorite { get; set; } = false;
     }
 

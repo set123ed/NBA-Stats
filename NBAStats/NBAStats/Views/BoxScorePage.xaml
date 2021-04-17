@@ -6,254 +6,258 @@
              Title="Boxscore">
     <ContentPage.Content>
 
-        <Grid>
 
-            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
+            <Grid>
 
-            <Grid  ColumnDefinitions="*" IsVisible="{Binding IsNotBusy}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="150"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
+                <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
+            
+                <RefreshView IsRefreshing="{Binding IsBoxScoreRefreshing}" Command="{Binding RefreshBoxScoreCommand}" IsVisible="{Binding IsNotBusy}">
+                <Grid  ColumnDefinitions="*"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="150"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
 
-                <Image Source="{Binding VTeamLogo}"  HorizontalOptions="Center" Margin="200,0,0,0" Grid.Row="0" HeightRequest="100"/>
+                    <Image Source="{Binding VTeamLogo}"  HorizontalOptions="Center" Margin="200,0,0,0" Grid.Row="0" HeightRequest="100"/>
 
-                <Label Text="{Binding VTeamName}" Style="{StaticResource Key=LabelStyle}"  HorizontalOptions="Center" Margin="200,0,0,0" Grid.Row="1" FontSize="20" TextColor="Black"/>
+                    <Label Text="{Binding VTeamName}" Style="{StaticResource Key=LabelStyle}"  HorizontalOptions="Center" Margin="200,0,0,0" Grid.Row="1" FontSize="20" TextColor="Black"/>
 
-                            <Label Text="VS" Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
+                    <Label Text="VS" Grid.Row="1" VerticalOptions="Start" HorizontalOptions="Center" FontSize="20" TextColor="Black"/>
 
-                            <Image Source="{Binding HTeamLogo}" HorizontalOptions="Start" Margin="60,0,0,0" Grid.Row="0" HeightRequest="100"/>
+                    <Image Source="{Binding HTeamLogo}" HorizontalOptions="Start" Margin="60,0,0,0" Grid.Row="0" HeightRequest="100"/>
 
-                <Label Text="{Binding HTeamName}" Style="{StaticResource Key=LabelStyle}" HorizontalOptions="Start"  Margin="95,0,0,0" Grid.Row="1" FontSize="20" TextColor="Black"/>
+                    <Label Text="{Binding HTeamName}" Style="{StaticResource Key=LabelStyle}" HorizontalOptions="Start"  Margin="95,0,0,0" Grid.Row="1" FontSize="20" TextColor="Black"/>
 
-                <Label Text="{Binding ScoreOrTime}" Style="{StaticResource Key=LabelStyle}" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="End" Margin="10" FontSize="20" TextColor="Black"/>
-                            
-                            <Label Text="{Binding TimePeriodHalftime}" Grid.Row="1" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,100,0,0" FontSize="10" TextColor="Black"/>
+                    <Label Text="{Binding ScoreOrTime}" Style="{StaticResource Key=LabelStyle}" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="End" Margin="10" FontSize="20" TextColor="Black"/>
 
-
-
-                <Button Text="{Binding VTeamName}" Style="{StaticResource Key=ButtonStyleOut}"  Grid.Row="1"  TextColor="White" BackgroundColor="{Binding VTeamColor}" Command="{Binding VTeamSelectedCommand}" Margin="0,0,180,0" HorizontalOptions="Center" VerticalOptions="Center"/>
-                <Button Text="{Binding HTeamName}" Style="{StaticResource Key=ButtonStyleOut}" Grid.Row="1" TextColor="White" BackgroundColor="{Binding HTeamColor}" Command="{Binding HTeamSelectedCommand}" Margin="200,0,0,0" HorizontalOptions="Center" VerticalOptions="Center"/>
-
-
-                <ScrollView Orientation="Horizontal" IsVisible="{Binding ShowHTeam}" Grid.Column="0" Grid.Row="2"  >
-                    <StackLayout Orientation="Horizontal" >
-
-
-                        <ListView HasUnevenRows="True" ItemsSource="{Binding HTeamPlayerStats}"  RowHeight="5" WidthRequest="1500">
-                            <ListView.Header>
-
-                                <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*" >
-                                    <Label Text="PLAYER" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="+/-" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="MIN" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="PTS" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="AST" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="REB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="STL" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="BLK" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="FG%" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="FGM" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="FGA" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="3P%" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="3PM" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="3PA" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="FT%" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="FTM" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="FTA" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="OREB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="DREB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="TOV" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="PF" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-
-                                </Grid>
-
-                            </ListView.Header>
-
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-
-                                        <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*"  >
-                                            <Label x:Name="playerHNameLabel" TextColor="DodgerBlue" Text="{Binding FullName}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="10">
-
-                                                <Label.GestureRecognizers>
-                                                    <TapGestureRecognizer  Command="{Binding Source={x:Reference boxScorePage}, Path=BindingContext.SelectedPlayerCommand}" CommandParameter="{Binding Source={x:Reference playerHNameLabel}, Path=Text}"/>
-                                                </Label.GestureRecognizers>
-
-                                            </Label>
-                                            <Label  Text="{Binding PlusMinus}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Min}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Points}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Assists}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding TotReb}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Steals}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Blocks}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Fgp}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Fgm}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Fga}" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Tpp}" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Tpm}" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Tpa}" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Ftp}" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Ftm}" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Fta}" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding OffReb}" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding DefReb}" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Turnovers}" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding PFouls}" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-
-                                        </Grid>
-
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-
-
-                            <ListView.Footer >
-                                <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*"  BindingContext="{Binding HTeamTotalStats}" BackgroundColor="#E0E0E0">
-                                    <Label Text="TOTALS" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding PlusMinus}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Min}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Points}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Assists}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding TotReb}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Steals}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Blocks}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Fgp}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Fgm}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Fga}" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Tpp}" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Tpm}" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Tpa}" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Ftp}" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Ftm}" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Fta}" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding OffReb}" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding DefReb}" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Turnovers}" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding PFouls}" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-
-                                </Grid>
-
-                            </ListView.Footer>
-                            
-                        </ListView>
-                    </StackLayout>
-                </ScrollView>
-
-                <ScrollView Orientation="Horizontal" IsVisible="{Binding ShowVTeam}" Grid.Column="0" Grid.Row="2">
-                    <StackLayout Orientation="Horizontal"  >
-
-
-                        <ListView HasUnevenRows="True" WidthRequest="1500" ItemsSource="{Binding VTeamPlayerStats}" RowHeight="5">
-                            <ListView.Header>
-
-                                <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*" >
-                                    <Label Text="PLAYER" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="+/-" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="MIN" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="PTS" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="AST" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="REB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="STL" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="BLK" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="FG%" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="FGM" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="FGA" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="3P%" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="3PM" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="3PA" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="FT%" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="FTM" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="FTA" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="OREB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="DREB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="TOV" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="PF" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-
-                                </Grid>
-
-                            </ListView.Header>
-
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-
-                                        <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*">
-                                            <Label x:Name="playerVNameLabel" Text="{Binding FullName}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="10">
-
-                                                <Label.GestureRecognizers>
-                                                    <TapGestureRecognizer  Command="{Binding Source={x:Reference boxScorePage}, Path=BindingContext.SelectedPlayerCommand}" CommandParameter="{Binding Source={x:Reference playerVNameLabel}, Path=Text}"/>
-                                                </Label.GestureRecognizers>
-
-                                            </Label>
-                                            <Label Text="{Binding PlusMinus}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Min}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Points}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Assists}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding TotReb}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Steals}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Blocks}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Fgp}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Fgm}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Fga}" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Tpp}" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Tpm}" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Tpa}" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Ftp}" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Ftm}" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Fta}" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding OffReb}" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding DefReb}" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding Turnovers}" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                            <Label Text="{Binding PFouls}" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-
-                                        </Grid>
-
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-
-                            <ListView.Footer >
-                                <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*" BindingContext="{Binding VTeamTotalStats}" BackgroundColor="#E0E0E0">
-                                    <Label Text="TOTALS" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding PlusMinus}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Min}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Points}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Assists}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding TotReb}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Steals}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Blocks}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Fgp}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Fgm}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Fga}" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Tpp}" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Tpm}" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Tpa}" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Ftp}" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Ftm}" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Fta}" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding OffReb}" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding DefReb}" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding Turnovers}" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                    <Label Text="{Binding PFouls}" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-
-                                </Grid>
-
-                            </ListView.Footer>
-                        </ListView>
-                    </StackLayout>
-                </ScrollView>
+                    <Label Text="{Binding TimePeriodHalftime}" Grid.Row="1" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,100,0,0" FontSize="10" TextColor="Black"/>
 
 
 
+                    <Button Text="{Binding VTeamName}" Style="{StaticResource Key=ButtonStyleOut}"  Grid.Row="1"  TextColor="White" BackgroundColor="{Binding VTeamColor}" Command="{Binding VTeamSelectedCommand}" Margin="0,0,180,0" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <Button Text="{Binding HTeamName}" Style="{StaticResource Key=ButtonStyleOut}" Grid.Row="1" TextColor="White" BackgroundColor="{Binding HTeamColor}" Command="{Binding HTeamSelectedCommand}" Margin="200,0,0,0" HorizontalOptions="Center" VerticalOptions="Center"/>
 
 
-            </Grid>
+                    <ScrollView Orientation="Horizontal" IsVisible="{Binding ShowHTeam}" Grid.Column="0" Grid.Row="2"  >
+                        <StackLayout Orientation="Horizontal" >
 
+
+                            <ListView HasUnevenRows="True" ItemsSource="{Binding HTeamPlayerStats}" CachingStrategy="RecycleElement" RowHeight="5" WidthRequest="1500">
+                                <ListView.Header>
+
+                                    <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*" >
+                                        <Label Text="PLAYER" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="+/-" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="MIN" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="PTS" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="AST" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="REB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="STL" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="BLK" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="FG%" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="FGM" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="FGA" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="3P%" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="3PM" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="3PA" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="FT%" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="FTM" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="FTA" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="OREB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="DREB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="TOV" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="PF" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+
+                                    </Grid>
+
+                                </ListView.Header>
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+
+                                            <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*"  >
+                                                <Label x:Name="playerHNameLabel" TextColor="DodgerBlue" Text="{Binding FullName}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="10">
+
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer  Command="{Binding Source={x:Reference boxScorePage}, Path=BindingContext.SelectedPlayerCommand}" CommandParameter="{Binding Source={x:Reference playerHNameLabel}, Path=Text}"/>
+                                                    </Label.GestureRecognizers>
+
+                                                </Label>
+                                                <Label  Text="{Binding PlusMinus}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Min}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Points}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Assists}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding TotReb}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Steals}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Blocks}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Fgp}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Fgm}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Fga}" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Tpp}" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Tpm}" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Tpa}" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Ftp}" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Ftm}" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Fta}" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding OffReb}" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding DefReb}" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Turnovers}" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding PFouls}" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+
+                                            </Grid>
+
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+
+
+                                <ListView.Footer >
+                                    <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*"  BindingContext="{Binding HTeamTotalStats}" BackgroundColor="#E0E0E0">
+                                        <Label Text="TOTALS" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding PlusMinus}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Min}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Points}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Assists}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding TotReb}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Steals}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Blocks}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Fgp}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Fgm}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Fga}" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Tpp}" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Tpm}" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Tpa}" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Ftp}" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Ftm}" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Fta}" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding OffReb}" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding DefReb}" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Turnovers}" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding PFouls}" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+
+                                    </Grid>
+
+                                </ListView.Footer>
+
+                            </ListView>
+                        </StackLayout>
+                    </ScrollView>
+
+                    <ScrollView Orientation="Horizontal" IsVisible="{Binding ShowVTeam}" Grid.Column="0" Grid.Row="2">
+                        <StackLayout Orientation="Horizontal"  >
+
+
+                            <ListView HasUnevenRows="True" WidthRequest="1500" ItemsSource="{Binding VTeamPlayerStats}" CachingStrategy="RecycleElement" RowHeight="5">
+                                <ListView.Header>
+
+                                    <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*" >
+                                        <Label Text="PLAYER" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="+/-" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="MIN" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="PTS" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="AST" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="REB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="STL" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="BLK" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="FG%" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="FGM" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="FGA" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="3P%" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="3PM" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="3PA" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="FT%" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="FTM" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="FTA" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="OREB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="DREB" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="TOV" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="PF" Style="{StaticResource Key=LabelStyle}" FontSize="15" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+
+                                    </Grid>
+
+                                </ListView.Header>
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+
+                                            <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*">
+                                                <Label x:Name="playerVNameLabel" Text="{Binding FullName}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="10">
+
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer  Command="{Binding Source={x:Reference boxScorePage}, Path=BindingContext.SelectedPlayerCommand}" CommandParameter="{Binding Source={x:Reference playerVNameLabel}, Path=Text}"/>
+                                                    </Label.GestureRecognizers>
+
+                                                </Label>
+                                                <Label Text="{Binding PlusMinus}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Min}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Points}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Assists}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding TotReb}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Steals}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Blocks}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Fgp}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Fgm}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Fga}" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Tpp}" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Tpm}" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Tpa}" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Ftp}" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Ftm}" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Fta}" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding OffReb}" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding DefReb}" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Turnovers}" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding PFouls}" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+
+                                            </Grid>
+
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+
+                                <ListView.Footer >
+                                    <Grid ColumnDefinitions="5*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*" BindingContext="{Binding VTeamTotalStats}" BackgroundColor="#E0E0E0">
+                                        <Label Text="TOTALS" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding PlusMinus}" Grid.Column="1" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Min}" Grid.Column="2" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Points}" Grid.Column="3" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Assists}" Grid.Column="4" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding TotReb}" Grid.Column="5" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Steals}" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Blocks}" Grid.Column="7" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Fgp}" Grid.Column="8" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Fgm}" Grid.Column="9" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Fga}" Grid.Column="10" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Tpp}" Grid.Column="11" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Tpm}" Grid.Column="12" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Tpa}" Grid.Column="13" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Ftp}" Grid.Column="14" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Ftm}" Grid.Column="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Fta}" Grid.Column="16" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding OffReb}" Grid.Column="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding DefReb}" Grid.Column="18" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding Turnovers}" Grid.Column="19" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                        <Label Text="{Binding PFouls}" Grid.Column="20" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+
+                                    </Grid>
+
+                                </ListView.Footer>
+                            </ListView>
+                        </StackLayout>
+                    </ScrollView>
+
+
+
+
+
+                </Grid>
+            </RefreshView>
         </Grid>
+
+
     </ContentPage.Content>
 </ContentPage>

@@ -16,7 +16,7 @@ namespace NBAStats.ViewModels
     {
         public ObservableCollection<Game> GamesOfTheDate { get; set; } = new ObservableCollection<Game>();
         public DateTime DateSelected { get; set; } = DateTime.Today;
-        private string dateFormatted => DateSelected.ToString("yyyyMMdd");
+        private string DateFormatted => DateSelected.ToString("yyyyMMdd");
         public ICommand DateSelectedChangeCommand { get; }
         public ICommand OneDayLessCommand {get;}
         public ICommand OneDayMoreCommand {get;}
@@ -68,7 +68,10 @@ namespace NBAStats.ViewModels
         private async void OnRefreshGames()
         {
             AreGamesRefreshing = true;
-            await GetGamesOfTheDate();
+            if (DateSelected == DateTime.Today)
+            {
+                await GetGamesOfTheDate();
+            }
             AreGamesRefreshing = false;
         }
 
@@ -81,7 +84,7 @@ namespace NBAStats.ViewModels
         {
             try
             {
-                GameOfDay gameOfDay = await NbaApiService.GetGamesOfDay(dateFormatted);
+                GameOfDay gameOfDay = await NbaApiService.GetGamesOfDay(DateFormatted);
 
                 if (gameOfDay != null)
                 {
@@ -91,7 +94,7 @@ namespace NBAStats.ViewModels
                         game.TimePeriodHalftime = Utilities.GetTimePeriod(game.VTeam.Score, game.HTeam.Score, game.Period.CurrentPeriod, game.Period.IsHalftime, game.Period.IsEndOfPeriod, game.IsGameActivated, game.Clock);
                     }
 
-                    GamesOfTheDate = Utilities.SetFavoritesTeamsOnGame(gameOfDay.Games, _FavoritesTeams);
+                    GamesOfTheDate = Utilities.SetFavoritesTeamsOnGame(gameOfDay.Games, AllFavoritesTeams);
 
                 }
 
