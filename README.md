@@ -41,7 +41,7 @@ This is an app that will show you stats of the games, players and teams of NBA l
 
 # Members of the team (Name + ID)
 
-     Name      |      ID
+   Name        |      ID
 -------------  | -------------
   Alan Rojas   |    1086682
   Rafael Melo  |    1088109
