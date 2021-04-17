@@ -12,11 +12,32 @@ This is an app that will show you stats of the games, players and teams of NBA l
 
 # Screenshots
 
-[Home](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.37.35%20a.%C2%A0m..png?raw=true) [Calendar](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.39.04%20a.%C2%A0m..png?raw=true) 
+# Home page
+![Home page](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.37.35%20a.%C2%A0m..png?raw=true)
 
-![3](https://user-images.githubusercontent.com/49078581/115101168-ea599f80-9f0f-11eb-8cf7-e6d084b85b67.PNG) ![4](https://user-images.githubusercontent.com/49078581/115101170-eaf23600-9f0f-11eb-8808-7604fbc2bd6d.PNG) 
+# Calendar page
+![Calendar page](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.39.04%20a.%C2%A0m..png?raw=true) 
 
-![5](https://user-images.githubusercontent.com/49078581/115101171-eaf23600-9f0f-11eb-8526-4570853dfa43.PNG) ![6](https://user-images.githubusercontent.com/49078581/115101172-eb8acc80-9f0f-11eb-9d4b-58a4f77781a1.PNG)
+# Standing page
+![Standing page](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.39.51%20a.%C2%A0m..png?raw=true)
+
+
+# Stats page
+![Players](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.49.57%20a.%C2%A0m..png?raw=true)
+![Teams](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.40.29%20a.%C2%A0m..png?raw=true)
+![Search](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.40.20%20a.%C2%A0m..png?raw=true)
+
+# Favorites page
+![Favorites page](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.40.39%20a.%C2%A0m..png?raw=true)
+
+# BoxScore of a game
+![BoxScore of a game](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.39.33%20a.%C2%A0m..png?raw=true) 
+
+# Player profile
+![Player profile](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.38.09%20a.%C2%A0m..png?raw=true)
+
+# Team profile
+![Team profile](https://github.com/set123ed/NBA-Stats/blob/project/NBAStats/ScreenShots/Captura%20de%20Pantalla%202021-04-17%20a%20la(s)%208.38.36%20a.%C2%A0m..png?raw=true)
 
 # Members of the team (Name + ID)
 
