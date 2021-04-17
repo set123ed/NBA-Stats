@@ -1,16 +1,16 @@
 # NBA-Stats
 
-# Descripción del proyecto
+# Description
 
-Este es un proyecto fácil de manejar por cualquier cliente donde podrá ver estadísticas de basquetbol, jugadores, agregar jugadores favorito etc. además de que mientras continúes probando la aplicación cada vez mas te enamoraras de la misma. 
+This is an app that will show you stats of the games, players and teams of NBA league in live. You will see the games of today or anyday, the players and teams leaders of stats like points, assists, rebounds, steals and blocks. You can see the standing of West and East conference, the profile of any player and any team. You also can select favorites teams and players to see them on the top of every list.
   
-# Link de mockup de la idea del proyecto
-[Mockoup](https://balsamiq.cloud/smpbigk/pygul88/r7E0F "Mockoup realizado en balsamiq")
+# Link of initial mockup
+[Mock up](https://balsamiq.cloud/smpbigk/pygul88/r7E0F "Mockoup realizado en balsamiq")
 
-# Link del board de https://trello.com/ con la división del trabajo
+# Link of project Trello 
 [board Trello](https://trello.com/invite/b/ISxaROo1/39e65988084126b975fb8dd437aa5918/mobile-dev-app-grupo-1 "Movile Dev")
 
-# Screenshots de cada pantalla
+# Screenshots
 
 ![1](https://user-images.githubusercontent.com/49078581/115101173-eb8acc80-9f0f-11eb-9260-2e61b6993737.PNG) ![2](https://user-images.githubusercontent.com/49078581/115101167-e9c10900-9f0f-11eb-94dc-592304bfc396.PNG) 
 
@@ -18,25 +18,23 @@ Este es un proyecto fácil de manejar por cualquier cliente donde podrá ver est
 
 ![5](https://user-images.githubusercontent.com/49078581/115101171-eaf23600-9f0f-11eb-8526-4570853dfa43.PNG) ![6](https://user-images.githubusercontent.com/49078581/115101172-eb8acc80-9f0f-11eb-9d4b-58a4f77781a1.PNG)
 
-# Miembros del equipo (Nombre + ID)
+# Members of the team (Name + ID)
 
-   Nombres     |    ID
+     Name      |      ID
 -------------  | -------------
-  Alan Rojas   | Content Cell
+  Alan Rojas   |    1086682
   Rafael Melo  |    1088109
   José Marte   |    1077791
 
 
-# Librerías utilizadas
+# Libraries
 
 - CarouselView.FormsPlugin
 - NETStandard.Library
 - System.Data.SQLite
-- System.Data.SQLite.Core 
 - System.Text.Json
 - Xamarin.Essentials
 - Xamarin.Forms 
-- Newtonsoft.Json
 - Prism.Unity.Forms
 - PropertyChanged.Fody
 - sqlite-net-pcl
