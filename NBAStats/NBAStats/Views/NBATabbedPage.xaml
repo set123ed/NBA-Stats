@@ -11,16 +11,17 @@
             android:TabbedPage.BarItemColor="White"
             Title="{Binding Title}"
             CurrentPageChanged="TabbedPage_CurrentPageChanged"
-            BackgroundColor="#0b1b2b"
-            >
+            BackgroundColor="#0b1b2b">
 
     <TabbedPage.Behaviors >
         <prism:EventToCommandBehavior Command="{Binding CurrentPageChangedCommand}" EventName="CurrentPageChanged" CommandParameter="{Binding Source={x:Reference tabbedPage},Path=CurrentPage.Title}" />
     </TabbedPage.Behaviors >
+    
   <!--Pages can be added as 0b1b2b or inline-->
     <views:HomePage Title="Home" IconImageSource="home" />
     <views:CalendarPage Title="Calendar" IconImageSource="calendar" />
     <views:StandingPage Title="Standing" IconImageSource="trophy" />
     <views:StatsPage Title="Stats" IconImageSource="stats" />
     <views:FavoritesPage Title="Favorites" IconImageSource="favorite" />
+    
 </TabbedPage>
