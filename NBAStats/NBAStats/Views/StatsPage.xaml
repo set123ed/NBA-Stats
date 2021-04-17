@@ -4,17 +4,27 @@
              x:Class="NBAStats.Views.StatsPage"
              xmlns:prism="http://prismlibrary.com"
              x:Name="statsPage"
+                          ios:Page.UseSafeArea="true"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+
              Title="Stats">
     <ContentPage.Content>
 
-        <!--<Grid>
-            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>-->
-
-            <Grid RowDefinitions="0.1*,*" BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-
+            <Grid  BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="0.5"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
                 <ActivityIndicator IsVisible="{Binding IsBusy}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" IsRunning="{Binding IsBusy}" BackgroundColor="White"  VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
 
-                <StackLayout Orientation="Horizontal" Grid.Row="0" Padding="5" VerticalOptions="Center" HorizontalOptions="Center">
+            <Frame BackgroundColor="#0b1b2b"  HasShadow="False" Grid.Row="0" >
+                <Grid >
+                    <Image Source="LOGO.png" HeightRequest="40" HorizontalOptions="Center"/>
+                </Grid>
+            </Frame>
+
+            <StackLayout Orientation="Horizontal" Grid.Row="2" Padding="5" VerticalOptions="Center" HorizontalOptions="Center">
 
                 <Button Text="Players" Style="{StaticResource Key=ButtonStyleOut}" Command="{Binding ShowPlayerCommand}"/>
                 <Button Text="Teams" Style="{StaticResource Key=ButtonStyleOut}" Command="{Binding ShowTeamCommand}"/>
@@ -22,10 +32,9 @@
 
                 </StackLayout>
 
-            <ListView ItemsSource="{Binding LeaderStatsPlayers}" CachingStrategy="RecycleElement" Grid.Row="1" HasUnevenRows="True" IsGroupingEnabled="True" GroupDisplayBinding="{Binding Stat}" IsVisible="{Binding ShowPlayers}">
-                    <ListView.Header>
+            <ListView ItemsSource="{Binding LeaderStatsPlayers}" CachingStrategy="RecycleElement" Grid.Row="3" HasUnevenRows="True" IsGroupingEnabled="True" GroupDisplayBinding="{Binding Stat}" IsVisible="{Binding ShowPlayers}">
+                <ListView.Header>
                         <Grid ColumnDefinitions="1.5*,0.3*">
-                          
                         </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -39,6 +48,10 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding Source={x:Reference statsPage}, Path=BindingContext.SelectedPlayerCommand}" CommandParameter="{Binding PlayerId}"/>
                                 </Grid.GestureRecognizers>
@@ -49,7 +62,7 @@
 
                                               
 
-                                    <Label Text="{Binding Team}" FontAttributes="Bold" FontSize="15" Grid.Column="3" HorizontalOptions="End" VerticalOptions="Center" Margin="1"/>
+                                    <Label Text="{Binding Team}" Grid.Row="1"  FontAttributes="Bold" FontSize="20" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" />
                                         <Label Text="{Binding AverageStats}" FontSize="15" HorizontalOptions="End" VerticalOptions="Center" Margin="1" Grid.Column="4"/>
                                 </Grid>
                                 
@@ -59,7 +72,7 @@
                 </ListView>
 
 
-            <ListView ItemsSource="{Binding LeadersStatsTeams}" CachingStrategy="RecycleElement" Grid.Row="1" HasUnevenRows="True" IsGroupingEnabled="True" GroupDisplayBinding="{Binding Stat}" IsVisible="{Binding ShowTeams}">
+            <ListView ItemsSource="{Binding LeadersStatsTeams}" CachingStrategy="RecycleElement" Grid.Row="3" HasUnevenRows="True" IsGroupingEnabled="True" GroupDisplayBinding="{Binding Stat}" IsVisible="{Binding ShowTeams}">
                     <ListView.Header>
                         <Grid ColumnDefinitions="1.5*,0.3*" >
 
@@ -91,15 +104,14 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-            <Grid IsVisible="{Binding ShowSearch}" Grid.Row="1" RowDefinitions="0.10*,auto,0.4*,auto,0.4*" RowSpacing="15">
-                <Frame Grid.Row="0" Padding="3" CornerRadius="25" BackgroundColor="LightBlue" IsVisible="{Binding InternetConnection}">
+            <Grid IsVisible="{Binding ShowSearch}" Grid.Row="3" RowDefinitions="0.15*,auto,0.4*,auto,0.4*" RowSpacing="17">
+                <Frame Grid.Row="0"  Margin="5,0,10,0" Padding="4" CornerRadius="25" BackgroundColor="LightBlue" IsVisible="{Binding InternetConnection}">
                     <StackLayout Orientation="Horizontal" >
                         <SearchBar x:Name="searcherBar" Placeholder="Search a player" Text="{Binding Filter}" SearchCommand="{Binding SearcherCommand}" Keyboard="Text" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
                             <SearchBar.Behaviors>
                                 <prism:EventToCommandBehavior EventName="TextChanged" Command="{Binding SearcherCommand}"/>
                             </SearchBar.Behaviors>
                         </SearchBar>
-                        <Button Text="Clear" Margin="0,0,10,0" VerticalOptions="Center"  Command="{Binding ClearCommand}" HorizontalOptions="End"/>
                     </StackLayout> 
                 </Frame>
 
@@ -109,16 +121,14 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <!--<StackLayout Orientation="Horizontal">
-                                <Image Source="{Binding TeamLogo}" HeightRequest="50" WidthRequest="50"/>-->
-                                <Label Text="{Binding FullName}" FontSize="14" >
-
-                                    <Label.GestureRecognizers>
+                                <StackLayout Orientation="Horizontal">
+                                <Image Source="{Binding TeamLogo}" HeightRequest="50" WidthRequest="50"/>
+                                    <Label Text="{Binding FullName}" FontSize="14" >
+                                        <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Source={x:Reference statsPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
                                     </Label.GestureRecognizers>
-                                    
                                 </Label>
-                            <!--</StackLayout>-->
+                            </StackLayout>
                             </ViewCell>
 
                         </DataTemplate>
@@ -132,7 +142,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Orientation="Horizontal" Margin="7.5">
-                                    <!--<Image Source="{Binding TeamLogo}" HeightRequest="50" WidthRequest="40"/>-->
+                                    <Image Source="{Binding TeamLogo}" HeightRequest="50" WidthRequest="40"/>
                                     <Label Text="{Binding FullName}"  FontSize="14" />
 
 
@@ -148,6 +158,5 @@
             
         </Grid>
 
-        <!--</Grid>-->
     </ContentPage.Content>
 </ContentPage>

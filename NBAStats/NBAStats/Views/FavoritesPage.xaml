@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NBAStats.Views.FavoritesPage"
              xmlns:prism="http://prismlibrary.com"
-             x:Name="favoritesPage">
+             x:Name="favoritesPage"
+             ios:Page.UseSafeArea="true"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+
+             >
 
     <ContentPage.Content>
         
@@ -15,11 +19,12 @@
             <Frame Grid.Row="1" Padding="3" CornerRadius="25" BackgroundColor="LightBlue" Grid.ColumnSpan="2">
                 <StackLayout Orientation="Horizontal" >
                     <SearchBar Placeholder="Search a player" Text="{Binding Filter}" SearchCommand="{Binding SearcherCommand}" Keyboard="Text" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                        
                         <SearchBar.Behaviors>
                             <prism:EventToCommandBehavior EventName="TextChanged" Command="{Binding SearcherCommand}"/>
                         </SearchBar.Behaviors>
+                        
                     </SearchBar>
-                    <Button Text="Clear" Margin="0,0,10,0" VerticalOptions="Center"  Command="{Binding ClearCommand}" HorizontalOptions="End"/>
                 </StackLayout>
             </Frame>
 

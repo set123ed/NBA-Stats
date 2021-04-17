@@ -3,6 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NBAStats.Views.StandingPage"
              x:Name="standingPage"
+                          ios:Page.UseSafeArea="true"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+
              Title="Standing">
     <ContentPage.Content>
 
@@ -69,18 +72,18 @@
                                                 <Grid.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding Source={x:Reference standingPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
                                                 </Grid.GestureRecognizers>
-                                                <!--<Image Source="{Binding TeamLogo}" HeightRequest="100" WidthRequest="100"/>-->
-                                                <Label Text="{Binding ConfRank}" Style="{StaticResource Key=LabelList}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding FullName}" Grid.Column="1" FontSize="17"  HorizontalOptions="Start" HorizontalTextAlignment="Center" Margin="1"/>
-                                               
-                                                <Label Text="{Binding Win}" Grid.Column="2" FontSize="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding Loss}" Grid.Column="3" FontSize="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding WinPctV2}" Grid.Column="4" FontSize="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding GamesBehind}" Grid.Column="5" FontSize="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding TeamSitesOnly.StreakText}" FontSize="17" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding Home}" Grid.Column="7" FontSize="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding Road}" Grid.Column="8" FontSize="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding L10}" Grid.Column="9" FontSize="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Image Source="{Binding TeamLogo}" Grid.Column="0" HeightRequest="50" VerticalOptions="Center" Margin="0,0,-10,0"/>
+                                                <Label Text="{Binding ConfRank}" Style="{StaticResource Key=LabelList}" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center" Margin="1"/>
+                                                <Label Text="{Binding FullName}" Grid.Column="1" FontSize="17"  HorizontalOptions="Center" VerticalOptions="Center"  Margin="1"/>
+
+                                                <Label Text="{Binding Win}" Grid.Column="2" FontSize="17" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Loss}" Grid.Column="3" FontSize="17" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding WinPctV2}" Grid.Column="4" FontSize="17" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding GamesBehind}" Grid.Column="5" FontSize="17" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding TeamSitesOnly.StreakText}" FontSize="17" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Home}" Grid.Column="7" FontSize="17" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Road}" Grid.Column="8" FontSize="17" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding L10}" Grid.Column="9" FontSize="17" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
                                             </Grid>
                                         </ViewCell>
                                     </DataTemplate>
@@ -115,17 +118,17 @@
                                                 <Grid.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding Source={x:Reference standingPage}, Path=BindingContext.SelectedTeamCommand}" CommandParameter="{Binding TeamId}"/>
                                                 </Grid.GestureRecognizers>
-                                                <!--<Image Source="{Binding TeamLogo}" HeightRequest="100" WidthRequest="100"/>-->
-                                                <Label Text="{Binding Rank}" Style="{StaticResource Key=LabelList}" Grid.Column="0" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding FullName}"  Grid.Column="1" FontSize="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding Win}" Grid.Column="2" FontSize="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding Loss}" Grid.Column="3" FontSize="15" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding WinPctV2}" Grid.Column="4" FontSize="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding GamesBehind}" Grid.Column="5" FontSize="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding TeamSitesOnly.StreakText}" FontSize="17" Grid.Column="6" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding Home}" Grid.Column="7" FontSize="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding Road}" Grid.Column="8" FontSize="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
-                                                <Label Text="{Binding L10}" Grid.Column="9" FontSize="17" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Image Source="{Binding TeamLogo}" HeightRequest="50" Margin="0,0,-50,0" VerticalOptions="Center" />
+                                                <Label Text="{Binding Rank}" Style="{StaticResource Key=LabelList}" Grid.Column="0"  HorizontalOptions="Start" VerticalOptions="Center"  Margin="1"/>
+                                                <Label Text="{Binding FullName}"  Grid.Column="1" FontSize="15" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Win}" Grid.Column="2" FontSize="15" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Loss}" Grid.Column="3" FontSize="15" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding WinPctV2}" Grid.Column="4" FontSize="17" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding GamesBehind}" Grid.Column="5" FontSize="17" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding TeamSitesOnly.StreakText}" FontSize="17" Grid.Column="6" VerticalOptions="Center" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Home}" Grid.Column="7" FontSize="17" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding Road}" Grid.Column="8" FontSize="17" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
+                                                <Label Text="{Binding L10}" Grid.Column="9" FontSize="17" HorizontalOptions="Fill" VerticalOptions="Center" HorizontalTextAlignment="Center" Margin="1"/>
                                             </Grid>
                                         </ViewCell>
                                     </DataTemplate>

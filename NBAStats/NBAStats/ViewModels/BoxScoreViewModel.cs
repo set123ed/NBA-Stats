@@ -27,8 +27,8 @@ namespace NBAStats.ViewModels
         public string VTeamName { get; set; }
         public string HTeamLogo { get; set; }
         public string VTeamLogo { get; set; }
-        public string HTeamColor { get; set; } = "Blue";
-        public string VTeamColor { get; set; } = "MidnightBlue";
+        public string HTeamColor { get; set; } = "DarkRed";
+        public string VTeamColor { get; set; } = "Red";
 
         public ICommand HTeamSelectedCommand { get; }
         public ICommand VTeamSelectedCommand { get; }
@@ -70,8 +70,8 @@ namespace NBAStats.ViewModels
         {
             if (!ShowVTeam)
             {
-                VTeamColor = "MidnightBlue";
-                HTeamColor = "Blue";
+                VTeamColor = "DarkRed";
+                HTeamColor = "Red";
                 ShowVTeam = true;
             }
         }
@@ -80,8 +80,8 @@ namespace NBAStats.ViewModels
         {
             if (!ShowHTeam)
             {
-                HTeamColor = "MidnightBlue";
-                VTeamColor = "Blue";
+                HTeamColor = "DarkRed";
+                VTeamColor = "Red";
                 ShowVTeam = false;
             }
         }

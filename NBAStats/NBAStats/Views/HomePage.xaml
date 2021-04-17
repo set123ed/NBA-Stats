@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NBAStats.Views.HomePage"
              x:Name="homePage"
+             ios:Page.UseSafeArea="true"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:contrils="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions">
     <ContentPage.Content>
         <RefreshView IsRefreshing="{Binding IsGamesOfDayRefreshing}" Command="{Binding RefreshGamesOfDayCommand}">
@@ -250,15 +252,6 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-
-                        <Frame BackgroundColor="#white" HeightRequest="40" HasShadow="False" Grid.Row="8" Grid.ColumnSpan="2" >
-                            <Grid>
-
-                                <Button Command="{Binding ListPlayers}" Text="Player List" Grid.ColumnSpan="3" HorizontalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}" Margin="50,0,0,0"/>
-
-                            </Grid>
-                        </Frame>
-
                     </Grid>
                 </Grid>
             </ScrollView>

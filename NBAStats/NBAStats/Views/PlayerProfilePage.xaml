@@ -2,6 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NBAStats.Views.PlayerProfilePage"
+             ios:Page.UseSafeArea="true"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+
              Title="Playerp profile">
     <ContentPage.Content>
 
@@ -13,15 +16,15 @@
 
                 <Grid  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ColumnDefinitions="*,*" RowSpacing="30" RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto,auto" Padding="15">
                 <StackLayout Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
-                    <Frame  Margin="10,2" BackgroundColor="LightGray" CornerRadius="360" HeightRequest="100" WidthRequest="100">
-                        <!--<Image Source="{Binding PlayerInfo.TeamLogo}" HeightRequest="200" WidthRequest="200"/>-->
-                        <Label  Text="{Binding PlayerInfo.Jersey}" FontSize="40" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"/>
-                    </Frame>
+                            <Image Source="{Binding PlayerInfo.TeamLogo}" HeightRequest="200" />
                     <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-                        <Label Text="{Binding PlayerInfo.FullName}" FontAttributes="Bold"  VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontSize="30"/>
+                            <Label Text="{Binding PlayerInfo.FullName}" FontAttributes="Bold"  VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontSize="30"/>
                         <Label Text="{Binding PlayerInfo.TeamSitesOnly.PosFull}"  VerticalOptions="Center" HorizontalOptions="Center" TextColor="MidnightBlue" FontSize="19"/>
                         <Label Text="{Binding ActualTeam.FullName}" VerticalOptions="Center" HorizontalOptions="Center" TextColor="DodgerBlue" FontSize="19" FontAttributes="Bold"/>
-                    </StackLayout>
+
+                            <Label Text="Jersey #" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" FontAttributes="Bold" Margin="0,0,50,0" />
+                            <Label  Text="{Binding PlayerInfo.Jersey}" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black" Margin="70,-32,0,0"/>
+                        </StackLayout>
                 </StackLayout>
 
                 <Grid ColumnDefinitions="*,2*" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" RowDefinitions="*,*,*,*,*,*,*,*,*,*" Padding="15">

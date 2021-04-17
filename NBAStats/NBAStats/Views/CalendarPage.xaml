@@ -4,6 +4,8 @@
              x:Class="NBAStats.Views.CalendarPage"
              xmlns:prism="http://prismlibrary.com"
              x:Name="calendarPage"
+             ios:Page.UseSafeArea="true"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              Title="Calendar">
     <ContentPage.Content>
 

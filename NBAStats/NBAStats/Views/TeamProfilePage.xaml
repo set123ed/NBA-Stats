@@ -3,6 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NBAStats.Views.TeamProfilePage"
              Title="Team profile"
+                          ios:Page.UseSafeArea="true"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+
              x:Name="teamProfilePage">
     <ContentPage.Content>
         <Grid BackgroundColor="White">

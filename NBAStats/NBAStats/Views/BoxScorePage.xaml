@@ -3,6 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NBAStats.Views.BoxScorePage" 
              x:Name="boxScorePage"
+             ios:Page.UseSafeArea="true"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+
              Title="Boxscore">
     <ContentPage.Content>
 
@@ -36,8 +39,8 @@
 
 
 
-                    <Button Text="{Binding VTeamName}" Style="{StaticResource Key=ButtonStyleOut}"  Grid.Row="1"  TextColor="White" BackgroundColor="{Binding VTeamColor}" Command="{Binding VTeamSelectedCommand}" Margin="0,0,180,0" HorizontalOptions="Center" VerticalOptions="Center"/>
-                    <Button Text="{Binding HTeamName}" Style="{StaticResource Key=ButtonStyleOut}" Grid.Row="1" TextColor="White" BackgroundColor="{Binding HTeamColor}" Command="{Binding HTeamSelectedCommand}" Margin="200,0,0,0" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <Button Text="{Binding VTeamName}" Style="{StaticResource Key=ButtonStyleOut}"  Grid.Row="1"  TextColor="White" BackgroundColor="{Binding VTeamColor}" Command="{Binding VTeamSelectedCommand}" Margin="0,0,60,0" HorizontalOptions="End" VerticalOptions="Center"/>
+                    <Button Text="{Binding HTeamName}" Style="{StaticResource Key=ButtonStyleOut}" Grid.Row="1" TextColor="White" BackgroundColor="{Binding HTeamColor}" Command="{Binding HTeamSelectedCommand}" Margin="70,0,0,0" HorizontalOptions="Start" VerticalOptions="Center"/>
 
 
                     <ScrollView Orientation="Horizontal" IsVisible="{Binding ShowHTeam}" Grid.Column="0" Grid.Row="2"  >
