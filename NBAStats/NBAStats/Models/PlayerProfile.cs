@@ -119,8 +119,6 @@ namespace NBAStats.Models
         [JsonPropertyName("teams")]
         public ObservableCollection<StatsPlayerProfile> Teams { get; set; }
 
-        //[JsonPropertyName("total")]
-        //public StatsPlayerProfile Total { get; set; }
     }
 
     public class RegularSeasonPlayerProfile

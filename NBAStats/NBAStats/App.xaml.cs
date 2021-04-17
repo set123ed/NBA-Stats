@@ -34,7 +34,6 @@ namespace NBAStats
             containerRegistry.RegisterInstance<IDatabaseService>(new DatabaseService());
 
             containerRegistry.RegisterForNavigation<FavoritesPage, FavoritesViewModel>(NavigationConstants.FavoritesPage);
-
             containerRegistry.RegisterForNavigation<HomePage, HomeViewModel>(NavigationConstants.HomePage);
             containerRegistry.RegisterForNavigation<BoxScorePage, BoxScoreViewModel>(NavigationConstants.BoxScorePage);
             containerRegistry.RegisterForNavigation<PlayerProfilePage, PlayerProfileViewModel>(NavigationConstants.PlayerProfilePage);
@@ -42,7 +41,6 @@ namespace NBAStats
             containerRegistry.RegisterForNavigation<StatsPage, StatsViewModel>(NavigationConstants.StatsPage);
             containerRegistry.RegisterForNavigation<CalendarPage, CalendarViewModel>(NavigationConstants.CalendarPage);
             containerRegistry.RegisterForNavigation<TeamProfilePage, TeamProfileViewModel>(NavigationConstants.TeamProfilePage);
-            containerRegistry.RegisterForNavigation<PlayersListPage,PlayersListViewModel>(NavigationConstants.PlayersList);
             containerRegistry.RegisterForNavigation<NavigationPage>(NavigationConstants.NavigationPage);
         }
 

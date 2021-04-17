@@ -57,9 +57,6 @@ namespace NBAStats.Models
         [JsonPropertyName("lastName")]
         public string LastName { get; set; }
 
-        //[JsonPropertyName("temporaryDisplayName")]
-        //public string TemporaryDisplayName { get; set; }
-
         [JsonPropertyName("personId")]
         public string PersonId { get; set; }
 
@@ -81,14 +78,8 @@ namespace NBAStats.Models
         [JsonPropertyName("heightInches")]
         public string HeightInches { get; set; }
 
-        //[JsonPropertyName("heightMeters")]
-        //public string HeightMeters { get; set; }
-
         [JsonPropertyName("weightPounds")]
         public string WeightPounds { get; set; }
-
-        //[JsonPropertyName("weightKilograms")]
-        //public string WeightKilograms { get; set; }
 
         [JsonPropertyName("dateOfBirthUTC")]
         public string DateOfBirthUTC { get; set; }
@@ -102,17 +93,8 @@ namespace NBAStats.Models
         [JsonPropertyName("draft")]
         public Draft Draft { get; set; }
 
-        //[JsonPropertyName("nbaDebutYear")]
-        //public string NbaDebutYear { get; set; }
-
         [JsonPropertyName("yearsPro")]
         public string YearsPro { get; set; }
-
-        //[JsonPropertyName("collegeName")]
-        //public string CollegeName { get; set; }
-
-        //[JsonPropertyName("lastAffiliation")]
-        //public string LastAffiliation { get; set; }
 
         [JsonPropertyName("country")]
         public string Country { get; set; }

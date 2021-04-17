@@ -11,24 +11,28 @@
 
     <ContentPage.Content>
         
-        <Grid ColumnDefinitions="*,*" BackgroundColor="White" RowDefinitions="0.15*,auto,*,0.15*">
+        <Grid ColumnDefinitions="*,*" BackgroundColor="White" RowDefinitions="80,0.15*,50,*,0.15*">
+            <Frame BackgroundColor="#0b1b2b"  HasShadow="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                <Grid >
+                    <Image Source="LOGO.png" Grid.ColumnSpan="2" HorizontalOptions="Center"/>
+                </Grid>
+            </Frame>
 
-            <Button Text="Teams" Grid.Column="0" Grid.Row="0" Command="{Binding ShowFavoritesTeamsCommand}" VerticalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}"/>
-            <Button Text="Players" Grid.Column="1" Grid.Row="0" Command="{Binding ShowFavoritesPlayersCommand}" VerticalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}"/>
+            <Button Text="Teams" Grid.Column="0" Grid.Row="1" Command="{Binding ShowFavoritesTeamsCommand}" VerticalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}"/>
+            <Button Text="Players" Grid.Column="1" Grid.Row="1" Command="{Binding ShowFavoritesPlayersCommand}" VerticalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}"/>
             
-            <Frame Grid.Row="1" Padding="3" CornerRadius="25" BackgroundColor="LightBlue" Grid.ColumnSpan="2">
-                <StackLayout Orientation="Horizontal" >
-                    <SearchBar Placeholder="Search a player" Text="{Binding Filter}" SearchCommand="{Binding SearcherCommand}" Keyboard="Text" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
-                        
+            <Frame Grid.Row="2" Padding="3" CornerRadius="25" BackgroundColor="LightBlue" Grid.ColumnSpan="2">
+
+                    <SearchBar Placeholder="Search" Text="{Binding Filter}" SearchCommand="{Binding SearcherCommand}" Keyboard="Text" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+
                         <SearchBar.Behaviors>
                             <prism:EventToCommandBehavior EventName="TextChanged" Command="{Binding SearcherCommand}"/>
                         </SearchBar.Behaviors>
-                        
+
                     </SearchBar>
-                </StackLayout>
             </Frame>
 
-            <Grid RowDefinitions="*,*" IsVisible="{Binding ShowFavoritesTeams}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+            <Grid RowDefinitions="*,*" IsVisible="{Binding ShowFavoritesTeams}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
                 <ListView ItemsSource="{Binding FavoritesTeams}" CachingStrategy="RecycleElement" Grid.Row="0" SelectedItem="{Binding CurrentFavoriteTeamSelected, Mode=TwoWay}">
 
                     <ListView.Header>
@@ -55,7 +59,7 @@
                 </ListView>
             </Grid>
 
-            <Grid RowDefinitions="*,*" IsVisible="{Binding ShowFavoritesPlayers}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+            <Grid RowDefinitions="*,*" IsVisible="{Binding ShowFavoritesPlayers}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
                 <ListView ItemsSource="{Binding FavoritesPlayers}" CachingStrategy="RecycleElement" SelectedItem="{Binding CurrentFavoritePlayerSelected, Mode=TwoWay}" Grid.Row="0">
                     <ListView.Header>
                         <Label Text="Favorites players"/>
@@ -79,8 +83,8 @@
                 </ListView>
             </Grid>
 
-            <Button Text="Add" Command="{Binding AddCommand}" VerticalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}" Grid.Column="0" Grid.Row="3"/>
-            <Button Text="Delete" Command="{Binding DeleteCommand}" VerticalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}" Grid.Column="1" Grid.Row="3"/>
+            <Button Text="Add" Command="{Binding AddCommand}" Margin="2" VerticalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}" Grid.Column="0" Grid.Row="4"/>
+            <Button Text="Delete" Command="{Binding DeleteCommand}" Margin="2" VerticalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}" Grid.Column="1" Grid.Row="4"/>
 
         </Grid>
     </ContentPage.Content>

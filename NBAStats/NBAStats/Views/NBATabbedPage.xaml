@@ -5,19 +5,13 @@
             xmlns:views="clr-namespace:NBAStats.Views" xmlns:views1="clr-namespace:NBAStats"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             android:TabbedPage.ToolbarPlacement="Bottom"
-            xmlns:prism="http://prismlibrary.com"
             android:TabbedPage.BarSelectedItemColor="White"
             x:Name="tabbedPage"
             android:TabbedPage.BarItemColor="White"
-            Title="{Binding Title}"
-            CurrentPageChanged="TabbedPage_CurrentPageChanged"
             BackgroundColor="#0b1b2b"
             >
 
-    <TabbedPage.Behaviors >
-        <prism:EventToCommandBehavior Command="{Binding CurrentPageChangedCommand}" EventName="CurrentPageChanged" CommandParameter="{Binding Source={x:Reference tabbedPage},Path=CurrentPage.Title}" />
-    </TabbedPage.Behaviors >
-  <!--Pages can be added as 0b1b2b or inline-->
+    
     <views:HomePage Title="Home" IconImageSource="home" />
     <views:CalendarPage Title="Calendar" IconImageSource="calendar" />
     <views:StandingPage Title="Standing" IconImageSource="trophy" />
