@@ -10,7 +10,7 @@
         <Grid>
 
             <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center"/>
-            <ScrollView IsVisible="{Binding IsNotBusy}" >
+            <Grid IsVisible="{Binding IsNotBusy}" >
 
 
                 <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
@@ -24,7 +24,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="80"/>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="500"/>
                     </Grid.RowDefinitions>
@@ -66,13 +66,13 @@
 
                             </Grid.ColumnDefinitions>
 
-                                            <!--<Image Source="{Binding VTeam.TeamLogo}" HeightRequest="100" WidthRequest="100"/>
-                                            <Image Source="{Binding HTeam.TeamLogo}" HeightRequest="100" WidthRequest="100"/>-->
-                                            <Label Text="{Binding VTeam.TriCode}" Style="{StaticResource Key=LabelStyle}" TextColor="Black" HorizontalOptions="Center" FontSize="20" Grid.Row="0" Grid.Column="0" />
+                                            <Image Source="{Binding VTeam.TeamLogo}" HeightRequest="100" WidthRequest="100" Grid.Row="0" Grid.Column="2" />
+                                            <Image Source="{Binding HTeam.TeamLogo}" HeightRequest="100" WidthRequest="100" Grid.Row="0" Grid.Column="0"/>
+                                            <Label Text="{Binding VTeam.TriCode}" Grid.Row="1" Style="{StaticResource Key=LabelStyle}" TextColor="Black"  HorizontalOptions="Center" FontSize="20" Grid.Column="0" />
 
                                     <Label Text="VS" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" TextColor="Black" Grid.ColumnSpan="3" />
 
-                                    <Label Text="{Binding HTeam.TriCode}" HorizontalOptions="Center" FontSize="20" Style="{StaticResource Key=LabelStyle}" TextColor="Black" Grid.Row="0" Grid.Column="2"/>
+                                            <Label Text="{Binding HTeam.TriCode}"  HorizontalOptions="Center" FontSize="20" Style="{StaticResource Key=LabelStyle}" TextColor="Black" Grid.Row="1" Grid.Column="2"/>
 
                             <Label Text="{Binding ScoreOrTime}"  Style="{StaticResource Key=LabelStyle}" Grid.Row="1" Grid.ColumnSpan="3" HorizontalOptions="Center" VerticalOptions="End" Margin="10" FontSize="20" TextColor="Black"/>
                             <Label Text="{Binding TimePeriodHalftime}" Style="{StaticResource Key=LabelStyle}" Grid.Row="2" Grid.ColumnSpan="3" HorizontalOptions="Center" VerticalOptions="End" Margin="10" FontSize="20" TextColor="Black"/>
@@ -89,7 +89,7 @@
             </ListView>
         </Grid>
 
-            </ScrollView>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
