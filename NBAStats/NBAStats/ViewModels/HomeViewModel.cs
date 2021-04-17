@@ -17,7 +17,6 @@ namespace NBAStats.ViewModels
     public class HomeViewModel : BaseViewModel
     {
         public int GamePosition { get; set; }
-
         private int GamesOfTodayCount => GamesOfDay.Count;
 
         private readonly string _todayDate = DateTime.Today.ToString("yyyyMMdd");
@@ -37,7 +36,6 @@ namespace NBAStats.ViewModels
 
         public bool IsBusy { get; set; } = true;
         public bool IsNotBusy => !IsBusy;
-
 
         public HomeViewModel(IPageDialogService dialogService,INbaApiService nbaApiService, INavigationService navigationService, INbaDefaultInfoService nbaDefaultInfoService, IDatabaseService baseServices) : base(navigationService, nbaApiService, nbaDefaultInfoService,baseServices)
         {
@@ -194,6 +192,7 @@ namespace NBAStats.ViewModels
                         {
 
                             PlayerRegularStats playerRegularStats = new PlayerRegularStats();
+                            
 
                             if (Convert.ToDecimal(boxScore.Stats.VTeam.Leaders.Points.Value) > Convert.ToDecimal(boxScore.Stats.HTeam.Leaders.Points.Value))
                             {
@@ -214,6 +213,7 @@ namespace NBAStats.ViewModels
                                 playerRegularStats.PointsPerGame = boxScore.Stats.HTeam.Leaders.Points.Value;
                                 playerRegularStats.AssistsPerGame = boxScore.Stats.ActivePlayers.First(player => player.PersonId == playerRegularStats.PlayerId).Assists;
                                 playerRegularStats.ReboundsPerGame = boxScore.Stats.ActivePlayers.First(player => player.PersonId == playerRegularStats.PlayerId).TotReb;
+                                var playerfavorite = await DatabaseService.GetTeamById(boxScore.BasicGameData.HTeam.TriCode.ToString());
                             }
                             else
                             {
