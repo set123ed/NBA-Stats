@@ -124,7 +124,6 @@ namespace NBAStats.Models
         public string PlayerHeight => $"{HeightFeet}.{HeightInches}";
         public string YearDebutActualTeam => Teams[Teams.Count - 1].SeasonStart;
         public string TeamLogo => $"{StringConstants.Logo}{TeamId}.png";
-
         public bool IsFavorite { get; set; } = false;
     }
 

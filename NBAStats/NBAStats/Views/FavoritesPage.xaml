@@ -9,8 +9,8 @@
         
         <Grid ColumnDefinitions="*,*" BackgroundColor="White" RowDefinitions="0.15*,auto,*,0.15*">
 
-            <Button Text="Teams" Grid.Column="0" Grid.Row="0" Command="{Binding ShowFavoritesTeamsCommand}" VerticalOptions="Center" HorizontalOptions="Center"/>
-            <Button Text="Players" Grid.Column="1" Grid.Row="0" Command="{Binding ShowFavoritesPlayersCommand}" VerticalOptions="Center" HorizontalOptions="Center"/>
+            <Button Text="Teams" Grid.Column="0" Grid.Row="0" Command="{Binding ShowFavoritesTeamsCommand}" VerticalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}"/>
+            <Button Text="Players" Grid.Column="1" Grid.Row="0" Command="{Binding ShowFavoritesPlayersCommand}" VerticalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}"/>
             
             <Frame Grid.Row="1" Padding="3" CornerRadius="25" BackgroundColor="LightBlue" Grid.ColumnSpan="2">
                 <StackLayout Orientation="Horizontal" >
@@ -74,8 +74,8 @@
                 </ListView>
             </Grid>
 
-            <Button Text="Add" Command="{Binding AddCommand}" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="0" Grid.Row="3"/>
-            <Button Text="Delete" Command="{Binding DeleteCommand}" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="1" Grid.Row="3"/>
+            <Button Text="Add" Command="{Binding AddCommand}" VerticalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}" Grid.Column="0" Grid.Row="3"/>
+            <Button Text="Delete" Command="{Binding DeleteCommand}" VerticalOptions="Center" Style="{StaticResource Key=ButtonStyleOut}" Grid.Column="1" Grid.Row="3"/>
 
         </Grid>
     </ContentPage.Content>

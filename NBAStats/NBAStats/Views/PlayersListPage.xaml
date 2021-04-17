@@ -2,20 +2,37 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:prism="http://prismlibrary.com"
-             x:Class="NBAStats.Views.PlayersListPage">
+             x:Class="NBAStats.Views.PlayersListPage"
+             x:Name="ListPlayer">
 
-        <Grid ColumnDefinitions="auto,auto,auto" RowDefinitions="auto,auto,auto">
+        <Grid ColumnDefinitions="auto,auto" RowDefinitions="auto,auto,auto,auto,auto">
 
-            <ListView ItemsSource="{Binding Players}" Grid.Row="3" Grid.Column="0">
-               <ListView.ItemTemplate>
+
+        <Label Text="ALL Players"  Style="{StaticResource Key=LabelStyle}" Grid.Column="0" Grid.Row="0"/>
+        <ListView ItemsSource="{Binding Players}" Grid.Column="0" Grid.Row="1">
+            <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Label Text="{Binding FullName}" />
+                        <Grid HorizontalOptions="Center">
+                            <Label Text="{Binding FullName}"  Grid.Row="0" Grid.Column="0"/>
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
-               </ListView.ItemTemplate>
-            </ListView>
+            </ListView.ItemTemplate>
+        </ListView>
 
-        </Grid>
+        <ListView ItemsSource="{Binding FavoritesPlayers }" Grid.Column="0" Grid.Row="4">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid HorizontalOptions="Center" ColumnDefinitions="auto,*" RowDefinitions="auto,auto,auto">
+                            <Label Text="{Binding Name}" Grid.Column="0" Grid.Row="0" Style="{StaticResource LabelStyleDetails}"/>
+                            <Image Source="{Binding Source={x:Reference ListPlayer}, Path=BindingContext.Star}" Grid.Column="1" Grid.Row="0"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 
 </ContentPage>
